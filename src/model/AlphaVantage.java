@@ -1,13 +1,15 @@
 package model;
 
-import java.util.Date;
-
 public interface AlphaVantage {
   String searchCode(String companyName);
 
-  String getHighPrice(String code, Date date);
+  Double getOpenPrice(String code, String date);
 
-  String getLowPrice(String code, Date date);
+  Double getHighPrice(String code, String date);
 
-  String getClosePrice(String code, Date date);
+  Double getLowPrice(String code, String date);
+
+  Double getClosePrice(String code, String date);
+
+  Double getVolume(String code, String date);
 }

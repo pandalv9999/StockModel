@@ -2,13 +2,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AlphaVantageDemo {
-  public static void main(String []args) {
+  public static void main(String[] args) {
     //the API key needed to use this web service.
     //Please get your own free API key here: https://www.alphavantage.co/
     //Please look at documentation here: https://www.alphavantage.co/documentation/
-    String apiKey = "W0M1JOKC82EZEQA8";
+    String apiKey = "J2C3I7JL8H090N10";
     String stockSymbol = "GOOG"; //ticker symbol for Google
     URL url = null;
 
@@ -24,9 +28,8 @@ public class AlphaVantageDemo {
               + ".co/query?function=TIME_SERIES_DAILY"
               + "&outputsize=full"
               + "&symbol"
-              + "=" + stockSymbol + "&apikey="+apiKey+"&datatype=csv");
-    }
-    catch (MalformedURLException e) {
+              + "=" + stockSymbol + "&apikey=" + apiKey + "&datatype=csv");
+    } catch (MalformedURLException e) {
       throw new RuntimeException("the alphavantage API has either changed or "
               + "no longer works");
     }
@@ -47,13 +50,23 @@ public class AlphaVantageDemo {
       in = url.openStream();
       int b;
 
-      while ((b=in.read())!=-1) {
-        output.append((char)b);
+      while ((b = in.read()) != -1) {
+        output.append((char) b);
+      }
+    } catch (IOException e) {
+      throw new IllegalArgumentException("No price data found for " + stockSymbol);
+    }
+    Map<String, Map<String, Double>> res = new HashMap<String, Map<String, Double>>();
+    String[] value = output.toString().split("\n");
+    String[] type = {"open", "high", "low", "close"};
+    for (int i = 1; i < value.length; i++) {
+      String[] row = value[i].split(",");
+      res.put(row[0], new HashMap<String, Double>());
+      for (int j = 1; j < row.length - 1; j++) {
+        res.get(row[0]).put(type[j - 1], Double.parseDouble(row[j]));
       }
     }
-    catch (IOException e) {
-      throw new IllegalArgumentException("No price data found for "+stockSymbol);
-    }
+    System.out.println(res);
     System.out.println("Return value: ");
     System.out.println(output.toString());
   }
