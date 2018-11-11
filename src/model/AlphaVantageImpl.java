@@ -62,9 +62,48 @@ public class AlphaVantageImpl implements AlphaVantage {
     System.out.println(output.toString());
   }
 
+  private void callAPIToGetCode(String companyName) {
+    String apiKey = "J2C3I7JL8H090N10";
+    URL url = null;
+
+    try {
+      url = new URL("https://www.alphavantage.co/query?function=SYMBOL_SEARCH&"
+              + "keywords=" + companyName
+              + "&apikey=" + apiKey
+              + "&datatype=csv");
+      System.out.println(url.toString());
+    } catch (MalformedURLException e) {
+      throw new RuntimeException("the alphavantage API has either changed or "
+              + "no longer works");
+    }
+
+    InputStream in = null;
+    StringBuilder output = new StringBuilder();
+
+    try {
+      in = url.openStream();
+      int b;
+
+      while ((b = in.read()) != -1) {
+        output.append((char) b);
+      }
+    } catch (IOException e) {
+      throw new IllegalArgumentException("No code data found for " + companyName);
+    }
+
+    String[] value = output.toString().split("\n");
+    String[] row = value[1].split(",");
+    this.nameReference.put(companyName, row[0]); // Use the first search result as its code.
+    System.out.println("Return value: ");
+    System.out.println(output.toString());
+  }
+
   @Override
   public String searchCode(String companyName) {
-    return null;
+    if (!this.nameReference.containsKey(companyName)) {
+      callAPIToGetCode(companyName);
+    }
+    return this.nameReference.get(companyName);
   }
 
   @Override

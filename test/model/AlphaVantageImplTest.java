@@ -25,6 +25,7 @@ public class AlphaVantageImplTest {
     System.out.println(a.getLowPrice("GOOG", "2018-05-30"));
     System.out.println(a.getClosePrice("GOOG", "2018-05-30"));
     System.out.println(a.getVolume("GOOG", "2018-05-30"));
+    System.out.println(a.searchCode("Google"));
   }
 
   @org.junit.Test
