@@ -3,7 +3,11 @@ package model;
 import java.util.Date;
 
 public interface AlphaVantage {
-  String checkCode(String companyName);
+  String searchCode(String companyName);
 
-  String checkPrice(String code, Date date);
+  String getHighPrice(String code, Date date);
+
+  String getLowPrice(String code, Date date);
+  
+  String getClosePrice(String code, Date date);
 }
