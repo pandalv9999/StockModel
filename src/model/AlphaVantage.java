@@ -8,6 +8,6 @@ public interface AlphaVantage {
   String getHighPrice(String code, Date date);
 
   String getLowPrice(String code, Date date);
-  
+
   String getClosePrice(String code, Date date);
 }
