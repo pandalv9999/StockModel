@@ -3,6 +3,7 @@ package model;
 import java.util.Date;
 import java.util.List;
 
+// still confused
 public interface StockModel {
   List<SingleTransaction> createPortfolio();
 
