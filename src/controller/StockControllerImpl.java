@@ -64,7 +64,7 @@ public class StockControllerImpl implements StockController {
       }
       if (command == "determine") {
         String date = input(scan);
-        output(Double.toString(model.determineValue(date)) + "\n");
+        //output(Double.toString(model.determineValue(date)) + "\n");
       }
     }
   }

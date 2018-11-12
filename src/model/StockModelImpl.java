@@ -1,9 +1,6 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class StockModelImpl implements StockModel {
@@ -17,13 +14,19 @@ public class StockModelImpl implements StockModel {
   }
 
   @Override
-  public void createPortfolio(String portfolioName) {
+  public void createPortfolio(String portfolioName) throws IllegalArgumentException {
+
+    if (portfolioName == null || portfolioName.isEmpty()) {
+      throw new IllegalArgumentException("Portfolio name is invalid.");
+    }
+
     Map<String, Stock> temp = new HashMap<>();
     portfolio.put(portfolioName, temp);
   }
 
   @Override
-  public double buy(String portfolioName, String CompanyName, int shares) throws IllegalArgumentException {
+  public double buy(String portfolioName, String companyName,
+                    int shares, String date) throws IllegalArgumentException {
 
     if (shares <= 0) {
       throw new IllegalArgumentException("The shares to buy must be positive");
@@ -33,14 +36,18 @@ public class StockModelImpl implements StockModel {
       throw new IllegalArgumentException("The portfolio is not yet created!");
     }
 
+    if (date == null || portfolioName == null || companyName == null || date.isEmpty()) {
+      throw new IllegalArgumentException("String entered is invalid.");
+    }
+
     String code;
     double price;
     boolean existStock = false;
     Map<String, Stock> currentPortfolio = portfolio.get(portfolioName);
 
     try {
-      code = alphaVantage.searchCode(CompanyName);
-      price = 0.0;  // use the api to calculate price, but still confused how to do it.
+      code = alphaVantage.searchCode(companyName);
+      price = alphaVantage.getLowPrice(code, date);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("There is no information for the provided company name.");
     }
@@ -66,13 +73,58 @@ public class StockModelImpl implements StockModel {
   }
 
   @Override
-  public double determineValue(String date) {
-    return 0;
+  public double determineCost(String portfolioName) throws IllegalArgumentException {
+
+    if (!portfolio.containsKey(portfolioName)) {
+      throw new IllegalArgumentException("The portfolio is not yet created!");
+    }
+
+    return portfolio.get(portfolioName).values().stream()
+            .mapToDouble(b -> b.getAverageBuyInPrice() * b.getShares()).sum();
+  }
+
+  @Override
+  public double determineValue(String portfolioName, String date) throws IllegalArgumentException {
+
+    if (date == null || date.isEmpty()) {
+      throw new IllegalArgumentException("Date entered is invalid.");
+    }
+
+    double value = 0.0;
+
+    for (Stock st:portfolio.get(portfolioName).values()) {
+      value += alphaVantage.getHighPrice(st.getCode(), date) * st.getShares();
+    }
+
+    return value;
   }
 
   @Override
   public String getPortfolioState() {
-    return null;
+
+    StringBuilder state = new StringBuilder();
+
+    for (String pf:portfolio.keySet()) {
+      state.append(getPortfolioState(pf)).append("\n");
+    }
+
+    return state.toString();
+  }
+
+  @Override
+  public String getPortfolioState(String portfolioName) throws IllegalArgumentException {
+
+    if (!portfolio.containsKey(portfolioName)) {
+      throw new IllegalArgumentException("The portfolio is not yet created!");
+    }
+
+    StringBuilder state = new StringBuilder().append(portfolioName).append(":\n");
+
+    for (Stock st:portfolio.get(portfolioName).values()) {
+      state.append(st.getCurrentState()).append("\n");
+    }
+
+    return state.toString();
   }
 
   public static StockModelBuilderImpl getBuilder() {
