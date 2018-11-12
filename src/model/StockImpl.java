@@ -1,14 +1,18 @@
 package model;
 
+import java.text.DecimalFormat;
+
 public class StockImpl implements Stock {
 
   private final String code;
   private int shares;
   private double averageBuyInPrice;
+  private DecimalFormat twoDecimal;
 
   public StockImpl(String code, int shares) {
     this.code = code;
     this.shares = shares;
+    this.twoDecimal = new DecimalFormat("###.##");
   }
 
   @Override
@@ -23,7 +27,7 @@ public class StockImpl implements Stock {
 
   @Override
   public double getAverageBuyInPrice() {
-    return averageBuyInPrice;
+    return Double.valueOf(twoDecimal.format(averageBuyInPrice));
   }
 
   @Override
@@ -33,13 +37,13 @@ public class StockImpl implements Stock {
 
   @Override
   public void updateAverageBuyInPrice(double newPrice) {
-    averageBuyInPrice = newPrice;
+    averageBuyInPrice = Double.valueOf(twoDecimal.format(newPrice));
   }
 
   @Override
   public String getCurrentState() {
     return String.format(
-            "Company: %s, Shares: %d, Average Buy-in Price: %f", code, shares, averageBuyInPrice);
+            "Company: %s, Shares: %d, Average Buy-in Price: %.2f", code, shares, averageBuyInPrice);
   }
 
 }
