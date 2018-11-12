@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import model.StockModel;
+
 public class StockControllerImpl implements StockController {
   private final Readable in;
   private final Appendable out;
@@ -32,5 +34,37 @@ public class StockControllerImpl implements StockController {
     }
     this.in = rd;
     this.out = ap;
+  }
+
+  private boolean isQuit(String st) {
+    return st.equals("q") || st.equals("Q");
+  }
+
+  public void start(StockModel model)
+          throws IllegalArgumentException, IllegalStateException {
+    if (model == null) {
+      throw new IllegalArgumentException("Model should not be null.");
+    }
+    Scanner scan = new Scanner(this.in);
+    while (true) {
+      // output(model.getState() + "\n");
+      String command = input(scan);
+      if (isQuit(command)) {
+        output("Quit.\n");
+        return;
+      }
+      if (command == "create") {
+        // use model's create function
+      }
+      if (command == "buy") {
+        String code = input(scan);
+        int shares = Integer.parseInt(input(scan));
+        // output("cost: $" + model.buy(code, shares).toString + "\n");
+      }
+      if (command == "determine") {
+        String date = input(scan);
+        // output(model.checkValue(date));
+      }
+    }
   }
 }
