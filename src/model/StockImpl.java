@@ -9,7 +9,13 @@ public class StockImpl implements Stock {
   private final double averageBuyInPrice;
   private DecimalFormat twoDecimal;
 
-  public StockImpl(String code, int shares, double averageBuyInPrice) {
+  public StockImpl(String code, int shares, double averageBuyInPrice)
+          throws IllegalArgumentException {
+
+    if (code == null || code.isEmpty() || shares <= 0 || averageBuyInPrice < 0.0) {
+      throw new IllegalArgumentException("Parameter of creating stock is invalid!");
+    }
+
     this.code = code;
     this.shares = shares;
     this.averageBuyInPrice = averageBuyInPrice;
@@ -45,7 +51,7 @@ public class StockImpl implements Stock {
   @Override
   public String getCurrentState() {
     return String.format(
-            "Company: %s, Shares: %d, Average Buy-in Price: %.2f", code, shares, averageBuyInPrice);
+            "Code: %s, Shares: %d, Average Buy-in Price: %.2f", code, shares, averageBuyInPrice);
   }
 
 }
