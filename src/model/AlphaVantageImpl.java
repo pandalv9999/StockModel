@@ -13,14 +13,27 @@ import java.util.Map;
 public class AlphaVantageImpl implements AlphaVantage {
   private Map<String, String> nameReference; // the map convert company name to its code
   private Map<String, Map<String, Map<String, Double>>> prices; // String is a company name, date is a certain date, list is the open, high, low and close price and volume
+  private String[] APIKeys = {"J2C3I7JL8H090N10", "Q3VB628VO7MT9GBK", "QIDZM1CKRMP31G3S",
+          "7Q072N49XLJCL76Z", "6PK36VERE89B8KA8"};
+  private int keyCount;
 
   public AlphaVantageImpl() {
     this.nameReference = new HashMap<>();
     this.prices = new HashMap<>();
+    this.keyCount = 0;
+  }
+
+  private String getAPIKey() {
+    String res = APIKeys[this.keyCount];
+    this.keyCount += 1;
+    if (this.keyCount == this.APIKeys.length) {
+      this.keyCount = 0;
+    }
+    return res;
   }
 
   private void callAPIToGetPrices(String code) {
-    String apiKey = "J2C3I7JL8H090N10";
+    String apiKey = getAPIKey();
     URL url = null;
 
     try {
@@ -63,7 +76,7 @@ public class AlphaVantageImpl implements AlphaVantage {
   }
 
   private void callAPIToGetCode(String companyName) {
-    String apiKey = "J2C3I7JL8H090N10";
+    String apiKey = getAPIKey();
     URL url = null;
 
     try {
@@ -107,58 +120,89 @@ public class AlphaVantageImpl implements AlphaVantage {
   }
 
   @Override
-  public Double getOpenPrice(String code, String date) {
+  public Double getOpenPrice(String code, String date) throws IllegalArgumentException {
     if (!prices.containsKey(code)) {
       callAPIToGetPrices(code);
     }
-    return this.prices
-            .get(code)
-            .get(date)
-            .get("open");
+    Map<String, Map<String, Double>> res = this.prices.get(code);
+    Double res2 = 0.0;
+    try {
+      res2 = res
+              .get(date)
+              .get("open");
+    } catch (Exception e) {
+      throw new IllegalArgumentException("There is no information on this date.");
+    }
+    return res2;
   }
 
   @Override
-  public Double getHighPrice(String code, String date) {
+  public Double getHighPrice(String code, String date) throws IllegalArgumentException {
     if (!prices.containsKey(code)) {
       callAPIToGetPrices(code);
     }
-    return this.prices
-            .get(code)
-            .get(date)
-            .get("high");
+    Map<String, Map<String, Double>> res = this.prices.get(code);
+    Double res2 = 0.0;
+    try {
+      res2 = res
+              .get(date)
+              .get("high");
+    } catch (Exception e) {
+      throw new IllegalArgumentException("There is no information on this date.");
+    }
+    return res2;
   }
 
   @Override
-  public Double getLowPrice(String code, String date) {
+  public Double getLowPrice(String code, String date) throws IllegalArgumentException {
     if (!prices.containsKey(code)) {
       callAPIToGetPrices(code);
     }
-    return this.prices
-            .get(code)
-            .get(date)
-            .get("low");
+    Map<String, Map<String, Double>> res = this.prices.get(code);
+    Double res2 = 0.0;
+    try {
+      res2 = res
+              .get(date)
+              .get("low");
+    } catch (Exception e) {
+      throw new IllegalArgumentException("There is no information on this date.");
+    }
+    return res2;
   }
 
   @Override
-  public Double getClosePrice(String code, String date) {
+  public Double getClosePrice(String code, String date) throws IllegalArgumentException {
     if (!prices.containsKey(code)) {
       callAPIToGetPrices(code);
     }
-    return this.prices
-            .get(code)
-            .get(date)
-            .get("close");
+    Map<String, Map<String, Double>> res = this.prices.get(code);
+    Double res2 = 0.0;
+    try {
+      res2 = res
+              .get(date)
+              .get("close");
+    } catch (Exception e) {
+      throw new IllegalArgumentException("There is no information on this date.");
+    }
+    return res2;
   }
 
 
   @Override
-  public Double getVolume(String code, String date) {
+  public Double getVolume(String code, String date) throws IllegalArgumentException {
     if (!prices.containsKey(code)) {
       callAPIToGetPrices(code);
     }
-    return this.prices
-            .get(code)
-            .get(date)
-            .get("volume");
+
+    Map<String, Map<String, Double>> res = this.prices.get(code);
+    Double res2 = 0.0;
+    try {
+      res2 = res
+              .get(date)
+              .get("volume");
+    } catch (Exception e) {
+      throw new IllegalArgumentException("There is no information on this date.");
+    }
+    return res2;
   }
 }
