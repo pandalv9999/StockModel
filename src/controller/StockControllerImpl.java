@@ -49,22 +49,35 @@ public class StockControllerImpl implements StockController {
     while (true) {
       output(model.getPortfolioState() + "\n");
       String command = input(scan);
+
       if (isQuit(command)) {
         output("Quit.\n");
         return;
       }
+
       if (command == "create") {
         String portfolioName = input(scan);
         model.createPortfolio(portfolioName);
         output("create a portfolio successfully\n");
       }
+
       if (command == "buy") {
         String portfolioName = input(scan);
         String companyName = input(scan);
-        int shares = Integer.parseInt(input(scan));
+        int shares = 0;
+        while (true) {
+          try {
+            shares = Integer.parseInt(input(scan));
+          } catch (Exception e) {
+            output("Invalid shares, input again.\n");
+            continue;
+          }
+          break;
+        }
         String date = input(scan);
         output("cost: $" + Double.toString(model.buy(portfolioName, companyName, shares, date)) + "\n");
       }
+
       if (command == "determinecost") {
         String portfolioName = input(scan);
         output(Double.toString(model.determineCost(portfolioName)) + "\n");
