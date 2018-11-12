@@ -94,11 +94,16 @@ public class StockModelImpl implements StockModel {
 
     double value = 0.0;
 
-    for (Stock st : portfolio.get(portfolioName).values()) {
-      value += alphaVantage.getHighPrice(st.getCode(), date) * st.getShares();
-    }
+    return portfolio.get(portfolioName).values()
+            .stream()
+            .mapToDouble(b -> alphaVantage.getHighPrice(b.getCode(), date) * b.getShares())
+            .sum(); //try to use mapreduce too?
 
-    return value;
+//    for (Stock st : portfolio.get(portfolioName).values()) {
+//      value += alphaVantage.getHighPrice(st.getCode(), date) * st.getShares();
+//    }
+//
+//    return value;
   }
 
   @Override

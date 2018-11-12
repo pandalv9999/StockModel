@@ -54,17 +54,35 @@ public class StockControllerImpl implements StockController {
         return;
       }
       if (command == "create") {
-        //model.createPortfolio();
+        String portfolioName = input(scan);
+        model.createPortfolio(portfolioName);
         output("create a portfolio successfully\n");
       }
       if (command == "buy") {
-        String code = input(scan);
+        String portfolioName = input(scan);
+        String companyName = input(scan);
         int shares = Integer.parseInt(input(scan));
-        //output("cost: $" + Double.toString(model.buy(code, shares)) + "\n");
-      }
-      if (command == "determine") {
         String date = input(scan);
-        //output(Double.toString(model.determineValue(date)) + "\n");
+        output("cost: $" + Double.toString(model.buy(portfolioName, companyName, shares, date)) + "\n");
+      }
+      if (command == "determinecost") {
+        String portfolioName = input(scan);
+        output(Double.toString(model.determineCost(portfolioName)) + "\n");
+      }
+
+      if (command == "determinevalue") {
+        String portfolioName = input(scan);
+        String date = input(scan);
+        output(Double.toString(model.determineValue(portfolioName, date)) + "\n");
+      }
+
+      if (command == "getstate") {
+        String portfolioName = input(scan);
+        output(model.getPortfolioState(portfolioName) + "\n");
+      }
+
+      if (command == "getallstate") {
+        output(model.getPortfolioState() + "\n");
       }
     }
   }
