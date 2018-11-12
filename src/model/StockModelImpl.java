@@ -52,8 +52,8 @@ public class StockModelImpl implements StockModel {
       throw new IllegalArgumentException("There is no information for the provided company name.");
     }
 
-    for (Stock st:currentPortfolio.values()) {
-
+    if (currentPortfolio.get(code) != null) { // use a get method instead of the for loop?
+      Stock st = currentPortfolio.get(code);
       if (st.getCode().equals(code)) {  // exist current company's share
         existStock = true;
         int oldShares = st.getShares();
@@ -65,7 +65,7 @@ public class StockModelImpl implements StockModel {
       }
     }
 
-    if (! existStock) {
+    if (!existStock) {
       currentPortfolio.put(code, new StockImpl(code, shares, price));
     }
 
@@ -79,8 +79,10 @@ public class StockModelImpl implements StockModel {
       throw new IllegalArgumentException("The portfolio is not yet created!");
     }
 
-    return portfolio.get(portfolioName).values().stream()
-            .mapToDouble(b -> b.getAverageBuyInPrice() * b.getShares()).sum();
+    return portfolio.get(portfolioName).values()
+            .stream()
+            .mapToDouble(b -> b.getAverageBuyInPrice() * b.getShares())
+            .sum();
   }
 
   @Override
@@ -92,7 +94,7 @@ public class StockModelImpl implements StockModel {
 
     double value = 0.0;
 
-    for (Stock st:portfolio.get(portfolioName).values()) {
+    for (Stock st : portfolio.get(portfolioName).values()) {
       value += alphaVantage.getHighPrice(st.getCode(), date) * st.getShares();
     }
 
@@ -104,7 +106,7 @@ public class StockModelImpl implements StockModel {
 
     StringBuilder state = new StringBuilder();
 
-    for (String pf:portfolio.keySet()) {
+    for (String pf : portfolio.keySet()) {
       state.append(getPortfolioState(pf)).append("\n");
     }
 
@@ -120,7 +122,7 @@ public class StockModelImpl implements StockModel {
 
     StringBuilder state = new StringBuilder().append(portfolioName).append(":\n");
 
-    for (Stock st:portfolio.get(portfolioName).values()) {
+    for (Stock st : portfolio.get(portfolioName).values()) {
       state.append(st.getCurrentState()).append("\n");
     }
 
