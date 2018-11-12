@@ -54,13 +54,13 @@ public class StockControllerImpl implements StockController {
         return;
       }
       if (command == "create") {
-        model.createPortfolio();
+        //model.createPortfolio();
         output("create a portfolio successfully\n");
       }
       if (command == "buy") {
         String code = input(scan);
         int shares = Integer.parseInt(input(scan));
-        output("cost: $" + Double.toString(model.buy(code, shares)) + "\n");
+        //output("cost: $" + Double.toString(model.buy(code, shares)) + "\n");
       }
       if (command == "determine") {
         String date = input(scan);

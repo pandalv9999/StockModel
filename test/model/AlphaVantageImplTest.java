@@ -15,18 +15,24 @@ public class AlphaVantageImplTest {
 
   @org.junit.Test
   public void getOpenPrice() {
+
     AlphaVantageImpl a = new AlphaVantageImpl();
-    System.out.println(a.getOpenPrice("GOOG", "2018-11-09"));
-    System.out.println(a.getHighPrice("MSFT", "2018-11-09"));
-    System.out.println(a.getLowPrice("BA", "2018-11-09"));
-    System.out.println(a.getClosePrice("BABA", "2018-11-09"));
-    System.out.println(a.getVolume("BAC", "2018-11-09"));
-    System.out.println(a.getOpenPrice("GOOG", "2018-05-30"));
-    System.out.println(a.getHighPrice("GOOG", "2018-05-30"));
-    System.out.println(a.getLowPrice("GOOG", "2018-05-30"));
-    System.out.println(a.getClosePrice("GOOG", "2018-05-30"));
-    System.out.println(a.getVolume("GOOG", "2018-05-30"));
-    System.out.println(a.searchCode("Google"));
+    System.out.println("Company name -> get code");
+    String code = a.searchCode("Google");
+    System.out.println(code);
+    System.out.println("end");
+    //double price = a.getLowPrice("GOOG")
+    //System.out.println(a.getOpenPrice("GOOG", "2018-11-09"));
+    //System.out.println(a.getHighPrice("MSFT", "2018-11-09"));
+    //System.out.println(a.getLowPrice("BA", "2018-11-09"));
+    //System.out.println(a.getClosePrice("BABA", "2018-11-09"));
+    //System.out.println(a.getVolume("BAC", "2018-11-09"));
+    //System.out.println(a.getOpenPrice("GOOG", "2018-05-30"));
+    //System.out.println(a.getHighPrice("GOOG", "2018-05-30"));
+    //System.out.println(a.getLowPrice("GOOG", "2018-05-30"));
+    //System.out.println(a.getClosePrice("GOOG", "2018-05-30"));
+    //System.out.println(a.getVolume("GOOG", "2018-05-30"));
+
     try {
       a.getHighPrice("GOOG", "2018-11-04");
       fail("There is no information on this date.");
