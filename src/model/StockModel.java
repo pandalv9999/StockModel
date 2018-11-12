@@ -5,9 +5,9 @@ import java.util.List;
 
 // still confused
 public interface StockModel {
-  List<SingleTransaction> createPortfolio();
+  List<Stock> createPortfolio();
 
-  void buy(List<SingleTransaction> transactions);
+  void buy(List<Stock> transactions);
 
-  int checkValue(List<SingleTransaction> transactions, Date date);
+  int checkValue(List<Stock> transactions, Date date);
 }

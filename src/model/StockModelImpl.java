@@ -10,17 +10,17 @@ public class StockModelImpl implements StockModel {
   }
 
   @Override
-  public List<SingleTransaction> createPortfolio() {
+  public List<Stock> createPortfolio() {
     return null;
   }
 
   @Override
-  public void buy(List<SingleTransaction> transactions) {
+  public void buy(List<Stock> transactions) {
 
   }
 
   @Override
-  public int checkValue(List<SingleTransaction> transactions, Date date) {
+  public int checkValue(List<Stock> transactions, Date date) {
     return 0;
   }
 
