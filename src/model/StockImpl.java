@@ -5,14 +5,15 @@ import java.text.DecimalFormat;
 public class StockImpl implements Stock {
 
   private final String code;
-  private int shares;
-  private double averageBuyInPrice;
+  private final int shares;
+  private final double averageBuyInPrice;
   private DecimalFormat twoDecimal;
 
-  public StockImpl(String code, int shares) {
+  public StockImpl(String code, int shares, double averageBuyInPrice) {
     this.code = code;
     this.shares = shares;
-    this.twoDecimal = new DecimalFormat("###.##");
+    this.averageBuyInPrice = averageBuyInPrice;
+    this.twoDecimal = new DecimalFormat("###.##"); // does it necessary?
   }
 
   @Override
@@ -29,16 +30,17 @@ public class StockImpl implements Stock {
   public double getAverageBuyInPrice() {
     return Double.valueOf(twoDecimal.format(averageBuyInPrice));
   }
-
-  @Override
-  public void updateShare(int newShare) {
-    shares += newShare;
-  }
-
-  @Override
-  public void updateAverageBuyInPrice(double newPrice) {
-    averageBuyInPrice = Double.valueOf(twoDecimal.format(newPrice));
-  }
+// Should we instantiate a new object rather than change it?
+// should use new StockImpl("GOOG", oldshare + newshare, (oldprice*oldshare + newprice*newshare) / (oldshare + newshare)); to instantiate a stock new object
+//  @Override
+//  public void updateShare(int newShare) {
+//    shares += newShare;
+//  }
+//
+//  @Override
+//  public void updateAverageBuyInPrice(double newPrice) {
+//    averageBuyInPrice = Double.valueOf(twoDecimal.format(newPrice));
+//  }
 
   @Override
   public String getCurrentState() {

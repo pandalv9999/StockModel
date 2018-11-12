@@ -8,9 +8,9 @@ public interface Stock {
 
   double getAverageBuyInPrice();
 
-  void updateShare(int newShare);
-
-  void updateAverageBuyInPrice(double newPrice);
+//  void updateShare(int newShare);
+//
+//  void updateAverageBuyInPrice(double newPrice);
 
   String getCurrentState();
 }

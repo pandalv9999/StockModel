@@ -47,23 +47,24 @@ public class StockControllerImpl implements StockController {
     }
     Scanner scan = new Scanner(this.in);
     while (true) {
-      // output(model.getState() + "\n");
+      output(model.getPortfolioState() + "\n");
       String command = input(scan);
       if (isQuit(command)) {
         output("Quit.\n");
         return;
       }
       if (command == "create") {
-        // use model's create function
+        model.createPortfolio();
+        output("create a portfolio successfully\n");
       }
       if (command == "buy") {
         String code = input(scan);
         int shares = Integer.parseInt(input(scan));
-        // output("cost: $" + model.buy(code, shares).toString + "\n");
+        output("cost: $" + Double.toString(model.buy(code, shares)) + "\n");
       }
       if (command == "determine") {
         String date = input(scan);
-        // output(model.checkValue(date));
+        output(Double.toString(model.determineValue(date)) + "\n");
       }
     }
   }

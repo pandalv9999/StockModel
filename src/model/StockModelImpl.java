@@ -1,27 +1,35 @@
 package model;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // still confused
 public class StockModelImpl implements StockModel {
+  private Map<String, StockImpl> portfolio;
+
   private StockModelImpl() {
-
+    this.portfolio = new HashMap<>();
   }
 
   @Override
-  public List<Stock> createPortfolio() {
-    return null;
+  public void createPortfolio() {
   }
 
   @Override
-  public void buy(List<Stock> transactions) {
-
+  public double buy(String code, int shares) {
+    return 0.0;
   }
 
   @Override
-  public int checkValue(List<Stock> transactions, Date date) {
+  public double determineValue(String date) {
     return 0;
+  }
+
+  @Override
+  public String getPortfolioState() {
+    return null;
   }
 
   public static StockModelBuilderImpl getBuilder() {

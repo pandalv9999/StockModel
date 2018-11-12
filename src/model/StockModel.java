@@ -1,13 +1,11 @@
 package model;
 
-import java.util.Date;
-import java.util.List;
-
-// still confused
 public interface StockModel {
-  List<Stock> createPortfolio();
+  void createPortfolio(); // should we provide 2 version of this, one with a list that can instantiate a portfolio with certain kinds of stck
 
-  void buy(List<Stock> transactions);
+  double buy(String code, int shares);
 
-  int checkValue(List<Stock> transactions, Date date);
+  double determineValue(String date);
+
+  String getPortfolioState();
 }
