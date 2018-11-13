@@ -1,10 +1,12 @@
 package controller;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import model.StockModel;
+import model.StockModelImpl;
 
 public class StockControllerImpl implements StockController {
   private final Readable in;
@@ -46,8 +48,9 @@ public class StockControllerImpl implements StockController {
       throw new IllegalArgumentException("Model should not be null.");
     }
     Scanner scan = new Scanner(this.in);
+    output("Welcome to the stock trading system.\n");
     while (true) {
-      // output(model.getPortfolioState() + "\n");
+      output("You can input: create, buy, determinecost, determinevalue, getstate, getallstate\n");
       String command = input(scan);
 
       if (isQuit(command)) {
@@ -58,7 +61,12 @@ public class StockControllerImpl implements StockController {
       if (command.equals("create")) {
         output("Please input the portfolio's name.\n");
         String portfolioName = input(scan);
-        model.createPortfolio(portfolioName);
+        try {
+          model.createPortfolio(portfolioName);
+        } catch (IllegalArgumentException e) {
+          output(e.getMessage());
+          continue;
+        }
         output("Created a portfolio successfully.\n");
       }
 
@@ -80,13 +88,29 @@ public class StockControllerImpl implements StockController {
         }
         output("Please input the date you want to buy in format yyyy-mm-dd.\n");
         String date = input(scan);
-        output("cost: $" + Double.toString(model.buy(portfolioName, companyName, shares, date)) + "\n");
+        Double res = 0.0;
+        try {
+          res = model.buy(portfolioName, companyName, shares, date);
+        } catch (IllegalArgumentException e) {
+          output(e.getMessage());
+          output("\n");
+          continue;
+        }
+        output("cost: $" + res.toString() + "\n");
       }
 
       if (command.equals("determinecost")) {
         output("Please input the portfolio's name.\n");
         String portfolioName = input(scan);
-        output(Double.toString(model.determineCost(portfolioName)) + "\n");
+        Double res = 0.0;
+        try {
+          res = model.determineCost(portfolioName);
+        } catch (IllegalArgumentException e) {
+          output(e.getMessage());
+          output("\n");
+          continue;
+        }
+        output(Double.toString(res) + "\n");
       }
 
       if (command.equals("determinevalue")) {
@@ -94,17 +118,41 @@ public class StockControllerImpl implements StockController {
         String portfolioName = input(scan);
         output("Please input the date you want to check in format yyyy-mm-dd.\n");
         String date = input(scan);
-        output(Double.toString(model.determineValue(portfolioName, date)) + "\n");
+        Double res = 0.0;
+        try {
+          res = model.determineValue(portfolioName, date);
+        } catch (IllegalArgumentException e) {
+          output(e.getMessage());
+          output("\n");
+          continue;
+        }
+        output(Double.toString(res) + "\n");
       }
 
       if (command.equals("getstate")) {
         output("Please input the portfolio's name.\n");
         String portfolioName = input(scan);
-        output(model.getPortfolioState(portfolioName) + "\n");
+        String res = "";
+        try {
+          res = model.getPortfolioState(portfolioName);
+        } catch (IllegalArgumentException e) {
+          output(e.getMessage());
+          output("\n");
+          continue;
+        }
+        output(res + "\n");
       }
 
       if (command.equals("getallstate")) {
-        output(model.getPortfolioState() + "\n");
+        String res = "";
+        try {
+          res = model.getPortfolioState();
+        } catch (IllegalArgumentException e) {
+          output(e.getMessage());
+          output("\n");
+          continue;
+        }
+        output(res + "\n");
       }
     }
   }

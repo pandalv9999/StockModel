@@ -8,7 +8,7 @@ public class StockModelImpl implements StockModel {
   private Map<String, Map<String, Stock>> portfolio;
   private AlphaVantageImpl alphaVantage;
 
-  public StockModelImpl() {
+  private StockModelImpl() {
     this.portfolio = new HashMap<>();
     this.alphaVantage = new AlphaVantageImpl();
   }
@@ -143,7 +143,7 @@ public class StockModelImpl implements StockModel {
     private StockModelBuilderImpl() {
     }
 
-    public StockModelImpl build() {
+    public StockModel build() {
       return new StockModelImpl();
     }
   }

@@ -75,8 +75,8 @@ public class AlphaVantageImpl implements AlphaVantage {
       }
     }
     this.prices.put(code, res);
-    System.out.println("Return value: ");
-    System.out.println(output.toString());
+//    System.out.println("Return value: ");
+//    System.out.println(output.toString());
   }
 
   private void callAPIToGetCode(String companyName) {
@@ -88,7 +88,7 @@ public class AlphaVantageImpl implements AlphaVantage {
               + "keywords=" + companyName
               + "&apikey=" + apiKey
               + "&datatype=csv");
-      System.out.println(url.toString());
+//      System.out.println(url.toString());
     } catch (MalformedURLException e) {
       throw new RuntimeException("the alphavantage API has either changed or "
               + "no longer works");
@@ -111,8 +111,8 @@ public class AlphaVantageImpl implements AlphaVantage {
     String[] value = output.toString().split("\n");
     String[] row = value[1].split(",");
     this.nameReference.put(companyName, row[0]); // Use the first search result as its code.
-    System.out.println("Return value: ");
-    System.out.println(output.toString());
+//    System.out.println("Return value: ");
+//    System.out.println(output.toString());
   }
 
   @Override
