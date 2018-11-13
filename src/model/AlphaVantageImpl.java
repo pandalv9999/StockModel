@@ -24,7 +24,7 @@ public class AlphaVantageImpl implements AlphaVantage {
   public AlphaVantageImpl() {
     this.nameReference = new HashMap<>();
     this.prices = new HashMap<>();
-    this.keyCount = 0;
+    this.keyCount = 1;
   }
 
   private String getAPIKey() {
@@ -37,6 +37,7 @@ public class AlphaVantageImpl implements AlphaVantage {
   }
 
   private void callAPIToGetPrices(String code) {
+    // System.out.println(code);
     String apiKey = getAPIKey();
     URL url = null;
 
@@ -109,10 +110,11 @@ public class AlphaVantageImpl implements AlphaVantage {
     }
 
     String[] value = output.toString().split("\n");
+    if (value.length <= 1) {
+      throw new IllegalArgumentException("No code data found for " + companyName);
+    }
     String[] row = value[1].split(",");
     this.nameReference.put(companyName, row[0]); // Use the first search result as its code.
-//    System.out.println("Return value: ");
-//    System.out.println(output.toString());
   }
 
   @Override
