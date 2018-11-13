@@ -124,7 +124,12 @@ public class StockControllerImpl implements StockController {
         int shares = 0;
         while (true) {
           try {
-            shares = Integer.parseInt(input(scan));
+            String st = input(scan);
+            if (isQuit(st)) {
+              output("Quit.\n");
+              return;
+            }
+            shares = Integer.parseInt(st);
           } catch (Exception e) {
             output("Invalid shares, input again.\n");
             continue;

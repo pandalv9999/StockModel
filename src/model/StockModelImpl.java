@@ -46,9 +46,14 @@ public class StockModelImpl implements StockModel {
 
     try {
       code = alphaVantage.searchCode(companyName);
-      price = alphaVantage.getLowPrice(code, date);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("There is no information for the provided company name.");
+    }
+
+    try {
+      price = alphaVantage.getLowPrice(code, date);
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("There is no price on this date.");
     }
 
     if (currentPortfolio.get(code) != null) { // not null: contains the stock of the company.
@@ -61,9 +66,7 @@ public class StockModelImpl implements StockModel {
       currentPortfolio.remove(code);
       currentPortfolio.put(code, new StockImpl(code, newShares, newPrice));
 
-    }
-
-    else  {
+    } else {
       currentPortfolio.put(code, new StockImpl(code, shares, price));
     }
 
