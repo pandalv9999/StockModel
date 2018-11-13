@@ -10,7 +10,7 @@ public class StockModelImpl implements StockModel {
 
   private StockModelImpl() {
     this.portfolio = new HashMap<>();
-    this.alphaVantage = new AlphaVantageImpl();
+    this.alphaVantage = alphaVantage.getInstance();
   }
 
   @Override

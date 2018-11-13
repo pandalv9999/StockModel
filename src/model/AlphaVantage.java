@@ -63,4 +63,5 @@ public interface AlphaVantage {
    */
 
   Double getVolume(String code, String date) throws IllegalArgumentException;
+
 }

@@ -57,8 +57,8 @@ public class StockTest {
 
   @Test
   public void getAverageBuyInPrice() {
-    assertEquals(30.67, googleStock.getAverageBuyInPrice(), 0.0001);
-    assertEquals(7326.33, microsoftStock.getAverageBuyInPrice(), 0.00001);
+    assertEquals(30.67, googleStock.getAverageBuyInPrice(), 0.01);
+    assertEquals(7326.33, microsoftStock.getAverageBuyInPrice(), 0.01);
   }
 
   @Test

@@ -5,10 +5,12 @@ import static org.junit.Assert.assertEquals;
 
 public class AlphaVantageImplTest {
 
-  private AlphaVantageImpl a = new AlphaVantageImpl();
+  private AlphaVantageImpl a;
 
   @org.junit.Test
   public void APITest() {
+
+     a = a.getInstance();
 
     try {
       a.searchCode("asdf");

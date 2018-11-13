@@ -7,7 +7,6 @@ public class StockImpl implements Stock {
   private final String code;
   private final int shares;
   private final double averageBuyInPrice;
-  private DecimalFormat twoDecimal;
 
   /**
    * The method construct a new stock with given company's code, shares, and the average price.
@@ -27,7 +26,6 @@ public class StockImpl implements Stock {
     this.code = code;
     this.shares = shares;
     this.averageBuyInPrice = averageBuyInPrice;
-    this.twoDecimal = new DecimalFormat("###.##"); // does it necessary?
   }
 
   @Override
@@ -42,7 +40,7 @@ public class StockImpl implements Stock {
 
   @Override
   public double getAverageBuyInPrice() {
-    return Double.valueOf(twoDecimal.format(averageBuyInPrice));
+    return averageBuyInPrice;
   }
 
   @Override

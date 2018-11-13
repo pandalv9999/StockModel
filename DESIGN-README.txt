@@ -30,7 +30,7 @@ Assignment 8: OurStockModel vol.1
 
 	1. StockController. The interface is the controller of the class. The controller reads users input in a CLI pattern, read string, perform actions, etc.
 
-	2. AlphaVantage. The interface is our API to get the information of stocks online. The implementation is based on the demo java file provided. To get around of the issue that one can only acquire information five times per minute, we have five different that are working to extends the number to be 25 times per minute. When we have related information, we use maps to stores the information, so that in future function call we will not have to take query again. The public method's name are self-explaintory. 
+	2. AlphaVantage. The interface is our API to get the information of stocks online. The implementation is based on the demo java file provided. To get around of the issue that one can only acquire information five times per minute, we have five different that are working to extends the number to be 25 times per minute. When we have related information, we use maps to stores the information, so that in future function call we will not have to take query again. Beside that, we use a Singleton design pattern to ensures that only one instance of the object will existed. Doing so can avoid multiple querying of the API.
 
 	3. MockStockModel. This model is to test the correctness of the controller. 
 

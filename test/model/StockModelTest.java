@@ -7,8 +7,8 @@ import static org.junit.Assert.*;
 
 public class StockModelTest {
 
-  private AlphaVantage alphaVantage;
-  private StockModel myModel;
+  private AlphaVantageImpl alphaVantage;
+  private StockModel myModel = StockModelImpl.getBuilder().build();
 
   private double price1;
   private double price2;
@@ -17,8 +17,9 @@ public class StockModelTest {
 
   @Before
   public void setUp() {
-    alphaVantage = new AlphaVantageImpl();
-    myModel = StockModelImpl.getBuilder().build();
+
+    alphaVantage = alphaVantage.getInstance();
+
     myModel.createPortfolio("First Portfolio");
     myModel.createPortfolio("Second Portfolio");
 
@@ -33,26 +34,43 @@ public class StockModelTest {
   public void buy() {
 
     assertEquals(alphaVantage.getLowPrice("GOOG", "2018-05-30") * 100, price1, 0.001);
-    assertEquals(alphaVantage.getLowPrice("MSFT", "2018-05-30") * 300, price2, 0.001);
     assertEquals(alphaVantage.getLowPrice("GOOG", "2018-06-04") * 150, price3, 0.001);
+    assertEquals(alphaVantage.getLowPrice("MSFT", "2018-05-30") * 300, price2, 0.001);
     assertEquals(alphaVantage.getLowPrice("MSFT", "2018-05-29") * 200, price4, 0.001);
-    System.out.printf("%f, %f, %f, %f", price1, price2, price3, price4);
   }
 
   @Test
   public void determineCost() {
-    //assertEquals();
+    assertEquals(price1 + price2 + price3, myModel.determineCost("First Portfolio"), 0.001);
+    assertEquals(price4, myModel.determineCost("Second Portfolio"), 0.01);
   }
 
   @Test
   public void determineValue() {
+    double value1 = alphaVantage.getHighPrice("GOOG", "2018-11-06") * 250
+            + alphaVantage.getHighPrice("MSFT", "2018-11-06") * 300;
+    assertEquals(value1, myModel.determineValue("First Portfolio", "2018-11-06"), 0.001);
   }
 
   @Test
   public void getPortfolioState() {
+    assertEquals("First Portfolio:\n"
+            + "Code: MSFT, Shares: 300, Average Buy-in Price: 97.91\n"
+            + "Code: GOOG, Shares: 250, Average Buy-in Price: 1095.94\n"
+            + "\n"
+            + "Second Portfolio:\n"
+            + "Code: MSFT, Shares: 200, Average Buy-in Price: 97.23\n"
+            + "\n" , myModel.getPortfolioState());
   }
 
   @Test
   public void getPortfolioState1() {
+    assertEquals("First Portfolio:\n"
+            + "Code: MSFT, Shares: 300, Average Buy-in Price: 97.91\n"
+            + "Code: GOOG, Shares: 250, Average Buy-in Price: 1095.94\n",
+            myModel.getPortfolioState("First Portfolio"));
+    assertEquals("Second Portfolio:\n"
+            + "Code: MSFT, Shares: 200, Average Buy-in Price: 97.23\n"
+            , myModel.getPortfolioState("Second Portfolio"));
   }
 }

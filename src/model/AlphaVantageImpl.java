@@ -21,10 +21,19 @@ public class AlphaVantageImpl implements AlphaVantage {
           "7Q072N49XLJCL76Z", "6PK36VERE89B8KA8"};
   private int keyCount;
 
-  public AlphaVantageImpl() {
+  private static AlphaVantageImpl uniqueInstance;
+
+  private AlphaVantageImpl() {
     this.nameReference = new HashMap<>();
     this.prices = new HashMap<>();
     this.keyCount = 1;
+  }
+
+  public static AlphaVantageImpl getInstance() {
+    if (uniqueInstance == null) {
+      uniqueInstance = new AlphaVantageImpl();
+    }
+    return uniqueInstance;
   }
 
   private String getAPIKey() {
