@@ -47,7 +47,7 @@ public class StockControllerImpl implements StockController {
     }
     Scanner scan = new Scanner(this.in);
     while (true) {
-      output(model.getPortfolioState() + "\n");
+      // output(model.getPortfolioState() + "\n");
       String command = input(scan);
 
       if (isQuit(command)) {
@@ -55,15 +55,19 @@ public class StockControllerImpl implements StockController {
         return;
       }
 
-      if (command == "create") {
+      if (command.equals("create")) {
+        output("Please input the portfolio's name.\n");
         String portfolioName = input(scan);
         model.createPortfolio(portfolioName);
-        output("create a portfolio successfully\n");
+        output("Created a portfolio successfully.\n");
       }
 
-      if (command == "buy") {
+      if (command.equals("buy")) {
+        output("Please input the portfolio's name.\n");
         String portfolioName = input(scan);
+        output("Please input the company's name.\n");
         String companyName = input(scan);
+        output("How many shares you want to buy?\n");
         int shares = 0;
         while (true) {
           try {
@@ -74,27 +78,32 @@ public class StockControllerImpl implements StockController {
           }
           break;
         }
+        output("Please input the date you want to buy in format yyyy-mm-dd.\n");
         String date = input(scan);
         output("cost: $" + Double.toString(model.buy(portfolioName, companyName, shares, date)) + "\n");
       }
 
-      if (command == "determinecost") {
+      if (command.equals("determinecost")) {
+        output("Please input the portfolio's name.\n");
         String portfolioName = input(scan);
         output(Double.toString(model.determineCost(portfolioName)) + "\n");
       }
 
-      if (command == "determinevalue") {
+      if (command.equals("determinevalue")) {
+        output("Please input the portfolio's name.\n");
         String portfolioName = input(scan);
+        output("Please input the date you want to check in format yyyy-mm-dd.\n");
         String date = input(scan);
         output(Double.toString(model.determineValue(portfolioName, date)) + "\n");
       }
 
-      if (command == "getstate") {
+      if (command.equals("getstate")) {
+        output("Please input the portfolio's name.\n");
         String portfolioName = input(scan);
         output(model.getPortfolioState(portfolioName) + "\n");
       }
 
-      if (command == "getallstate") {
+      if (command.equals("getallstate")) {
         output(model.getPortfolioState() + "\n");
       }
     }
