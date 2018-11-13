@@ -93,7 +93,7 @@ public class StockModelImpl implements StockModel {
     return portfolio.get(portfolioName).values()
             .stream()
             .mapToDouble(b -> alphaVantage.getHighPrice(b.getCode(), date) * b.getShares())
-            .sum(); 
+            .sum();
   }
 
   @Override
