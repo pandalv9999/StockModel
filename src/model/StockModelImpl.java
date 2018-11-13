@@ -42,7 +42,6 @@ public class StockModelImpl implements StockModel {
 
     String code;
     double price;
-    boolean existStock = false;
     Map<String, Stock> currentPortfolio = portfolio.get(portfolioName);
 
     try {
@@ -52,20 +51,19 @@ public class StockModelImpl implements StockModel {
       throw new IllegalArgumentException("There is no information for the provided company name.");
     }
 
-    if (currentPortfolio.get(code) != null) { // use a get method instead of the for loop?
+    if (currentPortfolio.get(code) != null) { // not null: contains the stock of the company.
+
       Stock st = currentPortfolio.get(code);
-      if (st.getCode().equals(code)) {  // exist current company's share
-        existStock = true;
-        int oldShares = st.getShares();
-        double oldPrice = st.getAverageBuyInPrice();
-        int newShares = oldShares + shares;
-        double newPrice = (oldPrice * oldShares + price * shares) / (shares + oldShares);
-        currentPortfolio.remove(code);
-        currentPortfolio.put(code, new StockImpl(code, newShares, newPrice));
-      }
+      int oldShares = st.getShares();
+      double oldPrice = st.getAverageBuyInPrice();
+      int newShares = oldShares + shares;
+      double newPrice = (oldPrice * oldShares + price * shares) / (shares + oldShares);
+      currentPortfolio.remove(code);
+      currentPortfolio.put(code, new StockImpl(code, newShares, newPrice));
+
     }
 
-    if (!existStock) {
+    else  {
       currentPortfolio.put(code, new StockImpl(code, shares, price));
     }
 
@@ -92,18 +90,10 @@ public class StockModelImpl implements StockModel {
       throw new IllegalArgumentException("Date entered is invalid.");
     }
 
-    double value = 0.0;
-
     return portfolio.get(portfolioName).values()
             .stream()
             .mapToDouble(b -> alphaVantage.getHighPrice(b.getCode(), date) * b.getShares())
-            .sum(); //try to use mapreduce too?
-
-//    for (Stock st : portfolio.get(portfolioName).values()) {
-//      value += alphaVantage.getHighPrice(st.getCode(), date) * st.getShares();
-//    }
-//
-//    return value;
+            .sum(); 
   }
 
   @Override

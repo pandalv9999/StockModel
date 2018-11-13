@@ -10,3 +10,4 @@ public class main {
             .start(StockModelImpl.getBuilder().build());
   }
 }
+
