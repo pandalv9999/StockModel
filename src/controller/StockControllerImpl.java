@@ -1,17 +1,25 @@
 package controller;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import model.StockModel;
-import model.StockModelImpl;
 
+/**
+ * This class represents an implementation of a stock controller.
+ */
 public class StockControllerImpl implements StockController {
   private final Readable in;
   private final Appendable out;
 
+  /**
+   * This method will take a scanner object as an input and get the string separated by blank space
+   * or \n.
+   *
+   * @param scan a scanner object
+   * @return a string input
+   */
   private String input(Scanner scan) throws IllegalStateException {
     String st = "";
     try {
@@ -22,6 +30,11 @@ public class StockControllerImpl implements StockController {
     return st;
   }
 
+  /**
+   * This method will take a String object as an input and output the string to the output stream.
+   *
+   * @param st a string needed to output
+   */
   private void output(String st) throws IllegalStateException {
     try {
       this.out.append(st);
@@ -30,6 +43,13 @@ public class StockControllerImpl implements StockController {
     }
   }
 
+  /**
+   * The constructor of this method. It will take in a inStream and outStream and initialize the
+   * controller.
+   *
+   * @param rd the inStream
+   * @param ap the outStream
+   */
   public StockControllerImpl(Readable rd, Appendable ap) throws IllegalArgumentException {
     if (rd == null || ap == null) {
       throw new IllegalArgumentException("Input and output should not be null.");
@@ -38,10 +58,22 @@ public class StockControllerImpl implements StockController {
     this.out = ap;
   }
 
+  /**
+   * This method will determine whether to quit or not.
+   *
+   * @param st the string to be predicated
+   * @return whether the string is a quitting message
+   */
   private boolean isQuit(String st) {
     return st.equals("q") || st.equals("Q");
   }
 
+  /**
+   * This method is the main method of the controller. It takes a model as the parameter and call
+   * its methods.
+   *
+   * @param model a stock system model
+   */
   public void start(StockModel model)
           throws IllegalArgumentException, IllegalStateException {
     if (model == null) {
@@ -50,7 +82,8 @@ public class StockControllerImpl implements StockController {
     Scanner scan = new Scanner(this.in);
     output("Welcome to the stock trading system.\n");
     while (true) {
-      output("You can input: create, buy, determinecost, determinevalue, getstate, getallstate\n");
+      output("You can input: create, buy, determinecost, determinevalue, getstate, "
+              + "getallstate or q/Q\n");
       String command = input(scan);
 
       if (isQuit(command)) {
@@ -61,6 +94,10 @@ public class StockControllerImpl implements StockController {
       if (command.equals("create")) {
         output("Please input the portfolio's name.\n");
         String portfolioName = input(scan);
+        if (isQuit(portfolioName)) {
+          output("Quit.\n");
+          return;
+        }
         try {
           model.createPortfolio(portfolioName);
         } catch (IllegalArgumentException e) {
@@ -73,8 +110,16 @@ public class StockControllerImpl implements StockController {
       if (command.equals("buy")) {
         output("Please input the portfolio's name.\n");
         String portfolioName = input(scan);
+        if (isQuit(portfolioName)) {
+          output("Quit.\n");
+          return;
+        }
         output("Please input the company's name.\n");
         String companyName = input(scan);
+        if (isQuit(companyName)) {
+          output("Quit.\n");
+          return;
+        }
         output("How many shares you want to buy?\n");
         int shares = 0;
         while (true) {
@@ -88,6 +133,10 @@ public class StockControllerImpl implements StockController {
         }
         output("Please input the date you want to buy in format yyyy-mm-dd.\n");
         String date = input(scan);
+        if (isQuit(date)) {
+          output("Quit.\n");
+          return;
+        }
         Double res = 0.0;
         try {
           res = model.buy(portfolioName, companyName, shares, date);
@@ -96,12 +145,17 @@ public class StockControllerImpl implements StockController {
           output("\n");
           continue;
         }
-        output("cost: $" + res.toString() + "\n");
+        output("Successfully bought " + companyName + " with " + shares + " shares on " + date
+                + " and cost is  $" + res.toString() + "\n");
       }
 
       if (command.equals("determinecost")) {
         output("Please input the portfolio's name.\n");
         String portfolioName = input(scan);
+        if (isQuit(portfolioName)) {
+          output("Quit.\n");
+          return;
+        }
         Double res = 0.0;
         try {
           res = model.determineCost(portfolioName);
@@ -110,14 +164,22 @@ public class StockControllerImpl implements StockController {
           output("\n");
           continue;
         }
-        output(Double.toString(res) + "\n");
+        output("The total cost of buying in is $" + Double.toString(res) + "\n");
       }
 
       if (command.equals("determinevalue")) {
         output("Please input the portfolio's name.\n");
         String portfolioName = input(scan);
+        if (isQuit(portfolioName)) {
+          output("Quit.\n");
+          return;
+        }
         output("Please input the date you want to check in format yyyy-mm-dd.\n");
         String date = input(scan);
+        if (isQuit(date)) {
+          output("Quit.\n");
+          return;
+        }
         Double res = 0.0;
         try {
           res = model.determineValue(portfolioName, date);
@@ -126,12 +188,17 @@ public class StockControllerImpl implements StockController {
           output("\n");
           continue;
         }
-        output(Double.toString(res) + "\n");
+        output("The value of all stocks in this portfolio on " + date + " is $"
+                + Double.toString(res) + "\n");
       }
 
       if (command.equals("getstate")) {
         output("Please input the portfolio's name.\n");
         String portfolioName = input(scan);
+        if (isQuit(portfolioName)) {
+          output("Quit.\n");
+          return;
+        }
         String res = "";
         try {
           res = model.getPortfolioState(portfolioName);
@@ -140,7 +207,8 @@ public class StockControllerImpl implements StockController {
           output("\n");
           continue;
         }
-        output(res + "\n");
+        output("The state of " + portfolioName + "\n");
+        output(res);
       }
 
       if (command.equals("getallstate")) {
@@ -152,6 +220,7 @@ public class StockControllerImpl implements StockController {
           output("\n");
           continue;
         }
+        output("The state of all portfolios:\n");
         output(res + "\n");
       }
     }
