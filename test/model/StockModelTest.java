@@ -33,6 +33,13 @@ public class StockModelTest {
   @Test
   public void buy() {
 
+    try {
+      myModel.createPortfolio("First Portfolio");
+      fail("Existing name");
+    } catch (IllegalArgumentException e) {
+      //do nothing
+    }
+
     assertEquals(alphaVantage.getLowPrice("GOOG", "2018-05-30") * 100, price1, 0.001);
     assertEquals(alphaVantage.getLowPrice("GOOG", "2018-06-04") * 150, price3, 0.001);
     assertEquals(alphaVantage.getLowPrice("MSFT", "2018-05-30") * 300, price2, 0.001);

@@ -16,7 +16,7 @@ public class StockModelImpl implements StockModel {
   @Override
   public void createPortfolio(String portfolioName) throws IllegalArgumentException {
 
-    if (portfolioName == null || portfolioName.isEmpty()) {
+    if (portfolioName == null || portfolioName.isEmpty() || portfolio.containsKey(portfolioName)) {
       throw new IllegalArgumentException("Portfolio name is invalid.");
     }
 
