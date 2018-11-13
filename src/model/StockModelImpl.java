@@ -8,7 +8,7 @@ public class StockModelImpl implements StockModel {
   private Map<String, Map<String, Stock>> portfolio;
   private AlphaVantageImpl alphaVantage;
 
-  private StockModelImpl() {
+  public StockModelImpl() {
     this.portfolio = new HashMap<>();
     this.alphaVantage = new AlphaVantageImpl();
   }
@@ -69,7 +69,7 @@ public class StockModelImpl implements StockModel {
       currentPortfolio.put(code, new StockImpl(code, shares, price));
     }
 
-    return price;
+    return price * shares; // return the total cost
   }
 
   @Override
@@ -143,8 +143,8 @@ public class StockModelImpl implements StockModel {
     private StockModelBuilderImpl() {
     }
 
-    public StockModelBuilderImpl build() {
-      return new StockModelBuilderImpl();
+    public StockModelImpl build() {
+      return new StockModelImpl();
     }
   }
 }

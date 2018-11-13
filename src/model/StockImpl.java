@@ -9,6 +9,14 @@ public class StockImpl implements Stock {
   private final double averageBuyInPrice;
   private DecimalFormat twoDecimal;
 
+  /**
+   * The method construct a new stock with given company's code, shares, and the average price.
+   * @param code The code of the company.
+   * @param shares Number of shares he owned in a stock.
+   * @param averageBuyInPrice The average price of all shares.
+   * @throws IllegalArgumentException If any argument is illegal.
+   */
+
   public StockImpl(String code, int shares, double averageBuyInPrice)
           throws IllegalArgumentException {
 
@@ -36,17 +44,6 @@ public class StockImpl implements Stock {
   public double getAverageBuyInPrice() {
     return Double.valueOf(twoDecimal.format(averageBuyInPrice));
   }
-// Should we instantiate a new object rather than change it?
-// should use new StockImpl("GOOG", oldshare + newshare, (oldprice*oldshare + newprice*newshare) / (oldshare + newshare)); to instantiate a stock new object
-//  @Override
-//  public void updateShare(int newShare) {
-//    shares += newShare;
-//  }
-//
-//  @Override
-//  public void updateAverageBuyInPrice(double newPrice) {
-//    averageBuyInPrice = Double.valueOf(twoDecimal.format(newPrice));
-//  }
 
   @Override
   public String getCurrentState() {

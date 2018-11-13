@@ -9,8 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-// Do save the price after calling API once.
+/**
+ * The class implements the AlphaVantage Interface. The class save all data once the API is called.
+ */
+
 public class AlphaVantageImpl implements AlphaVantage {
+
   private Map<String, String> nameReference; // the map convert company name to its code
   private Map<String, Map<String, Map<String, Double>>> prices; // String is a company name, date is a certain date, list is the open, high, low and close price and volume
   private String[] APIKeys = {"J2C3I7JL8H090N10", "Q3VB628VO7MT9GBK", "QIDZM1CKRMP31G3S",
