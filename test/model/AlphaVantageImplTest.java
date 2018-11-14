@@ -5,13 +5,9 @@ import static org.junit.Assert.assertEquals;
 
 public class AlphaVantageImplTest {
 
-  private AlphaVantageImpl a;
-
   @org.junit.Test
-  public void APITest() {
-
-     a = a.getInstance();
-
+  public void apiTest() {
+    AlphaVantageImpl a = AlphaVantageImpl.getInstance();
     try {
       a.searchCode("asdf");
       fail("There is no code for this company.");

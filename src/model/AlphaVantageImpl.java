@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -16,21 +18,29 @@ import java.util.Map;
 public class AlphaVantageImpl implements AlphaVantage {
 
   private Map<String, String> nameReference; // the map convert company name to its code
-  private Map<String, Map<String, Map<String, Double>>> prices; // String is a company name, date is a certain date, list is the open, high, low and close price and volume
-  private String[] APIKeys = {"J2C3I7JL8H090N10", "Q3VB628VO7MT9GBK", "QIDZM1CKRMP31G3S",
-          "7Q072N49XLJCL76Z", "6PK36VERE89B8KA8"};
+  private Map<String, Map<String, Map<String, Double>>> prices;
+  // String is a company name, date is a certain date, list is the open, high, low and close price
+  // and volume.
   private int keyCount;
+  private List<String> keys;
 
   private static AlphaVantageImpl uniqueInstance;
 
   private AlphaVantageImpl() {
     this.nameReference = new HashMap<>();
     this.prices = new HashMap<>();
-    this.keyCount = 1;
+    this.keyCount = 4;
+    this.keys = new ArrayList<>();
+    this.keys.add("J2C3I7JL8H090N10");
+    this.keys.add("Q3VB628VO7MT9GBK");
+    this.keys.add("QIDZM1CKRMP31G3S");
+    this.keys.add("7Q072N49XLJCL76Z");
+    this.keys.add("6PK36VERE89B8KA8");
   }
 
   /**
-   * The public static function ensures there are only one instance of AlphaVantage/
+   * The public static function ensures there are only one instance of AlphaVantage.
+   *
    * @return The instance of the class.
    */
 
@@ -42,16 +52,15 @@ public class AlphaVantageImpl implements AlphaVantage {
   }
 
   private String getAPIKey() {
-    String res = APIKeys[this.keyCount];
+    String res = this.keys.get(this.keyCount);
     this.keyCount += 1;
-    if (this.keyCount == this.APIKeys.length) {
+    if (this.keyCount == keys.size()) {
       this.keyCount = 0;
     }
     return res;
   }
 
   private void callAPIToGetPrices(String code) {
-    // System.out.println(code);
     String apiKey = getAPIKey();
     URL url = null;
 
@@ -90,8 +99,6 @@ public class AlphaVantageImpl implements AlphaVantage {
       }
     }
     this.prices.put(code, res);
-//    System.out.println("Return value: ");
-//    System.out.println(output.toString());
   }
 
   private void callAPIToGetCode(String companyName) {
@@ -103,7 +110,6 @@ public class AlphaVantageImpl implements AlphaVantage {
               + "keywords=" + companyName
               + "&apikey=" + apiKey
               + "&datatype=csv");
-//      System.out.println(url.toString());
     } catch (MalformedURLException e) {
       throw new RuntimeException("the alphavantage API has either changed or "
               + "no longer works");

@@ -16,7 +16,8 @@ public class MockStockModel implements StockModel {
   }
 
   @Override
-  public double buy(String portfolioName, String companyName, int shares, String date) throws IllegalArgumentException {
+  public double buy(String portfolioName, String companyName, int shares, String date)
+          throws IllegalArgumentException {
     log.append("buy ");
     log.append(portfolioName);
     log.append(" ");

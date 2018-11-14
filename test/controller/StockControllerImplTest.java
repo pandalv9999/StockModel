@@ -1,6 +1,5 @@
 package controller;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.Reader;
@@ -13,11 +12,6 @@ import model.StockModelImpl;
 import static org.junit.Assert.assertEquals;
 
 public class StockControllerImplTest {
-
-
-  @Before
-  public void setUp() throws Exception {
-  }
 
   @Test
   public void start() {
