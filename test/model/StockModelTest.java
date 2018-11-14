@@ -51,6 +51,13 @@ public class StockModelTest {
   public void determineCost() {
     assertEquals(price1 + price2 + price3, myModel.determineCost("First Portfolio"), 0.001);
     assertEquals(price4, myModel.determineCost("Second Portfolio"), 0.01);
+
+    try {
+      myModel.determineCost("");
+      fail("shall fail");
+    } catch (IllegalArgumentException e) {
+      //do nothing
+    }
   }
 
   @Test
@@ -58,6 +65,13 @@ public class StockModelTest {
     double value1 = alphaVantage.getHighPrice("GOOG", "2018-11-06") * 250
             + alphaVantage.getHighPrice("MSFT", "2018-11-06") * 300;
     assertEquals(value1, myModel.determineValue("First Portfolio", "2018-11-06"), 0.001);
+
+    try {
+      myModel.determineValue("ewe", "");
+      fail("shall fail");
+    } catch (IllegalArgumentException e) {
+      //do nothing
+    }
   }
 
   @Test
@@ -80,5 +94,13 @@ public class StockModelTest {
     assertEquals("Second Portfolio:\n"
             + "Code: MSFT, Shares: 200, Average Buy-in Price: 97.23\n"
             , myModel.getPortfolioState("Second Portfolio"));
+
+    try {
+      myModel.getPortfolioState("");
+      fail("shall fail");
+    } catch (IllegalArgumentException e) {
+      //do nothing
+    }
+
   }
 }
