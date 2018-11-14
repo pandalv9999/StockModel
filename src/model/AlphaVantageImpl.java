@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -11,6 +10,7 @@ import java.util.Map;
 
 /**
  * The class implements the AlphaVantage Interface. The class save all data once the API is called.
+ * The class is a Singleton that only one copy of its instance may exist.
  */
 
 public class AlphaVantageImpl implements AlphaVantage {
@@ -28,6 +28,11 @@ public class AlphaVantageImpl implements AlphaVantage {
     this.prices = new HashMap<>();
     this.keyCount = 1;
   }
+
+  /**
+   * The public static function ensures there are only one instance of AlphaVantage/
+   * @return The instance of the class.
+   */
 
   public static AlphaVantageImpl getInstance() {
     if (uniqueInstance == null) {

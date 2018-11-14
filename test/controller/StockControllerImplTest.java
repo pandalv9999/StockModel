@@ -10,7 +10,7 @@ import model.MockStockModel;
 import model.StockModel;
 import model.StockModelImpl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class StockControllerImplTest {
 
