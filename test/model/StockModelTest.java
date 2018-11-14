@@ -19,7 +19,7 @@ public class StockModelTest {
   @Before
   public void setUp() {
 
-    alphaVantage = alphaVantage.getInstance();
+    alphaVantage = AlphaVantageImpl.getInstance();
 
     myModel.createPortfolio("First Portfolio");
     myModel.createPortfolio("Second Portfolio");
