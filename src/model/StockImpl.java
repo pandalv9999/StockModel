@@ -1,7 +1,5 @@
 package model;
 
-import java.text.DecimalFormat;
-
 public class StockImpl implements Stock {
 
   private final String code;
