@@ -21,6 +21,10 @@ public interface StockModel {
                        List<Double> percentage, double amt, String date)
           throws IllegalArgumentException;
 
+  void dollarCostAverage(String portfolioName, List<String> companyName, List<Double> percentage,
+                         double amt, String startDate, String endDate)
+          throws IllegalArgumentException;
+
   /**
    * The method buy some stock in the market and add them to a designated Portfolio.
    * @param portfolioName The target Portfolio that user whats to put stocks in.

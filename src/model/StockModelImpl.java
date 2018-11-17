@@ -41,6 +41,30 @@ public class StockModelImpl implements StockModel {
     return nextDate;
   }
 
+  private int compareDate(String dateOne, String dateTwo) {
+
+    int yearOne = Integer.parseInt(dateOne.substring(0, 4));
+    int yearTwo = Integer.parseInt(dateTwo.substring(0, 4));
+    int monthOne = Integer.parseInt(dateOne.substring(5, 7));
+    int monthTwo = Integer.parseInt(dateTwo.substring(5, 7));
+    int dayOne = Integer.parseInt(dateOne.substring(8));
+    int dayTwo = Integer.parseInt(dateTwo.substring(8));
+
+    if (yearOne > yearTwo) {
+      return 1;
+    } else if (yearOne < yearTwo) {
+      return -1;
+    } else {
+      if (monthOne > monthTwo) {
+        return 1;
+      } else if (monthOne < monthTwo) {
+        return -1;
+      } else {
+        return Integer.compare(dayOne, dayTwo);
+      }
+    }
+  }
+
   private StockModelImpl() {
     this.portfolio = new HashMap<>();
     this.alphaVantage = AlphaVantageImpl.getInstance();
@@ -83,6 +107,25 @@ public class StockModelImpl implements StockModel {
     }
 
     return totalAmt;
+  }
+
+  @Override
+  public void dollarCostAverage(String portfolioName, List<String> companyName,
+                                List<Double> percentage, double amt, String startDate,
+                                String endDate)
+          throws IllegalArgumentException {
+
+    if (companyName.isEmpty() || percentage.isEmpty() || endDate.isEmpty()
+            || startDate.isEmpty() || percentage.size() != companyName.size()) {
+      throw new IllegalArgumentException("Invalid argument!");
+    }
+
+    if (Double.compare(percentage.stream().mapToDouble(b->b).sum(), 1.0) != 0) {
+      throw new IllegalArgumentException("The sum of all percentage is not one!");
+    }
+
+
+
   }
 
   @Override

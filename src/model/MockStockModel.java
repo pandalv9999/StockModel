@@ -24,6 +24,11 @@ public class MockStockModel implements StockModel {
   }
 
   @Override
+  public void dollarCostAverage(String portfolioName, List<String> companyName, List<Double> percentage, double amt, String startDate, String endDate) throws IllegalArgumentException {
+
+  }
+
+  @Override
   public double buy(String portfolioName, String companyName, int shares, String date)
           throws IllegalArgumentException {
     log.append("buy ");
