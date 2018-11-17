@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -89,6 +91,69 @@ public class StockControllerImpl implements StockController {
       if (isQuit(command)) {
         output("Quit.\n");
         return;
+      }
+
+      if (command.equals("createfixedportfolio")) {
+        output("Please input the portfolio's name.\n");
+        String portfolioName = input(scan);
+        if (isQuit(portfolioName)) {
+          output("Quit.\n");
+          return;
+        }
+        output("Equal proportion or separate?(E/S)\n");
+        String equal = input(scan);
+        List<String> company = new ArrayList<>();
+        List<Double> proportionList = new ArrayList<>();
+        output("Number of companies?\n");
+        int n = Integer.parseInt(input(scan));
+        for (int i = 0; i < n; i++) {
+          output("Name of company?\n");
+          String companyName = input(scan);
+          company.add(companyName);
+          if (equal.equals("S") || equal.equals("s")) {
+            output("Proportion in percentage?\n");
+            double proportion = Double.parseDouble(input(scan)) / 100;
+            proportionList.add(proportion);
+          }
+        }
+
+        if (equal.equals("e") || equal.equals("E")) {
+          for (int i = 0; i < n; i++) {
+            proportionList.add((double) (1 / n));
+          }
+        }
+
+        output("Amount of investment?\n");
+        double amount = Double.parseDouble(input(scan));
+        if (isQuit(portfolioName)) {
+          output("Quit.\n");
+          return;
+        }
+
+        output("Provide a start date?(yyyy-mm-dd / N/n)\n");
+        String startDate = input(scan);
+        if (isQuit(portfolioName)) {
+          output("Quit.\n");
+          return;
+        }
+
+        if (!startDate.equals("N") && !startDate.equals("n")) {
+          output("Provide a end date?(yyyy-mm-dd / N/n)\n");
+          String endDate = input(scan);
+          if (isQuit(portfolioName)) {
+            output("Quit.\n");
+            return;
+          }
+        }
+
+
+        try {
+          // model.createFixedPortfolio(portfolioName, companyName, proportionList, amount, startDate, endDate);
+        } catch (IllegalArgumentException e) {
+          output(e.getMessage());
+          continue;
+        }
+        output("Created a Fixed portfolio successfully.\n");
       }
 
       if (command.equals("create")) {
