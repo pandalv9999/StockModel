@@ -1,12 +1,12 @@
 package model;
 
-import com.sun.tools.javac.util.List;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StockModelImpl implements StockModel {
@@ -59,15 +59,15 @@ public class StockModelImpl implements StockModel {
 
   @Override
   public double createPortfolio(String portfolioName, List<String> companyName,
-                              List<Double> percentage, double amt, String date)
+                                List<Double> percentage, double amt, String date)
           throws IllegalArgumentException {
 
     if (companyName.isEmpty() || percentage.isEmpty()
-            || date.isEmpty() || percentage.length() != companyName.length()) {
+            || date.isEmpty() || percentage.size() != companyName.size()) {
       throw new IllegalArgumentException("Invalid argument!");
     }
 
-    if (Double.compare(percentage.stream().mapToDouble(b->b).sum(), 1.0) != 0) {
+    if (Double.compare(percentage.stream().mapToDouble(b -> b).sum(), 1.0) != 0) {
       throw new IllegalArgumentException("The sum of all percentage is not one!");
     }
 
@@ -75,11 +75,11 @@ public class StockModelImpl implements StockModel {
 
     createPortfolio(portfolioName);
 
-    for (int i = 0; i < companyName.length(); i++) {
+    for (int i = 0; i < companyName.size(); i++) {
       double specificMoney = amt * percentage.get(i);
       String company = companyName.get(i);
       double numOfShares = countShares(company, date, "low", specificMoney);
-      totalAmt += buy(portfolioName, company, (int)numOfShares, date); // change previous share to double, or just as this?
+      totalAmt += buy(portfolioName, company, (int) numOfShares, date); // change previous share to double, or just as this?
     }
 
     return totalAmt;

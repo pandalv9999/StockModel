@@ -1,6 +1,7 @@
 package model;
 
-import com.sun.tools.javac.util.List;
+
+import java.util.List;
 
 /**
  * The interface defines a StockModel where user can do some manipulation of stocks he owns.
