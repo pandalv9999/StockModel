@@ -1,5 +1,9 @@
 package model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +11,21 @@ public class StockModelImpl implements StockModel {
 
   private Map<String, Map<String, Stock>> portfolio;
   private AlphaVantageImpl alphaVantage;
+
+  private String getNextNDate(String curDate, int n) {
+    String nextDate = "";
+    try {
+      Calendar today = Calendar.getInstance();
+      DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+      Date date = format.parse(curDate);
+      today.setTime(date);
+      today.add(Calendar.DAY_OF_YEAR, n);
+      nextDate = format.format(today.getTime());
+    } catch (Exception e) {
+      return nextDate;
+    }
+    return nextDate;
+  }
 
   private StockModelImpl() {
     this.portfolio = new HashMap<>();
