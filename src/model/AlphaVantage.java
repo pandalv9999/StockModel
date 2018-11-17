@@ -64,4 +64,6 @@ public interface AlphaVantage {
 
   Double getVolume(String code, String date) throws IllegalArgumentException;
 
+  double getPrice(String code, String date, String priceType);
+
 }

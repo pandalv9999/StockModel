@@ -12,6 +12,17 @@ public class StockModelImpl implements StockModel {
   private Map<String, Map<String, Stock>> portfolio;
   private AlphaVantageImpl alphaVantage;
 
+  // priceType can be high, low, open, close
+  public double countShares(String code, String date, String priceType, double amount) {
+    double price = 0.0;
+    try {
+      price = alphaVantage.getPrice(code, date, priceType);
+    } catch (IllegalArgumentException e) {
+      throw e;
+    }
+    return amount / price;
+  }
+
   private String getNextNDate(String curDate, int n) {
     String nextDate = "";
     try {
@@ -70,7 +81,7 @@ public class StockModelImpl implements StockModel {
     }
 
     try {
-      price = alphaVantage.getLowPrice(code, date);
+      price = alphaVantage.getPrice(code, date, "low");
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("There is no price on this date.");
     }
@@ -114,7 +125,7 @@ public class StockModelImpl implements StockModel {
 
     return portfolio.get(portfolioName).values()
             .stream()
-            .mapToDouble(b -> alphaVantage.getHighPrice(b.getCode(), date) * b.getShares())
+            .mapToDouble(b -> alphaVantage.getPrice(b.getCode(), date, "high") * b.getShares())
             .sum();
   }
 

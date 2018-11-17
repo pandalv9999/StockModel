@@ -231,4 +231,21 @@ public class AlphaVantageImpl implements AlphaVantage {
     }
     return res2;
   }
+
+  public double getPrice(String code, String date, String priceType) {
+    double res = 0.0;
+    if (priceType.equals("low")) {
+      res = getLowPrice(code, date);
+    }
+    if (priceType.equals("high")) {
+      res = getHighPrice(code, date);
+    }
+    if (priceType.equals("close")) {
+      res = getClosePrice(code, date);
+    }
+    if (priceType.equals("open")) {
+      res = getOpenPrice(code, date);
+    }
+    return res;
+  }
 }
