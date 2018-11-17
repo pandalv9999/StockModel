@@ -1,5 +1,7 @@
 package model;
 
+import com.sun.tools.javac.util.List;
+
 public class MockStockModel implements StockModel {
 
   private StringBuilder log;
@@ -13,6 +15,11 @@ public class MockStockModel implements StockModel {
     log.append("create ");
     log.append(portfolioName);
     log.append("\n");
+  }
+
+  @Override
+  public double createPortfolio(String portfolioName, List<String> companyName, List<Double> percentage, double amt, String date) throws IllegalArgumentException {
+    return 0.0;
   }
 
   @Override

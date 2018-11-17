@@ -1,5 +1,7 @@
 package model;
 
+import com.sun.tools.javac.util.List;
+
 /**
  * The interface defines a StockModel where user can do some manipulation of stocks he owns.
  */
@@ -13,6 +15,10 @@ public interface StockModel {
    */
 
   void createPortfolio(String portfolioName) throws IllegalArgumentException;
+
+  double createPortfolio(String portfolioName, List<String> companyName,
+                       List<Double> percentage, double amt, String date)
+          throws IllegalArgumentException;
 
   /**
    * The method buy some stock in the market and add them to a designated Portfolio.

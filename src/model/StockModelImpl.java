@@ -1,5 +1,7 @@
 package model;
 
+import com.sun.tools.javac.util.List;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,9 +15,10 @@ public class StockModelImpl implements StockModel {
   private AlphaVantageImpl alphaVantage;
 
   // priceType can be high, low, open, close
-  public double countShares(String code, String date, String priceType, double amount) {
+  private double countShares(String companyName, String date, String priceType, double amount) {
     double price = 0.0;
     try {
+      String code = alphaVantage.searchCode(companyName);
       price = alphaVantage.getPrice(code, date, priceType);
     } catch (IllegalArgumentException e) {
       throw e;
@@ -52,6 +55,34 @@ public class StockModelImpl implements StockModel {
 
     Map<String, Stock> temp = new HashMap<>();
     portfolio.put(portfolioName, temp);
+  }
+
+  @Override
+  public double createPortfolio(String portfolioName, List<String> companyName,
+                              List<Double> percentage, double amt, String date)
+          throws IllegalArgumentException {
+
+    if (companyName.isEmpty() || percentage.isEmpty()
+            || date.isEmpty() || percentage.length() != companyName.length()) {
+      throw new IllegalArgumentException("Invalid argument!");
+    }
+
+    if (Double.compare(percentage.stream().mapToDouble(b->b).sum(), 1.0) != 0) {
+      throw new IllegalArgumentException("The sum of all percentage is not one!");
+    }
+
+    double totalAmt = 0.0;
+
+    createPortfolio(portfolioName);
+
+    for (int i = 0; i < companyName.length(); i++) {
+      double specificMoney = amt * percentage.get(i);
+      String company = companyName.get(i);
+      double numOfShares = countShares(company, date, "low", specificMoney);
+      totalAmt += buy(portfolioName, company, (int)numOfShares, date); // change previous share to double, or just as this?
+    }
+
+    return totalAmt;
   }
 
   @Override
