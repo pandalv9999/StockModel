@@ -13,6 +13,13 @@ public class StockModelImpl implements StockModel {
 
   private Map<String, Map<String, Stock>> portfolio;
   private AlphaVantageImpl alphaVantage;
+  private final double commissionFee;
+
+  private StockModelImpl(double commissionFee) {
+    this.portfolio = new HashMap<>();
+    this.alphaVantage = AlphaVantageImpl.getInstance();
+    this.commissionFee = commissionFee;
+  }
 
   // priceType can be high, low, open, close
   private double countShares(String companyName, String date, String priceType, double amount) {
@@ -24,6 +31,25 @@ public class StockModelImpl implements StockModel {
       throw e;
     }
     return amount / price;
+  }
+
+  private String getLastAvailableDate(String code) {
+    String nextDate = "";
+    for (int i = 0; i < 10; i++) {
+      try {
+        Calendar today = Calendar.getInstance();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        today.setTime(date);
+        today.add(Calendar.DAY_OF_YEAR, -i);
+        nextDate = format.format(today.getTime());
+        alphaVantage.getClosePrice(code, nextDate);
+        break;
+      } catch (Exception e) {
+        continue;
+      }
+    }
+    return nextDate;
   }
 
   private String getNextNDate(String curDate, int n) {
@@ -65,11 +91,6 @@ public class StockModelImpl implements StockModel {
     }
   }
 
-  private StockModelImpl() {
-    this.portfolio = new HashMap<>();
-    this.alphaVantage = AlphaVantageImpl.getInstance();
-  }
-
   @Override
   public void createPortfolio(String portfolioName) throws IllegalArgumentException {
 
@@ -93,6 +114,23 @@ public class StockModelImpl implements StockModel {
 
     if (Double.compare(percentage.stream().mapToDouble(b -> b).sum(), 1.0) != 0) {
       throw new IllegalArgumentException("The sum of all percentage is not one!");
+    }
+
+    String randomCode = "";
+    for (int i = 0; i < companyName.size(); i++) {
+      try {
+        randomCode = alphaVantage.searchCode(companyName.get(i));
+        break;
+      } catch (IllegalArgumentException e) {
+        continue;
+      }
+    }
+    if (randomCode.equals("")) {
+      throw new IllegalArgumentException("None of the companies exists!");
+    }
+
+    if (date.equals("N") || date.equals("n")) {
+      date = getLastAvailableDate(randomCode);
     }
 
     double totalAmt = 0.0;
@@ -120,10 +158,9 @@ public class StockModelImpl implements StockModel {
       throw new IllegalArgumentException("Invalid argument!");
     }
 
-    if (Double.compare(percentage.stream().mapToDouble(b->b).sum(), 1.0) != 0) {
+    if (Double.compare(percentage.stream().mapToDouble(b -> b).sum(), 1.0) != 0) {
       throw new IllegalArgumentException("The sum of all percentage is not one!");
     }
-
 
 
   }
@@ -237,11 +274,23 @@ public class StockModelImpl implements StockModel {
 
   public static class StockModelBuilderImpl implements StockModelBuilder {
 
+    private double fee;
+
     private StockModelBuilderImpl() {
+      this.fee = 0.0;
+    }
+
+    @Override
+    public StockModelBuilder commissionFee(double fee) {
+      if (fee < 0) {
+        throw new IllegalArgumentException("Fee should be at least 0.");
+      }
+      this.fee = fee;
+      return this;
     }
 
     public StockModel build() {
-      return new StockModelImpl();
+      return new StockModelImpl(this.fee);
     }
   }
 }

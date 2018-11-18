@@ -190,7 +190,11 @@ public class StockControllerImplTest {
 
 
     // real testing
-    StockModel stockModel = StockModelImpl.getBuilder().build();
+    StockModel stockModel = StockModelImpl
+            .getBuilder()
+            .commissionFee(0.0)
+            .build();
+
     in = new StringReader("create portfolio1 "
             + "buy portfolio1 google \n 100 2018-11-09 "
             + "buy portfolio1 microsoft \n 200 2018-11-09 "

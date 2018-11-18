@@ -9,7 +9,10 @@ import static org.junit.Assert.fail;
 public class StockModelTest {
 
   private AlphaVantageImpl alphaVantage;
-  private StockModel myModel = StockModelImpl.getBuilder().build();
+  private StockModel myModel = StockModelImpl
+          .getBuilder()
+          .commissionFee(0.0)
+          .build();
 
   private double price1;
   private double price2;
