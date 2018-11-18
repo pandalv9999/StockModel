@@ -92,13 +92,6 @@ public class StockModelImpl implements StockModel {
     }
   }
 
-  private StockModelImpl() {
-    this.portfolio = new HashMap<>();
-    this.counter = new HashMap<>();
-    this.alphaVantage = AlphaVantageImpl.getInstance();
-    this.commissionFee = 5.0;
-  }
-
   @Override
   public void createPortfolio(String portfolioName) throws IllegalArgumentException {
 
@@ -167,7 +160,7 @@ public class StockModelImpl implements StockModel {
       throw new IllegalArgumentException("Invalid argument!");
     }
 
-    if (Double.compare(percentage.stream().mapToDouble(b->b).sum(), 1.0) != 0) {
+    if (Double.compare(percentage.stream().mapToDouble(b -> b).sum(), 1.0) != 0) {
       throw new IllegalArgumentException("The sum of all percentage is not one!");
     }
 
