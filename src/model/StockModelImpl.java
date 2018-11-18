@@ -20,6 +20,7 @@ public class StockModelImpl implements StockModel {
     this.portfolio = new HashMap<>();
     this.alphaVantage = AlphaVantageImpl.getInstance();
     this.commissionFee = commissionFee;
+    this.counter = new HashMap<>();
   }
 
   // priceType can be high, low, open, close
