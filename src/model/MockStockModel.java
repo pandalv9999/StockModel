@@ -62,6 +62,11 @@ public class MockStockModel implements StockModel {
   }
 
   @Override
+  public double determineCommissionFee(String portfolioName) {
+    return 0;
+  }
+
+  @Override
   public String getPortfolioState() {
     log.append("getallstates");
     log.append("\n");

@@ -57,6 +57,8 @@ public interface StockModel {
 
   double determineValue(String portfolioName, String date) throws IllegalArgumentException;
 
+  double determineCommissionFee(String portfolioName);
+
   /**
    * The method gets the information of all Portfolios.
    * @return The information as String.

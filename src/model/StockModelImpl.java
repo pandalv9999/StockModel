@@ -12,6 +12,7 @@ import java.util.Map;
 public class StockModelImpl implements StockModel {
 
   private Map<String, Map<String, Stock>> portfolio;
+  private Map<String, Integer> counter;
   private AlphaVantageImpl alphaVantage;
   private final double commissionFee;
 
@@ -91,6 +92,13 @@ public class StockModelImpl implements StockModel {
     }
   }
 
+  private StockModelImpl() {
+    this.portfolio = new HashMap<>();
+    this.counter = new HashMap<>();
+    this.alphaVantage = AlphaVantageImpl.getInstance();
+    this.commissionFee = 5.0;
+  }
+
   @Override
   public void createPortfolio(String portfolioName) throws IllegalArgumentException {
 
@@ -100,6 +108,7 @@ public class StockModelImpl implements StockModel {
 
     Map<String, Stock> temp = new HashMap<>();
     portfolio.put(portfolioName, temp);
+    counter.put(portfolioName, 0);
   }
 
   @Override
@@ -158,10 +167,22 @@ public class StockModelImpl implements StockModel {
       throw new IllegalArgumentException("Invalid argument!");
     }
 
-    if (Double.compare(percentage.stream().mapToDouble(b -> b).sum(), 1.0) != 0) {
+    if (Double.compare(percentage.stream().mapToDouble(b->b).sum(), 1.0) != 0) {
       throw new IllegalArgumentException("The sum of all percentage is not one!");
     }
 
+    createPortfolio(portfolioName, companyName, percentage, amt, startDate);
+
+    String nextDate = getNextNDate(startDate, 30);
+
+    while (compareDate(nextDate, endDate) < 0) {
+      try {
+
+      } catch (Exception e) {
+
+      }
+
+    }
 
   }
 
@@ -211,6 +232,9 @@ public class StockModelImpl implements StockModel {
       currentPortfolio.put(code, new StockImpl(code, shares, price));
     }
 
+    int count = counter.get(portfolioName);
+    counter.remove(portfolioName);
+    counter.put(portfolioName, count + 1);
     return price * shares; // return the total cost
   }
 
@@ -238,6 +262,11 @@ public class StockModelImpl implements StockModel {
             .stream()
             .mapToDouble(b -> alphaVantage.getPrice(b.getCode(), date, "high") * b.getShares())
             .sum();
+  }
+
+  @Override
+  public double determineCommissionFee(String portfolioName) {
+    return counter.get(portfolioName) * commissionFee;
   }
 
   @Override
