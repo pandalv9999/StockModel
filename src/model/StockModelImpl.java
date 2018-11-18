@@ -69,6 +69,7 @@ public class StockModelImpl implements StockModel {
 
   private StockModelImpl() {
     this.portfolio = new HashMap<>();
+    this.counter = new HashMap<>();
     this.alphaVantage = AlphaVantageImpl.getInstance();
     this.commissionFee = 5.0;
   }
@@ -134,7 +135,7 @@ public class StockModelImpl implements StockModel {
 
     while (compareDate(nextDate, endDate) < 0) {
       try {
-        
+
       } catch (Exception e) {
 
       }
