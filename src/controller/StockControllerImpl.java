@@ -247,8 +247,23 @@ public class StockControllerImpl implements StockController {
         }
       }
 
-      try {   // better to add a things to ask what should be the interval. 30 days, 60 days.
-        model.dollarCostAverage(portfolioName, company, amount, startDate, endDate, 30);
+      int interval = 30;
+      if (!startDate.equals("N") && !startDate.equals("n")) {
+        output("Provide a interval in days?(e.g 15, 30, 60 / N/n)\n");
+        String st = input(scan);
+        if (isQuit(st)) {
+          output("Quit.\n");
+          return;
+        }
+        try {
+          interval = Integer.parseInt(st);
+        } catch (IllegalArgumentException e) {
+          throw new IllegalArgumentException("Illegal number.");
+        }
+      }
+
+      try {   // better to add a things to ask what should be the interval. 30 days, 60 days. Done.
+        model.dollarCostAverage(portfolioName, company, amount, startDate, endDate, interval);
       } catch (IllegalArgumentException e) {
         output(e.getMessage());
         output("\n");
@@ -462,8 +477,8 @@ public class StockControllerImpl implements StockController {
             + Double.toString(commissionFeeAfter - commissionFeeBefore) + "\n");
     output("Commission fee is of "
             + Double.toString((commissionFeeAfter - commissionFeeBefore)
-            / (model.determineCost(portfolioName) + commissionFeeAfter - commissionFeeBefore)
-            * 100)
+            / (res + commissionFeeAfter - commissionFeeBefore)
+            * 100.0)
             + "% in this transaction.\n");
   }
 
