@@ -21,7 +21,7 @@ public interface StockModel {
                        List<Double> percentage, double amt, String date)
           throws IllegalArgumentException;
 
-  void dollarCostAverage(String portfolioName, List<String> companyName, List<Double> percentage,
+  double dollarCostAverage(String portfolioName, List<String> companyName, List<Double> percentage,
                          double amt, String startDate, String endDate)
           throws IllegalArgumentException;
 
@@ -58,6 +58,8 @@ public interface StockModel {
   double determineValue(String portfolioName, String date) throws IllegalArgumentException;
 
   double determineCommissionFee(String portfolioName);
+
+  double buyByPercentage(String portfolioName, double amt);
 
   /**
    * The method gets the information of all Portfolios.

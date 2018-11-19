@@ -13,6 +13,7 @@ public class StockModelImpl implements StockModel {
 
   private Map<String, Map<String, Stock>> portfolio;
   private Map<String, Integer> counter;
+  private Map<String, List<Double>> percentages;
   private AlphaVantageImpl alphaVantage;
   private final double commissionFee;
 
@@ -21,6 +22,7 @@ public class StockModelImpl implements StockModel {
     this.alphaVantage = AlphaVantageImpl.getInstance();
     this.commissionFee = commissionFee;
     this.counter = new HashMap<>();
+    this.percentages = new HashMap<>();
   }
 
   // priceType can be high, low, open, close
@@ -35,7 +37,7 @@ public class StockModelImpl implements StockModel {
     return amount / price;
   }
 
-  private String getLastAvailableDate(String code) {
+  private String getLastAvailableDate(String code, boolean previous) {
     String nextDate = "";
     for (int i = 0; i < 10; i++) {
       try {
@@ -43,7 +45,11 @@ public class StockModelImpl implements StockModel {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         today.setTime(date);
-        today.add(Calendar.DAY_OF_YEAR, -i);
+        if (previous) {
+          today.add(Calendar.DAY_OF_YEAR, -i);
+        } else {
+          today.add(Calendar.DAY_OF_YEAR, i);
+        }
         nextDate = format.format(today.getTime());
         alphaVantage.getClosePrice(code, nextDate);
         break;
@@ -53,6 +59,7 @@ public class StockModelImpl implements StockModel {
     }
     return nextDate;
   }
+
 
   private String getNextNDate(String curDate, int n) {
     String nextDate = "";
@@ -134,12 +141,13 @@ public class StockModelImpl implements StockModel {
 
     //Automatically get the date.
     if (date.equals("N") || date.equals("n")) {
-      date = getLastAvailableDate(randomCode);
+      date = getLastAvailableDate(randomCode, true);
     }
 
     double totalAmt = 0.0;
 
     createPortfolio(portfolioName);
+    this.percentages.put(portfolioName, percentage);
 
     for (int i = 0; i < companyName.size(); i++) {
       double specificMoney = amt * percentage.get(i);
@@ -152,7 +160,7 @@ public class StockModelImpl implements StockModel {
   }
 
   @Override
-  public void dollarCostAverage(String portfolioName, List<String> companyName,
+  public double dollarCostAverage(String portfolioName, List<String> companyName,
                                 List<Double> percentage, double amt, String startDate,
                                 String endDate)
           throws IllegalArgumentException {
@@ -182,26 +190,28 @@ public class StockModelImpl implements StockModel {
 
     //Automatically get the start date and end date.
     if (startDate.equals("N") || startDate.equals("n")) {
-      startDate = getLastAvailableDate(randomCode);
+      startDate = getLastAvailableDate(randomCode, true);
     }
 
     if (endDate.equals("N") || endDate.equals("n")) {
-      endDate = getLastAvailableDate(randomCode);
+      endDate = getLastAvailableDate(randomCode, true);
     }
 
-    createPortfolio(portfolioName, companyName, percentage, amt, startDate);
-
+    double totalCost = createPortfolio(portfolioName, companyName, percentage, amt, startDate);
     String nextDate = getNextNDate(startDate, 30);
 
     while (compareDate(nextDate, endDate) < 0) {
-      try {
-
-      } catch (Exception e) {
-
+      for (int i = 0; i < companyName.size(); i++) {
+        String company = companyName.get(i);
+        String code = alphaVantage.searchCode(company);
+        String buyDate = getLastAvailableDate(code, false);
+        double specificMoney = amt * percentage.get(i);
+        double numOfShares = countShares(company, buyDate, "low", specificMoney);
+        totalCost += buy(portfolioName, company, (int) numOfShares, buyDate);
+        nextDate = getNextNDate(nextDate, 30);
       }
-
     }
-
+    return totalCost;
   }
 
   @Override
@@ -232,7 +242,7 @@ public class StockModelImpl implements StockModel {
 
     // Automatically fill the date.
     if (date.equals("N") || date.equals("n")) {
-      date = getLastAvailableDate(code);
+      date = getLastAvailableDate(code, true);
     }
 
     try {
@@ -290,6 +300,21 @@ public class StockModelImpl implements StockModel {
   @Override
   public double determineCommissionFee(String portfolioName) {
     return counter.get(portfolioName) * commissionFee;
+  }
+
+  @Override
+  public double buyByPercentage(String portfolioName, double amt) throws IllegalArgumentException {
+
+    List<Double> currPercentage = percentages.get(portfolioName);
+    Map<String, Stock> currPortfolio = portfolio.get(portfolioName);
+
+    if (currPercentage == null) {
+      throw new IllegalArgumentException("The portfolio has no preset percentage.");
+    }
+
+    // To Be implemented
+
+    return 0;
   }
 
   @Override

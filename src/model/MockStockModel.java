@@ -36,7 +36,7 @@ public class MockStockModel implements StockModel {
   }
 
   @Override
-  public void dollarCostAverage(String portfolioName, List<String> companyName,
+  public double dollarCostAverage(String portfolioName, List<String> companyName,
                                 List<Double> percentage, double amt, String startDate,
                                 String endDate) throws IllegalArgumentException {
     log.append("create fixed ongoing\n");
@@ -52,6 +52,7 @@ public class MockStockModel implements StockModel {
     log.append("\n");
     log.append(endDate);
     log.append("\n");
+    return 0;
 
   }
 
@@ -90,6 +91,11 @@ public class MockStockModel implements StockModel {
 
   @Override
   public double determineCommissionFee(String portfolioName) {
+    return 0;
+  }
+
+  @Override
+  public double buyByPercentage(String portfolioName, double amt) {
     return 0;
   }
 
