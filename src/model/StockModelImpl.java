@@ -206,7 +206,7 @@ public class StockModelImpl implements StockModel {
         String code = alphaVantage.searchCode(company);
         String buyDate = getLastAvailableDate(code, false);
         double specificMoney = amt * percentage.get(i);
-        double numOfShares = countShares(company, buyDate, "low", specificMoney);
+        double numOfShares = countShares(company, buyDate, "close", specificMoney);
         totalCost += buy(portfolioName, company, (int) numOfShares, buyDate);
         nextDate = getNextNDate(nextDate, 30);
       }
