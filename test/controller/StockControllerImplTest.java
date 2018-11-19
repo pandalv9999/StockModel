@@ -28,7 +28,7 @@ public class StockControllerImplTest {
     StockControllerImpl controller = new StockControllerImpl(in, out);
     controller.start(mockStockModel);
     assertEquals("create portfolio1\n"
-            + "buy portfolio1 GOOG 100 2018-11-09 \n"
+            + "buy portfolio1 GOOG 100.0 2018-11-09 low\n"
             + "determineCost portfolio1\n"
             + "determineValue portfolio1 2018-11-05\n"
             + "getPortfolioState portfolio1\n"
@@ -48,7 +48,7 @@ public class StockControllerImplTest {
     controller.start(mockStockModel);
     assertEquals("create fixed\n"
             + "portfolio1\n"
-            + "[Facebook, Apple, netflix, Google]\n"
+            + "[Google, Apple, netflix, Facebook]\n"
             + "[0.25, 0.25, 0.25, 0.25]\n"
             + "2000.0\n"
             + "2018-11-05\n", log.toString());
@@ -69,8 +69,8 @@ public class StockControllerImplTest {
     controller.start(mockStockModel);
     assertEquals("create fixed\n"
             + "portfolio1\n"
-            + "[Facebook, Apple, netflix, Google]\n"
-            + "[0.4, 0.2, 0.3, 0.1]\n"
+            + "[Google, Apple, netflix, Facebook]\n"
+            + "[0.1, 0.2, 0.3, 0.4]\n"
             + "5200.0\n"
             + "2018-11-05\n", log.toString());
 //    System.out.println(log.toString());
@@ -90,8 +90,8 @@ public class StockControllerImplTest {
     controller.start(mockStockModel);
     assertEquals("create fixed ongoing\n"
             + "portfolio1\n"
-            + "[Facebook, Apple, netflix, Google]\n"
-            + "[0.4, 0.2, 0.3, 0.1]\n"
+            + "[Google, Apple, netflix, Facebook]\n"
+            + "[0.1, 0.2, 0.3, 0.4]\n"
             + "5200.0\n"
             + "2018-11-05\n"
             + "2018-11-12\n", log.toString());
@@ -111,8 +111,8 @@ public class StockControllerImplTest {
     controller.start(mockStockModel);
     assertEquals("create fixed ongoing\n"
             + "portfolio1\n"
-            + "[Facebook, Apple, netflix, Google]\n"
-            + "[0.4, 0.2, 0.3, 0.1]\n"
+            + "[Google, Apple, netflix, Facebook]\n"
+            + "[0.1, 0.2, 0.3, 0.4]\n"
             + "5200.0\n"
             + "2018-11-05\n"
             + "N\n", log.toString());
@@ -294,6 +294,28 @@ public class StockControllerImplTest {
             + "Quit.\n", out.toString());
   }
 
+  @Test
+  public void determineCommissionFee() {
+    StringBuilder log = new StringBuilder();
+    MockStockModel mockStockModel = new MockStockModel(log);
+    Reader in = new StringReader("determinefee p1 Q");
+    StringBuffer out = new StringBuffer();
+    StockControllerImpl controller = new StockControllerImpl(in, out);
+    controller.start(mockStockModel);
+    assertEquals("determineFee p1\n", log.toString());
+  }
+
+  @Test
+  public void buyByPercentage() {
+    StringBuilder log = new StringBuilder();
+    MockStockModel mockStockModel = new MockStockModel(log);
+    Reader in = new StringReader("buyp p1 200 2018-11-12 Q");
+    StringBuffer out = new StringBuffer();
+    StockControllerImpl controller = new StockControllerImpl(in, out);
+    controller.start(mockStockModel);
+    assertEquals("buyByPercentage p1 200.0 2018-11-12\n", log.toString());
+  }
+
 
   @Test
   public void realTesting() {
@@ -323,7 +345,7 @@ public class StockControllerImplTest {
             + "Please input the portfolio's name.\n"
             + "Please input the company's name.\n"
             + "How many shares you want to buy?\n"
-            + "Please input the date you want to buy in format yyyy-mm-dd.\n"
+            + "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n"
             + "Successfully bought google with 100 shares on 2018-11-09 and cost is  "
             + "$105310.99999999999\n"
             + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate"
@@ -331,7 +353,7 @@ public class StockControllerImplTest {
             + "Please input the portfolio's name.\n"
             + "Please input the company's name.\n"
             + "How many shares you want to buy?\n"
-            + "Please input the date you want to buy in format yyyy-mm-dd.\n"
+            + "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n"
             + "Successfully bought microsoft with 200 shares on 2018-11-09 and cost is  $21752.0\n"
             + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate "
             + "or q/Q\n"
@@ -347,14 +369,14 @@ public class StockControllerImplTest {
             + "Please input the portfolio's name.\n"
             + "The state of portfolio1\n"
             + "portfolio1:\n"
-            + "Code: MSFT, Shares: 200, Average Buy-in Price: 108.76\n"
-            + "Code: GOOG, Shares: 100, Average Buy-in Price: 1053.11\n"
+            + "Code: MSFT, Shares: 200.00, Average Buy-in Price: 108.76\n"
+            + "Code: GOOG, Shares: 100.00, Average Buy-in Price: 1053.11\n"
             + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate"
             + " or q/Q\n"
             + "The state of all portfolios:\n"
             + "portfolio1:\n"
-            + "Code: MSFT, Shares: 200, Average Buy-in Price: 108.76\n"
-            + "Code: GOOG, Shares: 100, Average Buy-in Price: 1053.11\n"
+            + "Code: MSFT, Shares: 200.00, Average Buy-in Price: 108.76\n"
+            + "Code: GOOG, Shares: 100.00, Average Buy-in Price: 1053.11\n"
             + "\n"
             + "\n"
             + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate"

@@ -8,8 +8,9 @@ public class StockImpl implements Stock {
 
   /**
    * The method construct a new stock with given company's code, shares, and the average price.
-   * @param code The code of the company.
-   * @param shares Number of shares he owned in a stock.
+   *
+   * @param code              The code of the company.
+   * @param shares            Number of shares he owned in a stock.
    * @param averageBuyInPrice The average price of all shares.
    * @throws IllegalArgumentException If any argument is illegal.
    */
@@ -44,7 +45,7 @@ public class StockImpl implements Stock {
   @Override
   public String getCurrentState() {
     return String.format(
-            "Code: %s, Shares: %d, Average Buy-in Price: %.2f", code, shares, averageBuyInPrice);
+            "Code: %s, Shares: %.2f, Average Buy-in Price: %.2f", code, shares, averageBuyInPrice);
   }
 
 }

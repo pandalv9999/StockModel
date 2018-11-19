@@ -28,13 +28,13 @@ public class StockModelTest {
     myModel.createPortfolio("Second Portfolio");
 
     price1 = myModel.buy("First Portfolio", "Google",
-            100, "2018-05-30");
+            100, "2018-05-30", "low");
     price2 = myModel.buy("First Portfolio", "MicroSoft",
-            300, "2018-05-30");
+            300, "2018-05-30", "low");
     price3 = myModel.buy("First Portfolio", "Google",
-            150, "2018-06-04");
+            150, "2018-06-04", "low");
     price4 = myModel.buy("Second Portfolio", "MicroSoft",
-            200, "2018-05-29");
+            200, "2018-05-29", "low");
 
   }
 

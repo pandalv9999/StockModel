@@ -1,9 +1,7 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -87,7 +85,7 @@ public class StockControllerImpl implements StockController {
     output("Welcome to the stock trading system.\n");
     while (true) {
       output("You can input: create, buy, determinecost, determinevalue, getstate, "
-              + "getallstate or q/Q\n");
+              + "getallstate, determinefee, createfixed, buyp, or q/Q\n");
       String command = input(scan);
 
       if (isQuit(command)) {
@@ -96,230 +94,357 @@ public class StockControllerImpl implements StockController {
       }
 
       if (command.equals("createfixed")) {
-        output("Please input the portfolio's name.\n");
-        String portfolioName = input(scan);
-        if (isQuit(portfolioName)) {
-          output("Quit.\n");
-          return;
+        try {
+          createFixed(model, scan);
+        } catch (IllegalArgumentException e) {
+          continue;
         }
-        output("Equal proportion or separate?(E/S)\n");
-        String equal = input(scan);
-        Map<String, Double> company = new HashMap<>();
-        // List<Double> percentage = new ArrayList<>();
-        output("Number of companies?\n");
-        int n = Integer.parseInt(input(scan));
-        for (int i = 0; i < n; i++) {
-          output("Name of company?\n");
-          String companyName = input(scan);
-          double proportion = 1.0 / n;
-          if (equal.equals("S") || equal.equals("s")) {
-            output("Proportion in percentage? E.g. input 23 to represent 23%.\n");
-            proportion = Double.parseDouble(input(scan)) / 100;
-          }
-          company.put(companyName, proportion);
-        }
-
-//        if (equal.equals("e") || equal.equals("E")) {
-//          for (int i = 0; i < n; i++) {
-//            percentage.add(1.0 / n);
-//          }
-//        }
-
-        output("Amount of investment?\n");
-        double amount = Double.parseDouble(input(scan));
-        if (isQuit(portfolioName)) {
-          output("Quit.\n");
-          return;
-        }
-
-        output("Ongoing?\n");
-        String onGoing = input(scan);
-        if (isQuit(portfolioName)) {
-          output("Quit.\n");
-          return;
-        }
-
-        String startDate;
-        String endDate = "N";
-        if (onGoing.equals("Y") || onGoing.equals("y")) {
-
-          output("Provide a start date?(yyyy-mm-dd / N/n)\n");
-          startDate = input(scan);
-          if (isQuit(portfolioName)) {
-            output("Quit.\n");
-            return;
-          }
-
-          if (!startDate.equals("N") && !startDate.equals("n")) {
-            output("Provide a end date?(yyyy-mm-dd / N/n)\n");
-            endDate = input(scan);
-            if (isQuit(portfolioName)) {
-              output("Quit.\n");
-              return;
-            }
-          }
-
-          try {
-            model.dollarCostAverage(portfolioName, company, amount, startDate, endDate);
-          } catch (IllegalArgumentException e) {
-            output(e.getMessage());
-            continue;
-          }
-        } else {
-          output("Provide a buying date?(yyyy-mm-dd / N/n)\n");
-          String date = input(scan);
-          if (isQuit(portfolioName)) {
-            output("Quit.\n");
-            return;
-          }
-
-          try {
-            model.createPortfolio(portfolioName, company, amount, date);
-          } catch (IllegalArgumentException e) {
-            output(e.getMessage());
-            continue;
-          }
-        }
-        output("Created a Fixed portfolio successfully.\n");
       }
 
       if (command.equals("create")) {
-        output("Please input the portfolio's name.\n");
-        String portfolioName = input(scan);
-        if (isQuit(portfolioName)) {
-          output("Quit.\n");
-          return;
-        }
         try {
-          model.createPortfolio(portfolioName);
+          create(model, scan);
         } catch (IllegalArgumentException e) {
-          output(e.getMessage());
           continue;
         }
-        output("Created a portfolio successfully.\n");
       }
 
       if (command.equals("buy")) {
-        output("Please input the portfolio's name.\n");
-        String portfolioName = input(scan);
-        if (isQuit(portfolioName)) {
-          output("Quit.\n");
-          return;
-        }
-        output("Please input the company's name.\n");
-        String companyName = input(scan);
-        if (isQuit(companyName)) {
-          output("Quit.\n");
-          return;
-        }
-        output("How many shares you want to buy?\n");
-        int shares = 0;
-        while (true) {
-          try {
-            String st = input(scan);
-            if (isQuit(st)) {
-              output("Quit.\n");
-              return;
-            }
-            shares = Integer.parseInt(st);
-          } catch (Exception e) {
-            output("Invalid shares, input again.\n");
-            continue;
-          }
-          break;
-        }
-        output("Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n");
-        String date = input(scan);
-        if (isQuit(date)) {
-          output("Quit.\n");
-          return;
-        }
-        Double res = 0.0;
         try {
-          res = model.buy(portfolioName, companyName, shares, date, "low");
+          buy(model, scan);
         } catch (IllegalArgumentException e) {
-          output(e.getMessage());
-          output("\n");
           continue;
         }
-        output("Successfully bought " + companyName + " with " + shares + " shares on " + date
-                + " and cost is  $" + res.toString() + "\n");
       }
 
       if (command.equals("determinecost")) {
-        output("Please input the portfolio's name.\n");
-        String portfolioName = input(scan);
-        if (isQuit(portfolioName)) {
-          output("Quit.\n");
-          return;
-        }
-        Double res = 0.0;
         try {
-          res = model.determineCost(portfolioName);
+          determineCost(model, scan);
         } catch (IllegalArgumentException e) {
-          output(e.getMessage());
-          output("\n");
           continue;
         }
-        output("The total cost of buying in is $" + Double.toString(res) + "\n");
       }
 
       if (command.equals("determinevalue")) {
-        output("Please input the portfolio's name.\n");
-        String portfolioName = input(scan);
-        if (isQuit(portfolioName)) {
-          output("Quit.\n");
-          return;
-        }
-        output("Please input the date you want to check in format yyyy-mm-dd.\n");
-        String date = input(scan);
-        if (isQuit(date)) {
-          output("Quit.\n");
-          return;
-        }
-        Double res = 0.0;
         try {
-          res = model.determineValue(portfolioName, date);
+          determineValue(model, scan);
         } catch (IllegalArgumentException e) {
-          output(e.getMessage());
-          output("\n");
           continue;
         }
-        output("The value of all stocks in this portfolio on " + date + " is $"
-                + Double.toString(res) + "\n");
+      }
+
+      if (command.equals("determinefee")) {
+        try {
+          determineCommissionFee(model, scan);
+        } catch (IllegalArgumentException e) {
+          continue;
+        }
+      }
+
+      if (command.equals("buyp")) {
+        try {
+          buyByPercentage(model, scan);
+        } catch (IllegalArgumentException e) {
+          continue;
+        }
       }
 
       if (command.equals("getstate")) {
-        output("Please input the portfolio's name.\n");
-        String portfolioName = input(scan);
+        try {
+          getState(model, scan);
+        } catch (IllegalArgumentException e) {
+          continue;
+        }
+      }
+
+      if (command.equals("getallstate")) {
+        try {
+          getAllState(model);
+        } catch (IllegalArgumentException e) {
+          continue;
+        }
+      }
+    }
+  }
+
+  private void createFixed(StockModel model, Scanner scan) {
+    output("Please input the portfolio's name.\n");
+    String portfolioName = input(scan);
+    if (isQuit(portfolioName)) {
+      output("Quit.\n");
+      return;
+    }
+    output("Equal proportion or separate?(E/S)\n");
+    String equal = input(scan);
+    Map<String, Double> company = new HashMap<>();
+    // List<Double> percentage = new ArrayList<>();
+    output("Number of companies?\n");
+    int n = Integer.parseInt(input(scan));
+    for (int i = 0; i < n; i++) {
+      output("Name of company?\n");
+      String companyName = input(scan);
+      double proportion = 1.0 / n;
+      if (equal.equals("S") || equal.equals("s")) {
+        output("Proportion in percentage? E.g. input 23 to represent 23%.\n");
+        proportion = Double.parseDouble(input(scan)) / 100;
+      }
+      company.put(companyName, proportion);
+    }
+
+    double amount = 0.0;
+    output("Amount of investment?\n");
+    try {
+      amount = Double.parseDouble(input(scan));
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("Illegal number");
+    }
+    if (isQuit(portfolioName)) {
+      output("Quit.\n");
+      return;
+    }
+
+    output("Ongoing?\n");
+    String onGoing = input(scan);
+    if (isQuit(portfolioName)) {
+      output("Quit.\n");
+      return;
+    }
+
+    String startDate;
+    String endDate = "N";
+    if (onGoing.equals("Y") || onGoing.equals("y")) {
+
+      output("Provide a start date?(yyyy-mm-dd / N/n)\n");
+      startDate = input(scan);
+      if (isQuit(portfolioName)) {
+        output("Quit.\n");
+        return;
+      }
+
+      if (!startDate.equals("N") && !startDate.equals("n")) {
+        output("Provide a end date?(yyyy-mm-dd / N/n)\n");
+        endDate = input(scan);
         if (isQuit(portfolioName)) {
           output("Quit.\n");
           return;
         }
-        String res = "";
-        try {
-          res = model.getPortfolioState(portfolioName);
-        } catch (IllegalArgumentException e) {
-          output(e.getMessage());
-          output("\n");
-          continue;
-        }
-        output("The state of " + portfolioName + "\n");
-        output(res);
       }
 
-      if (command.equals("getallstate")) {
-        String res = "";
-        try {
-          res = model.getPortfolioState();
-        } catch (IllegalArgumentException e) {
-          output(e.getMessage());
-          output("\n");
-          continue;
-        }
-        output("The state of all portfolios:\n");
-        output(res + "\n");
+      try {
+        model.dollarCostAverage(portfolioName, company, amount, startDate, endDate);
+      } catch (IllegalArgumentException e) {
+        output(e.getMessage());
+        throw new IllegalArgumentException();
+      }
+    } else {
+      output("Provide a buying date?(yyyy-mm-dd / N/n)\n");
+      String date = input(scan);
+      if (isQuit(portfolioName)) {
+        output("Quit.\n");
+        return;
+      }
+
+      try {
+        model.createPortfolio(portfolioName, company, amount, date);
+      } catch (IllegalArgumentException e) {
+        output(e.getMessage());
+        throw new IllegalArgumentException();
       }
     }
+    output("Created a Fixed portfolio successfully.\n");
+  }
+
+  private void create(StockModel model, Scanner scan) {
+    output("Please input the portfolio's name.\n");
+    String portfolioName = input(scan);
+    if (isQuit(portfolioName)) {
+      output("Quit.\n");
+      return;
+    }
+    try {
+      model.createPortfolio(portfolioName);
+    } catch (IllegalArgumentException e) {
+      output(e.getMessage());
+      throw new IllegalArgumentException();
+    }
+    output("Created a portfolio successfully.\n");
+  }
+
+  private void buy(StockModel model, Scanner scan) {
+    output("Please input the portfolio's name.\n");
+    String portfolioName = input(scan);
+    if (isQuit(portfolioName)) {
+      output("Quit.\n");
+      return;
+    }
+    output("Please input the company's name.\n");
+    String companyName = input(scan);
+    if (isQuit(companyName)) {
+      output("Quit.\n");
+      return;
+    }
+    output("How many shares you want to buy?\n");
+    int shares = 0;
+    while (true) {
+      try {
+        String st = input(scan);
+        if (isQuit(st)) {
+          output("Quit.\n");
+          return;
+        }
+        shares = Integer.parseInt(st);
+      } catch (Exception e) {
+        output("Invalid shares, input again.\n");
+        continue;
+      }
+      break;
+    }
+    output("Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n");
+    String date = input(scan);
+    if (isQuit(date)) {
+      output("Quit.\n");
+      return;
+    }
+    Double res = 0.0;
+    try {
+      res = model.buy(portfolioName, companyName, shares, date, "low");
+    } catch (IllegalArgumentException e) {
+      output(e.getMessage());
+      output("\n");
+      throw new IllegalArgumentException();
+    }
+    output("Successfully bought " + companyName + " with " + shares + " shares on " + date
+            + " and cost is  $" + res.toString() + "\n");
+  }
+
+  private void determineCost(StockModel model, Scanner scan) {
+    output("Please input the portfolio's name.\n");
+    String portfolioName = input(scan);
+    if (isQuit(portfolioName)) {
+      output("Quit.\n");
+      return;
+    }
+    Double res = 0.0;
+    try {
+      res = model.determineCost(portfolioName);
+    } catch (IllegalArgumentException e) {
+      output(e.getMessage());
+      output("\n");
+      throw new IllegalArgumentException();
+    }
+    output("The total cost of buying in is $" + Double.toString(res) + "\n");
+  }
+
+  private void determineValue(StockModel model, Scanner scan) {
+    output("Please input the portfolio's name.\n");
+    String portfolioName = input(scan);
+    if (isQuit(portfolioName)) {
+      output("Quit.\n");
+      return;
+    }
+    output("Please input the date you want to check in format yyyy-mm-dd.\n");
+    String date = input(scan);
+    if (isQuit(date)) {
+      output("Quit.\n");
+      return;
+    }
+    Double res = 0.0;
+    try {
+      res = model.determineValue(portfolioName, date);
+    } catch (IllegalArgumentException e) {
+      output(e.getMessage());
+      output("\n");
+      throw new IllegalArgumentException();
+    }
+    output("The value of all stocks in this portfolio on " + date + " is $"
+            + Double.toString(res) + "\n");
+  }
+
+  private void determineCommissionFee(StockModel model, Scanner scan) {
+    output("Please input the portfolio's name.\n");
+    String portfolioName = input(scan);
+    if (isQuit(portfolioName)) {
+      output("Quit.\n");
+      return;
+    }
+    Double res = 0.0;
+    try {
+      res = model.determineCommissionFee(portfolioName);
+    } catch (IllegalArgumentException e) {
+      output(e.getMessage());
+      output("\n");
+      throw new IllegalArgumentException();
+    }
+    output("The fee of all transactions in this portfolio is $"
+            + Double.toString(res) + "\n");
+  }
+
+  private void buyByPercentage(StockModel model, Scanner scan) {
+    output("Please input the portfolio's name.\n");
+    String portfolioName = input(scan);
+    if (isQuit(portfolioName)) {
+      output("Quit.\n");
+      return;
+    }
+
+    double amount = 0.0;
+    output("Amount of investment?\n");
+    try {
+      amount = Double.parseDouble(input(scan));
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("Illegal number");
+    }
+
+    output("Please input the date you want to buy in format yyyy-mm-dd.\n");
+    String date = input(scan);
+    if (isQuit(date)) {
+      output("Quit.\n");
+      return;
+    }
+
+    Double res = 0.0;
+    try {
+      res = model.buyByPercentage(portfolioName, amount, date);
+    } catch (IllegalArgumentException e) {
+      output(e.getMessage());
+      output("\n");
+      throw new IllegalArgumentException();
+    }
+    output("The cost of buying this portfolio is $"
+            + Double.toString(res) + "\n");
+  }
+
+  private void getState(StockModel model, Scanner scan) {
+
+    output("Please input the portfolio's name.\n");
+    String portfolioName = input(scan);
+    if (isQuit(portfolioName)) {
+      output("Quit.\n");
+      return;
+    }
+    String res = "";
+    try {
+      res = model.getPortfolioState(portfolioName);
+    } catch (IllegalArgumentException e) {
+      output(e.getMessage());
+      output("\n");
+      throw new IllegalArgumentException();
+    }
+    output("The state of " + portfolioName + "\n");
+    output(res);
+  }
+
+  private void getAllState(StockModel model) {
+
+    String res = "";
+    try {
+      res = model.getPortfolioState();
+    } catch (IllegalArgumentException e) {
+      output(e.getMessage());
+      output("\n");
+      throw new IllegalArgumentException();
+    }
+    output("The state of all portfolios:\n");
+    output(res + "\n");
   }
 }

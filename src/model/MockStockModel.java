@@ -70,7 +70,7 @@ public class MockStockModel implements StockModel {
     log.append(date);
     log.append(" ");
     log.append(priceType);
-    log.append(" \n");
+    log.append("\n");
     return 0;
   }
 
@@ -94,11 +94,21 @@ public class MockStockModel implements StockModel {
 
   @Override
   public double determineCommissionFee(String portfolioName) {
+    log.append("determineFee ");
+    log.append(portfolioName);
+    log.append("\n");
     return 0;
   }
 
   @Override
-  public double buyByPercentage(String portfolioName, double amt) {
+  public double buyByPercentage(String portfolioName, double amt, String date) {
+    log.append("buyByPercentage ");
+    log.append(portfolioName);
+    log.append(" ");
+    log.append(Double.toString(amt));
+    log.append(" ");
+    log.append(date);
+    log.append("\n");
     return 0;
   }
 

@@ -115,7 +115,7 @@ public class StockModelImpl implements StockModel {
   public double createPortfolio(String portfolioName, Map<String, Double> information, double amt, String date)
           throws IllegalArgumentException {
 
-    if (information == null || information.isEmpty() || date.isEmpty() ) {
+    if (information == null || information.isEmpty() || date.isEmpty()) {
       throw new IllegalArgumentException("Invalid argument!");
     }
 
@@ -145,23 +145,17 @@ public class StockModelImpl implements StockModel {
 
     createPortfolio(portfolioName);
     this.percentages.put(portfolioName, information);
-
-    for (Map.Entry<String, Double> e : information.entrySet()) {
-      double specificMoney = amt * e.getValue();
-      String company = e.getKey();
-      double numOfShares = countShares(company, date, "close", specificMoney);
-      totalAmt += buy(portfolioName, company, (int) numOfShares, date, "close"); // change previous share to double, or just as this?
-    }
+    totalAmt = buyByPercentage(portfolioName, amt, date);
 
     return totalAmt;
   }
 
   @Override
-  public double dollarCostAverage(String portfolioName,  Map<String, Double> information,
+  public double dollarCostAverage(String portfolioName, Map<String, Double> information,
                                   double amt, String startDate, String endDate)
           throws IllegalArgumentException {
 
-    if (information == null || information.isEmpty() || startDate.isEmpty() || endDate.isEmpty() ) {
+    if (information == null || information.isEmpty() || startDate.isEmpty() || endDate.isEmpty()) {
       throw new IllegalArgumentException("Invalid argument!");
     }
 
@@ -299,12 +293,23 @@ public class StockModelImpl implements StockModel {
   }
 
   @Override
-  public double buyByPercentage(String portfolioName, double amt) throws IllegalArgumentException {
+  public double buyByPercentage(String portfolioName, double amt, String date) throws IllegalArgumentException {
+    double totalAmt = 0.0;
+    Map<String, Double> information;
+    try {
+      information = this.percentages.get(portfolioName);
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("There is no such buying plan.");
+    }
 
+    for (Map.Entry<String, Double> e : information.entrySet()) {
+      double specificMoney = amt * e.getValue();
+      String company = e.getKey();
+      double numOfShares = countShares(company, date, "close", specificMoney);
+      totalAmt += buy(portfolioName, company, numOfShares, date, "close"); // change previous share to double
+    }
 
-    // To Be implemented
-
-    return 0;
+    return totalAmt;
   }
 
   @Override

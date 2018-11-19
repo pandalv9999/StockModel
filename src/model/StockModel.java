@@ -1,7 +1,5 @@
 package model;
 
-
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,6 +10,7 @@ public interface StockModel {
 
   /**
    * The method create a new Portfolio with given name.
+   *
    * @param portfolioName The given Portfolio name.
    * @throws IllegalArgumentException If the name is illegal.
    */
@@ -23,17 +22,18 @@ public interface StockModel {
           throws IllegalArgumentException;
 
   double dollarCostAverage(String portfolioName, Map<String, Double> information,
-                         double amt, String startDate, String endDate)
+                           double amt, String startDate, String endDate)
           throws IllegalArgumentException;
 
   /**
-   * The method buy some stock in the market and add them to a designated Portfolio.
-   * Modify: add a parameter name priceType.
+   * The method buy some stock in the market and add them to a designated Portfolio. Modify: add a
+   * parameter name priceType.
+   *
    * @param portfolioName The target Portfolio that user whats to put stocks in.
-   * @param companyName The company's name of the desire stocks.
-   * @param shares The desired number of shares.
-   * @param date The date of the stock.
-   * @param priceType The type of price.
+   * @param companyName   The company's name of the desire stocks.
+   * @param shares        The desired number of shares.
+   * @param date          The date of the stock.
+   * @param priceType     The type of price.
    * @return The total cost of this buy-in.
    * @throws IllegalArgumentException If any argument is illegal.
    */
@@ -43,6 +43,7 @@ public interface StockModel {
 
   /**
    * The method determines the total costs of all stocks in a portfolio.
+   *
    * @param portfolioName The desired Portfolio name.
    * @return The total cost (low price) of stocks.
    * @throws IllegalArgumentException If any argument is illegal.
@@ -52,8 +53,9 @@ public interface StockModel {
 
   /**
    * The method determines the value of all stocks in a portfolio at a certain date..
+   *
    * @param portfolioName The desired Portfolio name.
-   * @param date The date of interests.
+   * @param date          The date of interests.
    * @return The total value (high price) of stocks.
    * @throws IllegalArgumentException If any argument is illegal.
    */
@@ -62,10 +64,11 @@ public interface StockModel {
 
   double determineCommissionFee(String portfolioName);
 
-  double buyByPercentage(String portfolioName, double amt);
+  double buyByPercentage(String portfolioName, double amt, String date);
 
   /**
    * The method gets the information of all Portfolios.
+   *
    * @return The information as String.
    */
 
@@ -73,6 +76,7 @@ public interface StockModel {
 
   /**
    * The method gets the information of a Portfolios.
+   *
    * @param portfolioName The name of interested Portfolio
    * @return The information as Strings
    * @throws IllegalArgumentException If the name is invalid.
