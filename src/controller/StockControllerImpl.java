@@ -203,7 +203,7 @@ public class StockControllerImpl implements StockController {
       return;
     }
 
-    output("Ongoing?\n");
+    output("Ongoing? Y/N\n");
     String onGoing = input(scan);
     if (isQuit(portfolioName)) {
       output("Quit.\n");

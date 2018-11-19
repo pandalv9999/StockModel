@@ -159,9 +159,9 @@ public class StockModelImpl implements StockModel {
       throw new IllegalArgumentException("Invalid argument!");
     }
 
-    if (Double.compare(information.values().stream().mapToDouble(b -> b).sum(), 1.0) != 0) {
-      throw new IllegalArgumentException("The sum of all percentage is not one!");
-    }
+//    if (Double.compare(information.values().stream().mapToDouble(b -> b).sum(), 1.0) != 0) {
+//      throw new IllegalArgumentException("The sum of all percentage is not one!");
+//    } duplicate in createPortfolio()
 
     String randomCode = "";
     for (String name : information.keySet()) {
