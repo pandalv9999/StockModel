@@ -212,8 +212,8 @@ public class StockModelImpl implements StockModel {
         String company = e.getKey();
         String code = alphaVantage.searchCode(company);
         String buyDate = getNextAvailableDate(nextDate, code); // Use a new function instead.
-        System.out.println(company);
-        System.out.println(buyDate);
+//        System.out.println(company);
+//        System.out.println(buyDate);
         double specificMoney = amt * e.getValue();
         double numOfShares = countShares(company, buyDate, "close", specificMoney);
         totalCost += buy(portfolioName, company, numOfShares, buyDate, "close");
