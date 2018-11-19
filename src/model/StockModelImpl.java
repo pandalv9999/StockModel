@@ -36,7 +36,7 @@ public class StockModelImpl implements StockModel {
     return amount / price;
   }
 
-  private String getLastAvailableDate(String code, boolean previous) {
+  private String getLastAvailableDate(String code) {
     String nextDate = "";
     for (int i = 0; i < 10; i++) {
       try {
@@ -44,17 +44,35 @@ public class StockModelImpl implements StockModel {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         today.setTime(date);
-        if (previous) {
-          today.add(Calendar.DAY_OF_YEAR, -i);
-        } else {
-          today.add(Calendar.DAY_OF_YEAR, i);
-        }
+        today.add(Calendar.DAY_OF_YEAR, -i);
         nextDate = format.format(today.getTime());
         alphaVantage.getClosePrice(code, nextDate);
         break;
       } catch (Exception e) {
         continue;
       }
+    }
+    return nextDate;
+  }
+
+  private String getNextAvailableDate(String curDate, String code) {
+    String nextDate = "";
+    for (int i = 0; i < 10; i++) {
+      try {
+        Calendar today = Calendar.getInstance();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = format.parse(curDate);
+        today.setTime(date);
+        today.add(Calendar.DAY_OF_YEAR, i);
+        nextDate = format.format(today.getTime());
+        alphaVantage.getClosePrice(code, nextDate);
+        break;
+      } catch (Exception e) {
+        continue;
+      }
+    }
+    if (nextDate.equals("")) {
+      throw new IllegalArgumentException("This company does not have record in this month");
     }
     return nextDate;
   }
@@ -138,7 +156,7 @@ public class StockModelImpl implements StockModel {
 
     //Automatically get the date.
     if (date.equals("N") || date.equals("n")) {
-      date = getLastAvailableDate(randomCode, true);
+      date = getLastAvailableDate(randomCode);
     }
 
     double totalAmt = 0.0;
@@ -179,11 +197,11 @@ public class StockModelImpl implements StockModel {
 
     //Automatically get the start date and end date.
     if (startDate.equals("N") || startDate.equals("n")) {
-      startDate = getLastAvailableDate(randomCode, true);
+      startDate = getLastAvailableDate(randomCode);
     }
 
     if (endDate.equals("N") || endDate.equals("n")) {
-      endDate = getLastAvailableDate(randomCode, true);
+      endDate = getLastAvailableDate(randomCode);
     }
 
     double totalCost = createPortfolio(portfolioName, information, amt, startDate);
@@ -193,12 +211,14 @@ public class StockModelImpl implements StockModel {
       for (Map.Entry<String, Double> e : information.entrySet()) {
         String company = e.getKey();
         String code = alphaVantage.searchCode(company);
-        String buyDate = getLastAvailableDate(code, false);
+        String buyDate = getNextAvailableDate(nextDate, code); // Use a new function instead.
+        System.out.println(company);
+        System.out.println(buyDate);
         double specificMoney = amt * e.getValue();
         double numOfShares = countShares(company, buyDate, "close", specificMoney);
         totalCost += buy(portfolioName, company, numOfShares, buyDate, "close");
-        nextDate = getNextNDate(nextDate, 30);
       }
+      nextDate = getNextNDate(nextDate, 30);
     }
     return totalCost;
   }
@@ -232,7 +252,7 @@ public class StockModelImpl implements StockModel {
 
     // Automatically fill the date.
     if (date.equals("N") || date.equals("n")) {
-      date = getLastAvailableDate(code, true);
+      date = getLastAvailableDate(code);
     }
 
     try {
