@@ -20,11 +20,38 @@ public class MockStockModel implements StockModel {
 
   @Override
   public double createPortfolio(String portfolioName, List<String> companyName, List<Double> percentage, double amt, String date) throws IllegalArgumentException {
+    log.append("create fixed");
+    log.append("\n");
+    log.append(portfolioName);
+    log.append("\n");
+    log.append(companyName.toString());
+    log.append("\n");
+    log.append(percentage.toString());
+    log.append("\n");
+    log.append(Double.toString(amt));
+    log.append("\n");
+    log.append(date);
+    log.append("\n");
     return 0.0;
   }
 
   @Override
-  public void dollarCostAverage(String portfolioName, List<String> companyName, List<Double> percentage, double amt, String startDate, String endDate) throws IllegalArgumentException {
+  public void dollarCostAverage(String portfolioName, List<String> companyName,
+                                List<Double> percentage, double amt, String startDate,
+                                String endDate) throws IllegalArgumentException {
+    log.append("create fixed ongoing\n");
+    log.append(portfolioName);
+    log.append("\n");
+    log.append(companyName.toString());
+    log.append("\n");
+    log.append(percentage.toString());
+    log.append("\n");
+    log.append(Double.toString(amt));
+    log.append("\n");
+    log.append(startDate);
+    log.append("\n");
+    log.append(endDate);
+    log.append("\n");
 
   }
 

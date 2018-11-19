@@ -103,7 +103,7 @@ public class StockControllerImpl implements StockController {
         output("Equal proportion or separate?(E/S)\n");
         String equal = input(scan);
         List<String> company = new ArrayList<>();
-        List<Double> proportionList = new ArrayList<>();
+        List<Double> percentage = new ArrayList<>();
         output("Number of companies?\n");
         int n = Integer.parseInt(input(scan));
         for (int i = 0; i < n; i++) {
@@ -111,15 +111,15 @@ public class StockControllerImpl implements StockController {
           String companyName = input(scan);
           company.add(companyName);
           if (equal.equals("S") || equal.equals("s")) {
-            output("Proportion in percentage?\n");
+            output("Proportion in percentage? E.g. input 23 to represent 23%.\n");
             double proportion = Double.parseDouble(input(scan)) / 100;
-            proportionList.add(proportion);
+            percentage.add(proportion);
           }
         }
 
         if (equal.equals("e") || equal.equals("E")) {
           for (int i = 0; i < n; i++) {
-            proportionList.add((double) (1 / n));
+            percentage.add(1.0 / n);
           }
         }
 
@@ -137,10 +137,12 @@ public class StockControllerImpl implements StockController {
           return;
         }
 
+        String startDate;
+        String endDate = "N";
         if (onGoing.equals("Y") || onGoing.equals("y")) {
 
           output("Provide a start date?(yyyy-mm-dd / N/n)\n");
-          String startDate = input(scan);
+          startDate = input(scan);
           if (isQuit(portfolioName)) {
             output("Quit.\n");
             return;
@@ -148,7 +150,7 @@ public class StockControllerImpl implements StockController {
 
           if (!startDate.equals("N") && !startDate.equals("n")) {
             output("Provide a end date?(yyyy-mm-dd / N/n)\n");
-            String endDate = input(scan);
+            endDate = input(scan);
             if (isQuit(portfolioName)) {
               output("Quit.\n");
               return;
@@ -156,7 +158,7 @@ public class StockControllerImpl implements StockController {
           }
 
           try {
-            // model.createPortfolio(portfolioName, companyName, proportionList, amount, startDate, endDate);
+            model.dollarCostAverage(portfolioName, company, percentage, amount, startDate, endDate);
           } catch (IllegalArgumentException e) {
             output(e.getMessage());
             continue;
@@ -170,7 +172,7 @@ public class StockControllerImpl implements StockController {
           }
 
           try {
-            // model.createFixedPortfolio(portfolioName, companyName, proportionList, amount, date);
+            model.createPortfolio(portfolioName, company, percentage, amount, date);
           } catch (IllegalArgumentException e) {
             output(e.getMessage());
             continue;
