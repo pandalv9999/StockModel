@@ -3,7 +3,7 @@ package model;
 public class StockImpl implements Stock {
 
   private final String code;
-  private final int shares;
+  private final double shares;
   private final double averageBuyInPrice;
 
   /**
@@ -14,7 +14,7 @@ public class StockImpl implements Stock {
    * @throws IllegalArgumentException If any argument is illegal.
    */
 
-  public StockImpl(String code, int shares, double averageBuyInPrice)
+  public StockImpl(String code, double shares, double averageBuyInPrice)
           throws IllegalArgumentException {
 
     if (code == null || code.isEmpty() || shares <= 0 || averageBuyInPrice < 0.0) {
@@ -32,7 +32,7 @@ public class StockImpl implements Stock {
   }
 
   @Override
-  public int getShares() {
+  public double getShares() {
     return this.shares;
   }
 

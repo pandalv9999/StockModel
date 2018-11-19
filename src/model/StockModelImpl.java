@@ -152,7 +152,7 @@ public class StockModelImpl implements StockModel {
     for (int i = 0; i < companyName.size(); i++) {
       double specificMoney = amt * percentage.get(i);
       String company = companyName.get(i);
-      double numOfShares = countShares(company, date, "low", specificMoney);
+      double numOfShares = countShares(company, date, "close", specificMoney);
       totalAmt += buy(portfolioName, company, (int) numOfShares, date); // change previous share to double, or just as this?
     }
 
@@ -206,8 +206,8 @@ public class StockModelImpl implements StockModel {
         String code = alphaVantage.searchCode(company);
         String buyDate = getLastAvailableDate(code, false);
         double specificMoney = amt * percentage.get(i);
-        double numOfShares = countShares(company, buyDate, "low", specificMoney);
-        totalCost += buy(portfolioName, company, (int) numOfShares, buyDate);
+        double numOfShares = countShares(company, buyDate, "close", specificMoney);
+        totalCost += buy(portfolioName, company, numOfShares, buyDate);
         nextDate = getNextNDate(nextDate, 30);
       }
     }
@@ -216,7 +216,7 @@ public class StockModelImpl implements StockModel {
 
   @Override
   public double buy(String portfolioName, String companyName,
-                    int shares, String date) throws IllegalArgumentException {
+                    double shares, String date) throws IllegalArgumentException {
 
     if (shares <= 0) {
       throw new IllegalArgumentException("The shares to buy must be positive");
@@ -254,9 +254,9 @@ public class StockModelImpl implements StockModel {
     if (currentPortfolio.get(code) != null) { // not null: contains the stock of the company.
 
       Stock st = currentPortfolio.get(code);
-      int oldShares = st.getShares();
+      double oldShares = st.getShares();
       double oldPrice = st.getAverageBuyInPrice();
-      int newShares = oldShares + shares;
+      double newShares = oldShares + shares;
       double newPrice = (oldPrice * oldShares + price * shares) / (shares + oldShares);
       currentPortfolio.remove(code);
       currentPortfolio.put(code, new StockImpl(code, newShares, newPrice));

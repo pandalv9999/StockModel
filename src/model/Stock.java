@@ -19,7 +19,7 @@ public interface Stock {
    * @return The number of shares.
    */
 
-  int getShares();
+  double getShares();
 
   /**
    * The method gets the current average by-in prices for all the share owned for a stock.

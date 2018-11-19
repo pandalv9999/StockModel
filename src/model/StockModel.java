@@ -36,7 +36,7 @@ public interface StockModel {
    */
 
   double buy(String portfolioName, String companyName,
-             int shares, String date) throws IllegalArgumentException;
+             double shares, String date) throws IllegalArgumentException;
 
   /**
    * The method determines the total costs of all stocks in a portfolio.
