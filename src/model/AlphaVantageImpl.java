@@ -29,7 +29,7 @@ public class AlphaVantageImpl implements AlphaVantage {
   private AlphaVantageImpl() {
     this.nameReference = new HashMap<>();
     this.prices = new HashMap<>();
-    this.keyCount = 4;
+    this.keyCount = 0;
     this.keys = new ArrayList<>();
     this.keys.add("J2C3I7JL8H090N10");
     this.keys.add("Q3VB628VO7MT9GBK");
