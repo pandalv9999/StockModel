@@ -247,8 +247,8 @@ public class StockControllerImpl implements StockController {
         }
       }
 
-      try {
-        model.dollarCostAverage(portfolioName, company, amount, startDate, endDate);
+      try {   // better to add a things to ask what should be the interval. 30 days, 60 days.
+        model.dollarCostAverage(portfolioName, company, amount, startDate, endDate, 30);
       } catch (IllegalArgumentException e) {
         output(e.getMessage());
         output("\n");

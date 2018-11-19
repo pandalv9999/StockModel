@@ -22,7 +22,7 @@ public interface StockModel {
           throws IllegalArgumentException;
 
   double dollarCostAverage(String portfolioName, Map<String, Double> information,
-                           double amt, String startDate, String endDate)
+                           double amt, String startDate, String endDate, int interval)
           throws IllegalArgumentException;
 
   /**

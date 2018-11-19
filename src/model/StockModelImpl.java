@@ -1,6 +1,5 @@
 package model;
 
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,7 +25,9 @@ public class StockModelImpl implements StockModel {
 
   // priceType can be high, low, open, close
   private double countShares(String companyName, String date, String priceType, double amount) {
-    double price = 0.0;
+
+    double price;
+
     try {
       String code = alphaVantage.searchCode(companyName);
       price = alphaVantage.getPrice(code, date, priceType);
@@ -37,8 +38,11 @@ public class StockModelImpl implements StockModel {
   }
 
   private String getLastAvailableDate(String code) {
+
     String nextDate = "";
+
     for (int i = 0; i < 10; i++) {
+
       try {
         Calendar today = Calendar.getInstance();
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -48,16 +52,20 @@ public class StockModelImpl implements StockModel {
         nextDate = format.format(today.getTime());
         alphaVantage.getClosePrice(code, nextDate);
         break;
+
       } catch (Exception e) {
-        continue;
+        // do nothing
       }
     }
     return nextDate;
   }
 
   private String getNextAvailableDate(String curDate, String code) {
+
     String nextDate = "";
+
     for (int i = 0; i < 10; i++) {
+
       try {
         Calendar today = Calendar.getInstance();
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -67,8 +75,9 @@ public class StockModelImpl implements StockModel {
         nextDate = format.format(today.getTime());
         alphaVantage.getClosePrice(code, nextDate);
         break;
+
       } catch (Exception e) {
-        continue;
+        // do nothing
       }
     }
     if (nextDate.equals("")) {
@@ -79,7 +88,9 @@ public class StockModelImpl implements StockModel {
 
 
   private String getNextNDate(String curDate, int n) {
+
     String nextDate = "";
+
     try {
       Calendar today = Calendar.getInstance();
       DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -87,9 +98,11 @@ public class StockModelImpl implements StockModel {
       today.setTime(date);
       today.add(Calendar.DAY_OF_YEAR, n);
       nextDate = format.format(today.getTime());
+
     } catch (Exception e) {
       return nextDate;
     }
+
     return nextDate;
   }
 
@@ -170,27 +183,20 @@ public class StockModelImpl implements StockModel {
       date = getLastAvailableDate(randomCode);
     }
 
-    double totalAmt = 0.0;
-
     createPortfolio(portfolioName);
     this.percentages.put(portfolioName, information);
-    totalAmt = buyByPercentage(portfolioName, amt, date);
 
-    return totalAmt;
+    return buyByPercentage(portfolioName, amt, date);
   }
 
   @Override
   public double dollarCostAverage(String portfolioName, Map<String, Double> information,
-                                  double amt, String startDate, String endDate)
+                                  double amt, String startDate, String endDate, int interval)
           throws IllegalArgumentException {
 
     if (information == null || information.isEmpty() || startDate.isEmpty() || endDate.isEmpty()) {
       throw new IllegalArgumentException("Invalid argument!");
     }
-
-//    if (Double.compare(information.values().stream().mapToDouble(b -> b).sum(), 1.0) != 0) {
-//      throw new IllegalArgumentException("The sum of all percentage is not one!");
-//    } duplicate in createPortfolio()
 
     String randomCode = "";
     for (String name : information.keySet()) {
@@ -205,7 +211,6 @@ public class StockModelImpl implements StockModel {
       throw new IllegalArgumentException("None of the companies exists!");
     }
 
-
     //Automatically get the start date and end date.
     if (startDate.equals("N") || startDate.equals("n")) {
       startDate = getLastAvailableDate(randomCode);
@@ -216,20 +221,21 @@ public class StockModelImpl implements StockModel {
     }
 
     double totalCost = createPortfolio(portfolioName, information, amt, startDate);
-    String nextDate = getNextNDate(startDate, 30);
+    String nextDate = getNextNDate(startDate, interval);
 
     while (compareDate(nextDate, endDate) < 0) {
+
       for (Map.Entry<String, Double> e : information.entrySet()) {
+
         String company = e.getKey();
         String code = alphaVantage.searchCode(company);
         String buyDate = getNextAvailableDate(nextDate, code); // Use a new function instead.
-//        System.out.println(company);
-//        System.out.println(buyDate);
         double specificMoney = amt * e.getValue();
         double numOfShares = countShares(company, buyDate, "close", specificMoney);
         totalCost += buy(portfolioName, company, numOfShares, buyDate, "close");
+
       }
-      nextDate = getNextNDate(nextDate, 30);
+      nextDate = getNextNDate(nextDate, interval);
     }
     return totalCost;
   }
@@ -325,6 +331,7 @@ public class StockModelImpl implements StockModel {
 
   @Override
   public double buyByPercentage(String portfolioName, double amt, String date) throws IllegalArgumentException {
+
     double totalAmt = 0.0;
     Map<String, Double> information;
     try {
