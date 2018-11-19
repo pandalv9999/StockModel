@@ -1,6 +1,9 @@
 package controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -43,6 +46,70 @@ public class StockControllerImpl implements StockController {
     } catch (IOException e) {
       throw new IllegalStateException("Output fails.");
     }
+  }
+
+  private String convertDate(SimpleDateFormat paradigm, SimpleDateFormat format, String date) {
+    String res = "";
+    try {
+      format.setLenient(false);
+      Date curDate = format.parse(date);
+      date = paradigm.format(curDate);
+      res = date;
+    } catch (ParseException e) {
+      return res;
+      // This does nothing.
+    }
+    return res;
+  }
+
+  private String inputDate(Scanner scan) throws IllegalArgumentException {
+    String date = input(scan);
+    if (date.equals("N") || date.equals("n") || date.equals("Q") || date.equals("q")) {
+      return date;
+    }
+    SimpleDateFormat paradigm = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd");
+    SimpleDateFormat format2 = new SimpleDateFormat("yyyy:MM:dd");
+    SimpleDateFormat format3 = new SimpleDateFormat("yyyy.MM.dd");
+    SimpleDateFormat format4 = new SimpleDateFormat("yyyyMMdd");
+    SimpleDateFormat format5 = new SimpleDateFormat("yyyy,MM,dd");
+
+    try {
+      paradigm.setLenient(false);
+      paradigm.parse(date);
+      return date;
+    } catch (ParseException e) {
+      // This does nothing.
+    }
+
+    String res = "";
+
+    res = convertDate(paradigm, format1, date);
+    if (!res.equals("")) {
+      return res;
+    }
+
+    res = convertDate(paradigm, format2, date);
+    if (!res.equals("")) {
+      return res;
+    }
+
+    res = convertDate(paradigm, format3, date);
+    if (!res.equals("")) {
+      return res;
+    }
+
+    res = convertDate(paradigm, format4, date);
+    if (!res.equals("")) {
+      return res;
+    }
+
+    res = convertDate(paradigm, format5, date);
+    if (!res.equals("")) {
+      return res;
+    }
+
+    throw new IllegalArgumentException("Invalid date.");
   }
 
   /**
@@ -120,7 +187,7 @@ public class StockControllerImpl implements StockController {
       if (command.equals("determinecost")) {
         try {
           determineCost(model, scan);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
           continue;
         }
       }
@@ -128,7 +195,7 @@ public class StockControllerImpl implements StockController {
       if (command.equals("determinevalue")) {
         try {
           determineValue(model, scan);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
           continue;
         }
       }
@@ -136,7 +203,7 @@ public class StockControllerImpl implements StockController {
       if (command.equals("determinefee")) {
         try {
           determineCommissionFee(model, scan);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
           continue;
         }
       }
@@ -232,7 +299,8 @@ public class StockControllerImpl implements StockController {
     if (onGoing.equals("Y") || onGoing.equals("y")) {
 
       output("Provide a start date?(yyyy-mm-dd / N/n)\n");
-      startDate = input(scan);
+      // startDate = input(scan);
+      startDate = inputDate(scan);
       if (isQuit(startDate)) {
         output("Quit.\n");
         return;
@@ -240,7 +308,8 @@ public class StockControllerImpl implements StockController {
 
       if (!startDate.equals("N") && !startDate.equals("n")) {
         output("Provide a end date?(yyyy-mm-dd / N/n)\n");
-        endDate = input(scan);
+        // endDate = input(scan);
+        endDate = inputDate(scan);
         if (isQuit(endDate)) {
           output("Quit.\n");
           return;
@@ -271,7 +340,8 @@ public class StockControllerImpl implements StockController {
       }
     } else {
       output("Provide a buying date?(yyyy-mm-dd / N/n)\n");
-      String date = input(scan);
+      // String date = input(scan);
+      String date = inputDate(scan);
       if (isQuit(date)) {
         output("Quit.\n");
         return;
@@ -344,7 +414,8 @@ public class StockControllerImpl implements StockController {
       break;
     }
     output("Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n");
-    String date = input(scan);
+    // String date = input(scan);
+    String date = inputDate(scan);
     if (isQuit(date)) {
       output("Quit.\n");
       return;
@@ -402,7 +473,7 @@ public class StockControllerImpl implements StockController {
       return;
     }
     output("Please input the date you want to check in format yyyy-mm-dd.\n");
-    String date = input(scan);
+    String date = inputDate(scan);
     if (isQuit(date)) {
       output("Quit.\n");
       return;
@@ -455,7 +526,8 @@ public class StockControllerImpl implements StockController {
     }
 
     output("Please input the date you want to buy in format yyyy-mm-dd/N/n.\n");
-    String date = input(scan);
+    // String date = input(scan);
+    String date = inputDate(scan);
     if (isQuit(date)) {
       output("Quit.\n");
       return;
