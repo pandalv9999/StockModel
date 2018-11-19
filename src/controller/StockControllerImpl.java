@@ -236,7 +236,7 @@ public class StockControllerImpl implements StockController {
         }
         Double res = 0.0;
         try {
-          res = model.buy(portfolioName, companyName, shares, date);
+          res = model.buy(portfolioName, companyName, shares, date, "low");
         } catch (IllegalArgumentException e) {
           output(e.getMessage());
           output("\n");

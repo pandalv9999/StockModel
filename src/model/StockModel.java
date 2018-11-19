@@ -2,6 +2,7 @@ package model;
 
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * The interface defines a StockModel where user can do some manipulation of stocks he owns.
@@ -17,26 +18,28 @@ public interface StockModel {
 
   void createPortfolio(String portfolioName) throws IllegalArgumentException;
 
-  double createPortfolio(String portfolioName, List<String> companyName,
-                       List<Double> percentage, double amt, String date)
+  double createPortfolio(String portfolioName, Map<String, Double> information,
+                         double amt, String date)
           throws IllegalArgumentException;
 
-  double dollarCostAverage(String portfolioName, List<String> companyName, List<Double> percentage,
+  double dollarCostAverage(String portfolioName, Map<String, Double> information,
                          double amt, String startDate, String endDate)
           throws IllegalArgumentException;
 
   /**
    * The method buy some stock in the market and add them to a designated Portfolio.
+   * Modify: add a parameter name priceType.
    * @param portfolioName The target Portfolio that user whats to put stocks in.
    * @param companyName The company's name of the desire stocks.
    * @param shares The desired number of shares.
    * @param date The date of the stock.
+   * @param priceType The type of price.
    * @return The total cost of this buy-in.
    * @throws IllegalArgumentException If any argument is illegal.
    */
 
   double buy(String portfolioName, String companyName,
-             double shares, String date) throws IllegalArgumentException;
+             double shares, String date, String priceType) throws IllegalArgumentException;
 
   /**
    * The method determines the total costs of all stocks in a portfolio.

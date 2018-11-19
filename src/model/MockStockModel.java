@@ -1,7 +1,7 @@
 package model;
 
 
-import java.util.List;
+import java.util.Map;
 
 public class MockStockModel implements StockModel {
 
@@ -19,14 +19,15 @@ public class MockStockModel implements StockModel {
   }
 
   @Override
-  public double createPortfolio(String portfolioName, List<String> companyName, List<Double> percentage, double amt, String date) throws IllegalArgumentException {
+  public double createPortfolio(String portfolioName,Map<String, Double> information,
+                                double amt, String date) throws IllegalArgumentException {
     log.append("create fixed");
     log.append("\n");
     log.append(portfolioName);
     log.append("\n");
-    log.append(companyName.toString());
+    log.append(information.keySet().toString());
     log.append("\n");
-    log.append(percentage.toString());
+    log.append(information.values().toString());
     log.append("\n");
     log.append(Double.toString(amt));
     log.append("\n");
@@ -36,15 +37,15 @@ public class MockStockModel implements StockModel {
   }
 
   @Override
-  public double dollarCostAverage(String portfolioName, List<String> companyName,
-                                List<Double> percentage, double amt, String startDate,
-                                String endDate) throws IllegalArgumentException {
+  public double dollarCostAverage(String portfolioName, Map<String, Double> information,
+                                  double amt, String startDate,
+                                  String endDate) throws IllegalArgumentException {
     log.append("create fixed ongoing\n");
     log.append(portfolioName);
     log.append("\n");
-    log.append(companyName.toString());
+    log.append(information.keySet().toString());
     log.append("\n");
-    log.append(percentage.toString());
+    log.append(information.values().toString());
     log.append("\n");
     log.append(Double.toString(amt));
     log.append("\n");
@@ -57,8 +58,8 @@ public class MockStockModel implements StockModel {
   }
 
   @Override
-  public double buy(String portfolioName, String companyName, int shares, String date)
-          throws IllegalArgumentException {
+  public double buy(String portfolioName, String companyName,
+             double shares, String date, String priceType) throws IllegalArgumentException {
     log.append("buy ");
     log.append(portfolioName);
     log.append(" ");
@@ -67,6 +68,8 @@ public class MockStockModel implements StockModel {
     log.append(shares);
     log.append(" ");
     log.append(date);
+    log.append(" ");
+    log.append(priceType);
     log.append(" \n");
     return 0;
   }

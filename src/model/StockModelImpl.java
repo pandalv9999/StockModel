@@ -6,14 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class StockModelImpl implements StockModel {
 
   private Map<String, Map<String, Stock>> portfolio;
   private Map<String, Integer> counter;
-  private Map<String, List<Double>> percentages;
+  private Map<String, Map<String, Double>> percentages;
   private AlphaVantageImpl alphaVantage;
   private final double commissionFee;
 
@@ -113,26 +112,24 @@ public class StockModelImpl implements StockModel {
   }
 
   @Override
-  public double createPortfolio(String portfolioName, List<String> companyName,
-                                List<Double> percentage, double amt, String date)
+  public double createPortfolio(String portfolioName, Map<String, Double> information, double amt, String date)
           throws IllegalArgumentException {
 
-    if (companyName.isEmpty() || percentage.isEmpty()
-            || date.isEmpty() || percentage.size() != companyName.size()) {
+    if (information == null || information.isEmpty() || date.isEmpty() ) {
       throw new IllegalArgumentException("Invalid argument!");
     }
 
-    if (Double.compare(percentage.stream().mapToDouble(b -> b).sum(), 1.0) != 0) {
+    if (Double.compare(information.values().stream().mapToDouble(b -> b).sum(), 1.0) != 0) {
       throw new IllegalArgumentException("The sum of all percentage is not one!");
     }
 
     String randomCode = "";
-    for (int i = 0; i < companyName.size(); i++) {
+    for (String name : information.keySet()) {
       try {
-        randomCode = alphaVantage.searchCode(companyName.get(i));
+        randomCode = alphaVantage.searchCode(name);
         break;
       } catch (IllegalArgumentException e) {
-        continue;
+        // do nothing
       }
     }
     if (randomCode.equals("")) {
@@ -147,40 +144,38 @@ public class StockModelImpl implements StockModel {
     double totalAmt = 0.0;
 
     createPortfolio(portfolioName);
-    this.percentages.put(portfolioName, percentage);
+    this.percentages.put(portfolioName, information);
 
-    for (int i = 0; i < companyName.size(); i++) {
-      double specificMoney = amt * percentage.get(i);
-      String company = companyName.get(i);
+    for (Map.Entry<String, Double> e : information.entrySet()) {
+      double specificMoney = amt * e.getValue();
+      String company = e.getKey();
       double numOfShares = countShares(company, date, "close", specificMoney);
-      totalAmt += buy(portfolioName, company, (int) numOfShares, date); // change previous share to double, or just as this?
+      totalAmt += buy(portfolioName, company, (int) numOfShares, date, "close"); // change previous share to double, or just as this?
     }
 
     return totalAmt;
   }
 
   @Override
-  public double dollarCostAverage(String portfolioName, List<String> companyName,
-                                List<Double> percentage, double amt, String startDate,
-                                String endDate)
+  public double dollarCostAverage(String portfolioName,  Map<String, Double> information,
+                                  double amt, String startDate, String endDate)
           throws IllegalArgumentException {
 
-    if (companyName.isEmpty() || percentage.isEmpty() || endDate.isEmpty()
-            || startDate.isEmpty() || percentage.size() != companyName.size()) {
+    if (information == null || information.isEmpty() || startDate.isEmpty() || endDate.isEmpty() ) {
       throw new IllegalArgumentException("Invalid argument!");
     }
 
-    if (Double.compare(percentage.stream().mapToDouble(b -> b).sum(), 1.0) != 0) {
+    if (Double.compare(information.values().stream().mapToDouble(b -> b).sum(), 1.0) != 0) {
       throw new IllegalArgumentException("The sum of all percentage is not one!");
     }
 
     String randomCode = "";
-    for (int i = 0; i < companyName.size(); i++) {
+    for (String name : information.keySet()) {
       try {
-        randomCode = alphaVantage.searchCode(companyName.get(i));
+        randomCode = alphaVantage.searchCode(name);
         break;
       } catch (IllegalArgumentException e) {
-        continue;
+        // do nothing
       }
     }
     if (randomCode.equals("")) {
@@ -197,17 +192,17 @@ public class StockModelImpl implements StockModel {
       endDate = getLastAvailableDate(randomCode, true);
     }
 
-    double totalCost = createPortfolio(portfolioName, companyName, percentage, amt, startDate);
+    double totalCost = createPortfolio(portfolioName, information, amt, startDate);
     String nextDate = getNextNDate(startDate, 30);
 
     while (compareDate(nextDate, endDate) < 0) {
-      for (int i = 0; i < companyName.size(); i++) {
-        String company = companyName.get(i);
+      for (Map.Entry<String, Double> e : information.entrySet()) {
+        String company = e.getKey();
         String code = alphaVantage.searchCode(company);
         String buyDate = getLastAvailableDate(code, false);
-        double specificMoney = amt * percentage.get(i);
+        double specificMoney = amt * e.getValue();
         double numOfShares = countShares(company, buyDate, "close", specificMoney);
-        totalCost += buy(portfolioName, company, numOfShares, buyDate);
+        totalCost += buy(portfolioName, company, numOfShares, buyDate, "close");
         nextDate = getNextNDate(nextDate, 30);
       }
     }
@@ -216,7 +211,7 @@ public class StockModelImpl implements StockModel {
 
   @Override
   public double buy(String portfolioName, String companyName,
-                    double shares, String date) throws IllegalArgumentException {
+                    double shares, String date, String priceType) throws IllegalArgumentException {
 
     if (shares <= 0) {
       throw new IllegalArgumentException("The shares to buy must be positive");
@@ -226,7 +221,8 @@ public class StockModelImpl implements StockModel {
       throw new IllegalArgumentException("The portfolio is not yet created!");
     }
 
-    if (date == null || portfolioName == null || companyName == null || date.isEmpty()) {
+    if (date == null || portfolioName == null || companyName == null || date.isEmpty()
+            || priceType == null || priceType.isEmpty()) {
       throw new IllegalArgumentException("String entered is invalid.");
     }
 
@@ -246,7 +242,7 @@ public class StockModelImpl implements StockModel {
     }
 
     try {
-      price = alphaVantage.getPrice(code, date, "low");
+      price = alphaVantage.getPrice(code, date, priceType);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("There is no price on this date.");
     }
@@ -305,12 +301,6 @@ public class StockModelImpl implements StockModel {
   @Override
   public double buyByPercentage(String portfolioName, double amt) throws IllegalArgumentException {
 
-    List<Double> currPercentage = percentages.get(portfolioName);
-    Map<String, Stock> currPortfolio = portfolio.get(portfolioName);
-
-    if (currPercentage == null) {
-      throw new IllegalArgumentException("The portfolio has no preset percentage.");
-    }
 
     // To Be implemented
 
