@@ -39,7 +39,7 @@ public class MockStockModel implements StockModel {
   @Override
   public double dollarCostAverage(String portfolioName, Map<String, Double> information,
                                   double amt, String startDate,
-                                  String endDate) throws IllegalArgumentException {
+                                  String endDate, int interval) throws IllegalArgumentException {
     log.append("create fixed ongoing\n");
     log.append(portfolioName);
     log.append("\n");
@@ -52,6 +52,8 @@ public class MockStockModel implements StockModel {
     log.append(startDate);
     log.append("\n");
     log.append(endDate);
+    log.append("\n");
+    log.append(interval);
     log.append("\n");
     return 0;
 

@@ -37,6 +37,7 @@ public class StockModelImpl implements StockModel {
   }
 
   private String getLastAvailableDate(String code) {
+
     String nextDate = "";
     for (int i = 0; i < 10; i++) {
       try {
@@ -49,7 +50,7 @@ public class StockModelImpl implements StockModel {
         alphaVantage.getClosePrice(code, nextDate);
         break;
       } catch (Exception e) {
-        continue;
+        // do nothing
       }
     }
     return nextDate;
@@ -68,7 +69,7 @@ public class StockModelImpl implements StockModel {
         alphaVantage.getClosePrice(code, nextDate);
         break;
       } catch (Exception e) {
-        continue;
+        // do nothing
       }
     }
     if (nextDate.equals("")) {
@@ -159,27 +160,20 @@ public class StockModelImpl implements StockModel {
       date = getLastAvailableDate(randomCode);
     }
 
-    double totalAmt = 0.0;
-
     createPortfolio(portfolioName);
     this.percentages.put(portfolioName, information);
-    totalAmt = buyByPercentage(portfolioName, amt, date);
 
-    return totalAmt;
+    return buyByPercentage(portfolioName, amt, date);
   }
 
   @Override
   public double dollarCostAverage(String portfolioName, Map<String, Double> information,
-                                  double amt, String startDate, String endDate)
+                                  double amt, String startDate, String endDate, int interval)
           throws IllegalArgumentException {
 
     if (information == null || information.isEmpty() || startDate.isEmpty() || endDate.isEmpty()) {
       throw new IllegalArgumentException("Invalid argument!");
     }
-
-//    if (Double.compare(information.values().stream().mapToDouble(b -> b).sum(), 1.0) != 0) {
-//      throw new IllegalArgumentException("The sum of all percentage is not one!");
-//    } duplicate in createPortfolio()
 
     String randomCode = "";
     for (String name : information.keySet()) {
@@ -205,7 +199,7 @@ public class StockModelImpl implements StockModel {
     }
 
     double totalCost = createPortfolio(portfolioName, information, amt, startDate);
-    String nextDate = getNextNDate(startDate, 30);
+    String nextDate = getNextNDate(startDate, interval);
 
     while (compareDate(nextDate, endDate) < 0) {
       for (Map.Entry<String, Double> e : information.entrySet()) {
@@ -218,7 +212,7 @@ public class StockModelImpl implements StockModel {
         double numOfShares = countShares(company, buyDate, "close", specificMoney);
         totalCost += buy(portfolioName, company, numOfShares, buyDate, "close");
       }
-      nextDate = getNextNDate(nextDate, 30);
+      nextDate = getNextNDate(nextDate, interval);
     }
     return totalCost;
   }
@@ -314,6 +308,7 @@ public class StockModelImpl implements StockModel {
 
   @Override
   public double buyByPercentage(String portfolioName, double amt, String date) throws IllegalArgumentException {
+
     double totalAmt = 0.0;
     Map<String, Double> information;
     try {
