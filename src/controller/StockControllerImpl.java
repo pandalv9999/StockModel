@@ -176,17 +176,34 @@ public class StockControllerImpl implements StockController {
     }
     output("Equal proportion or separate?(E/S)\n");
     String equal = input(scan);
+    if (isQuit(equal)) {
+      output("Quit.\n");
+      return;
+    }
     Map<String, Double> company = new HashMap<>();
-    // List<Double> percentage = new ArrayList<>();
     output("Number of companies?\n");
-    int n = Integer.parseInt(input(scan));
+    int n;
+    try {
+      n = Integer.parseInt(input(scan));
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("Illegal number.");
+    }
     for (int i = 0; i < n; i++) {
       output("Name of company?\n");
       String companyName = input(scan);
+
+      if (isQuit(companyName)) {
+        output("Quit.\n");
+        return;
+      }
       double proportion = 1.0 / n;
       if (equal.equals("S") || equal.equals("s")) {
-        output("Proportion in percentage? E.g. input 23 to represent 23%.\n");
-        proportion = Double.parseDouble(input(scan)) / 100;
+        output("Proportion in percentage? E.g. input 30 to represent 30%.\n");
+        try {
+          proportion = Double.parseDouble(input(scan)) / 100.0;
+        } catch (IllegalArgumentException e) {
+          throw new IllegalArgumentException("Illegal number.");
+        }
       }
       company.put(companyName, proportion);
     }
@@ -196,7 +213,7 @@ public class StockControllerImpl implements StockController {
     try {
       amount = Double.parseDouble(input(scan));
     } catch (IllegalArgumentException e) {
-      throw new IllegalArgumentException("Illegal number");
+      throw new IllegalArgumentException("Illegal number.");
     }
     if (isQuit(portfolioName)) {
       output("Quit.\n");
@@ -205,7 +222,7 @@ public class StockControllerImpl implements StockController {
 
     output("Ongoing? Y/N\n");
     String onGoing = input(scan);
-    if (isQuit(portfolioName)) {
+    if (isQuit(onGoing)) {
       output("Quit.\n");
       return;
     }
@@ -216,7 +233,7 @@ public class StockControllerImpl implements StockController {
 
       output("Provide a start date?(yyyy-mm-dd / N/n)\n");
       startDate = input(scan);
-      if (isQuit(portfolioName)) {
+      if (isQuit(startDate)) {
         output("Quit.\n");
         return;
       }
@@ -224,7 +241,7 @@ public class StockControllerImpl implements StockController {
       if (!startDate.equals("N") && !startDate.equals("n")) {
         output("Provide a end date?(yyyy-mm-dd / N/n)\n");
         endDate = input(scan);
-        if (isQuit(portfolioName)) {
+        if (isQuit(endDate)) {
           output("Quit.\n");
           return;
         }
@@ -234,12 +251,13 @@ public class StockControllerImpl implements StockController {
         model.dollarCostAverage(portfolioName, company, amount, startDate, endDate);
       } catch (IllegalArgumentException e) {
         output(e.getMessage());
+        output("\n");
         throw new IllegalArgumentException();
       }
     } else {
       output("Provide a buying date?(yyyy-mm-dd / N/n)\n");
       String date = input(scan);
-      if (isQuit(portfolioName)) {
+      if (isQuit(date)) {
         output("Quit.\n");
         return;
       }
@@ -248,10 +266,21 @@ public class StockControllerImpl implements StockController {
         model.createPortfolio(portfolioName, company, amount, date);
       } catch (IllegalArgumentException e) {
         output(e.getMessage());
+        output("\n");
         throw new IllegalArgumentException();
       }
     }
-    output("Created a Fixed portfolio successfully.\n");
+    Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
+    output("Created a Fixed portfolio successfully " + "with commission fee $"
+            + Double.toString(commissionFeeAfter) + "\n");
+    output("The total cost is $"
+            + Double.toString(model.determineCost(portfolioName)
+            + model.determineCommissionFee(portfolioName)) + "\n");
+    output("Commission fee is of "
+            + Double.toString(model.determineCommissionFee(portfolioName)
+            / (model.determineCost(portfolioName) + model.determineCommissionFee(portfolioName))
+            * 100.0)
+            + "%\n");
   }
 
   private void create(StockModel model, Scanner scan) {
@@ -267,7 +296,7 @@ public class StockControllerImpl implements StockController {
       output(e.getMessage());
       throw new IllegalArgumentException();
     }
-    output("Created a portfolio successfully.\n");
+    output("Created an empty portfolio successfully.\n");
   }
 
   private void buy(StockModel model, Scanner scan) {
@@ -306,6 +335,8 @@ public class StockControllerImpl implements StockController {
       return;
     }
     Double res = 0.0;
+
+    Double commissionFeeBefore = model.determineCommissionFee(portfolioName);
     try {
       res = model.buy(portfolioName, companyName, shares, date, "low");
     } catch (IllegalArgumentException e) {
@@ -313,8 +344,17 @@ public class StockControllerImpl implements StockController {
       output("\n");
       throw new IllegalArgumentException();
     }
+    Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
     output("Successfully bought " + companyName + " with " + shares + " shares on " + date
-            + " and cost is  $" + res.toString() + "\n");
+            + " and total cost is $"
+            + Double.toString(res + commissionFeeAfter - commissionFeeBefore)
+            + " with commission fee $"
+            + Double.toString(commissionFeeAfter - commissionFeeBefore) + "\n");
+    output("Commission fee is of "
+            + Double.toString((commissionFeeAfter - commissionFeeBefore)
+            / (res + commissionFeeAfter - commissionFeeBefore)
+            * 100.0)
+            + "%\n");
   }
 
   private void determineCost(StockModel model, Scanner scan) {
@@ -332,7 +372,11 @@ public class StockControllerImpl implements StockController {
       output("\n");
       throw new IllegalArgumentException();
     }
-    output("The total cost of buying in is $" + Double.toString(res) + "\n");
+    Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
+    output("The cost basis of buying in " + portfolioName + " is $" + Double.toString(res)
+            + " with commission fee $"
+            + Double.toString(commissionFeeAfter)
+            + "\n");
   }
 
   private void determineValue(StockModel model, Scanner scan) {
@@ -395,7 +439,7 @@ public class StockControllerImpl implements StockController {
       throw new IllegalArgumentException("Illegal number");
     }
 
-    output("Please input the date you want to buy in format yyyy-mm-dd.\n");
+    output("Please input the date you want to buy in format yyyy-mm-dd/N/n.\n");
     String date = input(scan);
     if (isQuit(date)) {
       output("Quit.\n");
@@ -403,6 +447,7 @@ public class StockControllerImpl implements StockController {
     }
 
     Double res = 0.0;
+    Double commissionFeeBefore = model.determineCommissionFee(portfolioName);
     try {
       res = model.buyByPercentage(portfolioName, amount, date);
     } catch (IllegalArgumentException e) {
@@ -410,8 +455,16 @@ public class StockControllerImpl implements StockController {
       output("\n");
       throw new IllegalArgumentException();
     }
+    Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
     output("The cost of buying this portfolio is $"
-            + Double.toString(res) + "\n");
+            + Double.toString(res + commissionFeeAfter - commissionFeeBefore)
+            + " with commission fee $"
+            + Double.toString(commissionFeeAfter - commissionFeeBefore) + "\n");
+    output("Commission fee is of "
+            + Double.toString((commissionFeeAfter - commissionFeeBefore)
+            / (model.determineCost(portfolioName) + commissionFeeAfter - commissionFeeBefore)
+            * 100)
+            + "% in this transaction.\n");
   }
 
   private void getState(StockModel model, Scanner scan) {

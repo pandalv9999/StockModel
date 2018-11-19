@@ -117,6 +117,17 @@ public class StockModelImpl implements StockModel {
     }
   }
 
+  private boolean isValid(String dateSt) {
+    try {
+      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+      format.setLenient(false);
+      Date date = format.parse(dateSt);
+    } catch (Exception ex) {
+      return false;
+    }
+    return true;
+  }
+
   @Override
   public void createPortfolio(String portfolioName) throws IllegalArgumentException {
 
@@ -268,7 +279,7 @@ public class StockModelImpl implements StockModel {
       double oldPrice = st.getAverageBuyInPrice();
       double newShares = oldShares + shares;
       double newPrice = (oldPrice * oldShares + price * shares) / (shares + oldShares);
-      currentPortfolio.remove(code);
+      // currentPortfolio.remove(code);
       currentPortfolio.put(code, new StockImpl(code, newShares, newPrice));
 
     } else {
@@ -276,7 +287,7 @@ public class StockModelImpl implements StockModel {
     }
 
     int count = counter.get(portfolioName);
-    counter.remove(portfolioName);
+    // counter.remove(portfolioName);
     counter.put(portfolioName, count + 1);
     return price * shares; // return the total cost
   }
@@ -322,11 +333,25 @@ public class StockModelImpl implements StockModel {
       throw new IllegalArgumentException("There is no such buying plan.");
     }
 
+    if (date.equals("n") || date.equals("N")) {
+      for (Map.Entry<String, Double> e : information.entrySet()) {
+        try {
+          String company = e.getKey();
+          String randomCode = alphaVantage.searchCode(company);
+          date = getLastAvailableDate(randomCode);
+          break;
+        } catch (IllegalArgumentException g) {
+          continue;
+        }
+      }
+    }
+
     for (Map.Entry<String, Double> e : information.entrySet()) {
-      double specificMoney = amt * e.getValue();
       String company = e.getKey();
-      double numOfShares = countShares(company, date, "close", specificMoney);
-      totalAmt += buy(portfolioName, company, numOfShares, date, "close"); // change previous share to double
+      double specificMoney = amt * e.getValue();
+      String buyDate = getNextAvailableDate(date, alphaVantage.searchCode(company));
+      double numOfShares = countShares(company, buyDate, "close", specificMoney);
+      totalAmt += buy(portfolioName, company, numOfShares, buyDate, "close"); // change previous share to double
     }
 
     return totalAmt;
@@ -356,7 +381,8 @@ public class StockModelImpl implements StockModel {
     for (Stock st : portfolio.get(portfolioName).values()) {
       state.append(st.getCurrentState()).append("\n");
     }
-
+    state.append("The commission fee of this portfolio is $")
+            .append(String.format("%.2f", determineCommissionFee(portfolioName))).append("\n");
     return state.toString();
   }
 
