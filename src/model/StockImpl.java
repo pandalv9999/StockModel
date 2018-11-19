@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Modification: make the number of shares to be double.
+ */
+
 public class StockImpl implements Stock {
 
   private final String code;
