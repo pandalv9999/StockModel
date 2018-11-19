@@ -2,7 +2,9 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -102,26 +104,26 @@ public class StockControllerImpl implements StockController {
         }
         output("Equal proportion or separate?(E/S)\n");
         String equal = input(scan);
-        List<String> company = new ArrayList<>();
-        List<Double> percentage = new ArrayList<>();
+        Map<String, Double> company = new HashMap<>();
+        // List<Double> percentage = new ArrayList<>();
         output("Number of companies?\n");
         int n = Integer.parseInt(input(scan));
         for (int i = 0; i < n; i++) {
           output("Name of company?\n");
           String companyName = input(scan);
-          company.add(companyName);
+          double proportion = 1.0 / n;
           if (equal.equals("S") || equal.equals("s")) {
             output("Proportion in percentage? E.g. input 23 to represent 23%.\n");
-            double proportion = Double.parseDouble(input(scan)) / 100;
-            percentage.add(proportion);
+            proportion = Double.parseDouble(input(scan)) / 100;
           }
+          company.put(companyName, proportion);
         }
 
-        if (equal.equals("e") || equal.equals("E")) {
-          for (int i = 0; i < n; i++) {
-            percentage.add(1.0 / n);
-          }
-        }
+//        if (equal.equals("e") || equal.equals("E")) {
+//          for (int i = 0; i < n; i++) {
+//            percentage.add(1.0 / n);
+//          }
+//        }
 
         output("Amount of investment?\n");
         double amount = Double.parseDouble(input(scan));
@@ -158,7 +160,7 @@ public class StockControllerImpl implements StockController {
           }
 
           try {
-            model.dollarCostAverage(portfolioName, company, percentage, amount, startDate, endDate);
+            model.dollarCostAverage(portfolioName, company, amount, startDate, endDate);
           } catch (IllegalArgumentException e) {
             output(e.getMessage());
             continue;
@@ -172,7 +174,7 @@ public class StockControllerImpl implements StockController {
           }
 
           try {
-            model.createPortfolio(portfolioName, company, percentage, amount, date);
+            model.createPortfolio(portfolioName, company, amount, date);
           } catch (IllegalArgumentException e) {
             output(e.getMessage());
             continue;
