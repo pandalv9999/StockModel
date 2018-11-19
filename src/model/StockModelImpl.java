@@ -132,6 +132,7 @@ public class StockModelImpl implements StockModel {
       throw new IllegalArgumentException("None of the companies exists!");
     }
 
+    //Automatically get the date.
     if (date.equals("N") || date.equals("n")) {
       date = getLastAvailableDate(randomCode);
     }
@@ -163,6 +164,29 @@ public class StockModelImpl implements StockModel {
 
     if (Double.compare(percentage.stream().mapToDouble(b -> b).sum(), 1.0) != 0) {
       throw new IllegalArgumentException("The sum of all percentage is not one!");
+    }
+
+    String randomCode = "";
+    for (int i = 0; i < companyName.size(); i++) {
+      try {
+        randomCode = alphaVantage.searchCode(companyName.get(i));
+        break;
+      } catch (IllegalArgumentException e) {
+        continue;
+      }
+    }
+    if (randomCode.equals("")) {
+      throw new IllegalArgumentException("None of the companies exists!");
+    }
+
+
+    //Automatically get the start date and end date.
+    if (startDate.equals("N") || startDate.equals("n")) {
+      startDate = getLastAvailableDate(randomCode);
+    }
+
+    if (endDate.equals("N") || endDate.equals("n")) {
+      endDate = getLastAvailableDate(randomCode);
     }
 
     createPortfolio(portfolioName, companyName, percentage, amt, startDate);
