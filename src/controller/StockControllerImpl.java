@@ -226,7 +226,7 @@ public class StockControllerImpl implements StockController {
           }
           break;
         }
-        output("Please input the date you want to buy in format yyyy-mm-dd.\n");
+        output("Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n");
         String date = input(scan);
         if (isQuit(date)) {
           output("Quit.\n");

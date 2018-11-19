@@ -230,6 +230,11 @@ public class StockModelImpl implements StockModel {
       throw new IllegalArgumentException("There is no information for the provided company name.");
     }
 
+    // Automatically fill the date.
+    if (date.equals("N") || date.equals("n")) {
+      date = getLastAvailableDate(code);
+    }
+
     try {
       price = alphaVantage.getPrice(code, date, "low");
     } catch (IllegalArgumentException e) {

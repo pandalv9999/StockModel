@@ -16,7 +16,7 @@ public class Main {
 
   public static void main(String[] args) {
     new StockControllerImpl(new InputStreamReader(System.in), System.out)
-            .start(StockModelImpl.getBuilder().build());
+            .start(StockModelImpl.getBuilder().commissionFee(0.0).build());
   }
 }
 
