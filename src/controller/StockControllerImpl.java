@@ -355,15 +355,16 @@ public class StockControllerImpl implements StockController {
         throw new IllegalArgumentException();
       }
     }
+    Double cost = model.determineCost(portfolioName);
     Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
     output("Created a Fixed portfolio successfully " + "with commission fee $"
             + Double.toString(commissionFeeAfter) + "\n");
     output("The total cost is $"
-            + Double.toString(model.determineCost(portfolioName)
-            + model.determineCommissionFee(portfolioName)) + "\n");
+            + Double.toString(cost
+            + commissionFeeAfter) + "\n");
     output("Commission fee is of "
-            + Double.toString(model.determineCommissionFee(portfolioName)
-            / (model.determineCost(portfolioName) + model.determineCommissionFee(portfolioName))
+            + Double.toString(commissionFeeAfter
+            / (cost + commissionFeeAfter)
             * 100.0)
             + "%\n");
   }
@@ -520,7 +521,12 @@ public class StockControllerImpl implements StockController {
     double amount = 0.0;
     output("Amount of investment?\n");
     try {
-      amount = Double.parseDouble(input(scan));
+      String st = input(scan);
+      if (isQuit(st)) {
+        output("Quit.\n");
+        return;
+      }
+      amount = Double.parseDouble(st);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Illegal number");
     }

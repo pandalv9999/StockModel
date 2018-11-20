@@ -29,7 +29,7 @@ public class AlphaVantageImpl implements AlphaVantage {
   private AlphaVantageImpl() {
     this.nameReference = new HashMap<>();
     this.prices = new HashMap<>();
-    this.keyCount = 0;
+    this.keyCount = 2;
     this.keys = new ArrayList<>();
     this.keys.add("J2C3I7JL8H090N10");
     this.keys.add("Q3VB628VO7MT9GBK");
@@ -134,7 +134,8 @@ public class AlphaVantageImpl implements AlphaVantage {
       throw new IllegalArgumentException("No code data found for " + companyName);
     }
     String[] row = value[1].split(",");
-    this.nameReference.put(companyName, row[0]); // Use the first search result as its code.
+    this.nameReference.put(companyName, row[0]);
+    this.nameReference.put(row[0], row[0]); // Use the first search result as its code.
   }
 
   @Override
