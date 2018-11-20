@@ -438,6 +438,50 @@ public class StockControllerImplTest {
 
 
   @Test
+  public void realCreateFixedTesting() {
+    StockModel stockModel = StockModelImpl
+            .getBuilder()
+            .commissionFee(5.0)
+            .build();
+
+    Reader in = new StringReader("createfixed p1 s 2 microsoft 40 netflix 60 "
+            + "2000 y 20180101 20181112 30\n"
+            + "getallstate "
+            + "q");
+
+    StringBuffer out = new StringBuffer();
+    StockControllerImpl controller = new StockControllerImpl(in, out);
+    controller.start(stockModel);
+    assertEquals("Welcome to the stock trading system.\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "Please input the portfolio's name.\n" +
+            "Equal proportion or separate?(E/S)\n" +
+            "Number of companies?\n" +
+            "Name of company?\n" +
+            "Proportion in percentage? E.g. input 30 to represent 30%.\n" +
+            "Name of company?\n" +
+            "Proportion in percentage? E.g. input 30 to represent 30%.\n" +
+            "Amount of investment?\n" +
+            "Ongoing? Y/N\n" +
+            "Provide a start date?(yyyy-mm-dd / N/n)\n" +
+            "Provide a end date?(yyyy-mm-dd / N/n)\n" +
+            "Provide a interval in days?(e.g 15, 30, 60 / N/n)\n" +
+            "Created a Fixed portfolio successfully with commission fee $110.0\n" +
+            "The total cost is $22110.0\n" +
+            "Commission fee is of 0.4975124378109453%\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "The state of all portfolios:\n" +
+            "p1:\n" +
+            "Code: NFLX, Shares: 43.20, Average Buy-in Price: 305.59\n" +
+            "Code: MSFT, Shares: 89.31, Average Buy-in Price: 98.53\n" +
+            "The commission fee of this portfolio is $110.00\n" +
+            "\n" +
+            "\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "Quit.\n", out.toString());
+  }
+
+  @Test
   public void realTesting() {
     StockModel stockModel = StockModelImpl
             .getBuilder()
