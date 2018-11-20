@@ -49,12 +49,15 @@ public class StockModelTestPlus {
   }
 
   @Test
-  public void dollarCostAverage() {
+  public void dollarCostAverageAndCommissionFee() {
+    double cost = myModel.dollarCostAverage("2", information,
+            30000.0, "2016-09-13", "2018-09-21", 30);
+    assertEquals(30000 * 25, cost, 0.01);
+    assertEquals(25 * 3 * 5, myModel.determineCommissionFee("2"), 0.01);
+    System.out.println(myModel.getPortfolioState("2"));
+
   }
 
-  @Test
-  public void determineCommissionFee() {
-  }
 
   @Test
   public void buyByPercentage() {
