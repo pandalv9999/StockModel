@@ -15,6 +15,11 @@ public class StockModelImpl implements StockModel {
   private AlphaVantageImpl alphaVantage;
   private final double commissionFee;
 
+  /**
+   * The constructor build up a stock model with certain commission fee.
+   *
+   * @param commissionFee The commission fee in every transactions.
+   */
   private StockModelImpl(double commissionFee) {
     this.portfolio = new HashMap<>();
     this.alphaVantage = AlphaVantageImpl.getInstance();
@@ -23,7 +28,15 @@ public class StockModelImpl implements StockModel {
     this.percentages = new HashMap<>();
   }
 
-  // priceType can be high, low, open, close
+  /**
+   * This method will count how many shares you can buy with an amount of money.
+   *
+   * @param companyName The company name you want to buy.
+   * @param date        The date you want to buy.
+   * @param priceType   The price type you want to buy.
+   * @param amount      The amount of investment.
+   * @return The amount of shares you can buy with this money.
+   */
   private double countShares(String companyName, String date, String priceType, double amount) {
 
     double price;
@@ -37,6 +50,12 @@ public class StockModelImpl implements StockModel {
     return amount / price;
   }
 
+  /**
+   * This method get the last available buying date of a certain company.
+   *
+   * @param code The company's you want to buy.
+   * @return The string of date you can buy.
+   */
   private String getLastAvailableDate(String code) {
 
     String nextDate = "";
@@ -60,6 +79,14 @@ public class StockModelImpl implements StockModel {
     return nextDate;
   }
 
+  /**
+   * This method will find the next available trading date you can buy. The biggest interval is 15
+   * days.
+   *
+   * @param curDate The date you want to buy.
+   * @param code    The code of the company you want to buy.
+   * @return The date you can buy.
+   */
   private String getNextAvailableDate(String curDate, String code) {
 
     String nextDate = "";
@@ -87,6 +114,14 @@ public class StockModelImpl implements StockModel {
   }
 
 
+  /**
+   * This method is a helper function. It will get a date that is n days after the current date you
+   * provide.
+   *
+   * @param curDate The current date.
+   * @param n       The interval's length.
+   * @return A date string that is n days after the current date you provide.
+   */
   private String getNextNDate(String curDate, int n) {
 
     String nextDate = "";
@@ -106,6 +141,14 @@ public class StockModelImpl implements StockModel {
     return nextDate;
   }
 
+  /**
+   * This method will compare two given dates and tell you which is earlier.
+   *
+   * @param dateOne The date you want to compare.
+   * @param dateTwo The date you want to compare.
+   * @return -1 means dateOne is earlier, 1 means dateTwo is earlier. If they are the same date, it
+   * will return 0.
+   */
   private int compareDate(String dateOne, String dateTwo) {
 
     int yearOne = Integer.parseInt(dateOne.substring(0, 4));
@@ -128,17 +171,6 @@ public class StockModelImpl implements StockModel {
         return Integer.compare(dayOne, dayTwo);
       }
     }
-  }
-
-  private boolean isValid(String dateSt) {
-    try {
-      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-      format.setLenient(false);
-      Date date = format.parse(dateSt);
-    } catch (Exception ex) {
-      return false;
-    }
-    return true;
   }
 
   @Override
@@ -330,7 +362,8 @@ public class StockModelImpl implements StockModel {
   }
 
   @Override
-  public double buyByPercentage(String portfolioName, double amt, String date) throws IllegalArgumentException {
+  public double buyByPercentage(String portfolioName, double amt, String date)
+          throws IllegalArgumentException {
 
     double totalAmt = 0.0;
     Map<String, Double> information;

@@ -345,10 +345,12 @@ public class StockControllerImpl implements StockController {
           output("Quit.\n");
           return;
         }
-        try {
-          interval = Integer.parseInt(st);
-        } catch (IllegalArgumentException e) {
-          throw new IllegalArgumentException("Illegal number.");
+        if (!st.equals("n") && !st.equals("N")) {
+          try {
+            interval = Integer.parseInt(st);
+          } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Illegal number.");
+          }
         }
       }
 

@@ -29,9 +29,27 @@ public interface StockModel {
    * @throws IllegalArgumentException If the name is illegal. If the information goes wrong. If the
    *                                  buying fails.
    */
+
   double createPortfolio(String portfolioName, Map<String, Double> information,
                          double amt, String date)
           throws IllegalArgumentException;
+
+
+  /**
+   * This method create a fixed portfolio with specific buying plan. It will buy after a certain
+   * period of time. If a date is not available, it will automatically search for a nearest
+   * available date.
+   *
+   * @param portfolioName The given Portfolio name.
+   * @param information   The information of the buying plan with some companies to buy and their
+   *                      percentage.
+   * @param amt           The amount of money you want to buy.
+   * @param startDate     The starting date you want to buy this portfolio.
+   * @param endDate       The ending date you want to buy this portfolio.
+   * @param interval      The interval of two dates of buying.
+   * @throws IllegalArgumentException If the name is illegal. If the information goes wrong. If the
+   *                                  buying fails.
+   */
 
   double dollarCostAverage(String portfolioName, Map<String, Double> information,
                            double amt, String startDate, String endDate, int interval)
@@ -74,9 +92,26 @@ public interface StockModel {
 
   double determineValue(String portfolioName, String date) throws IllegalArgumentException;
 
+  /**
+   * This method will determine the commission fee of a certain portfolio.
+   *
+   * @param portfolioName The portfolio's name.
+   * @return The commission fee of this portfolio.
+   */
+
   double determineCommissionFee(String portfolioName);
 
-  double buyByPercentage(String portfolioName, double amt, String date);
+  /**
+   * This method will buy a fixed portfolio with an amount of money on a certain date.
+   *
+   * @param portfolioName The portfolio's name.
+   * @param amt           The amount of money you want to buy.
+   * @param date          The date you want to buy.
+   * @return The total cost (low price) of stocks.
+   * @throws IllegalArgumentException If any argument is illegal.
+   */
+
+  double buyByPercentage(String portfolioName, double amt, String date) throws IllegalArgumentException;
 
   /**
    * The method gets the information of all Portfolios.
