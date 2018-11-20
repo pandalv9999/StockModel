@@ -51,8 +51,8 @@ public class StockTest {
 
   @Test
   public void getShares() {
-    assertEquals(100, googleStock.getShares());
-    assertEquals(250, microsoftStock.getShares());
+    assertEquals(100, googleStock.getShares(), 0.01);
+    assertEquals(250, microsoftStock.getShares(), 0.01);
   }
 
   @Test
@@ -63,9 +63,9 @@ public class StockTest {
 
   @Test
   public void getCurrentState() {
-    assertEquals("Code: GOOG, Shares: 100, Average Buy-in Price: 30.67",
+    assertEquals("Code: GOOG, Shares: 100.00, Average Buy-in Price: 30.67",
             googleStock.getCurrentState());
-    assertEquals("Code: MSFT, Shares: 250, Average Buy-in Price: 7326.33",
+    assertEquals("Code: MSFT, Shares: 250.00, Average Buy-in Price: 7326.33",
             microsoftStock.getCurrentState());
   }
 }

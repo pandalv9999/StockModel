@@ -92,9 +92,11 @@ public class StockModelTest {
     assertEquals("First Portfolio:\n"
             + "Code: MSFT, Shares: 300.00, Average Buy-in Price: 97.91\n"
             + "Code: GOOG, Shares: 250.00, Average Buy-in Price: 1095.94\n"
+            + "The commission fee of this portfolio is $0.00\n"
             + "\n"
             + "Second Portfolio:\n"
             + "Code: MSFT, Shares: 200.00, Average Buy-in Price: 97.23\n"
+            + "The commission fee of this portfolio is $0.00\n"
             + "\n", myModel.getPortfolioState());
   }
 
@@ -102,10 +104,12 @@ public class StockModelTest {
   public void getPortfolioState1() {
     assertEquals("First Portfolio:\n"
                     + "Code: MSFT, Shares: 300.00, Average Buy-in Price: 97.91\n"
-                    + "Code: GOOG, Shares: 250.00, Average Buy-in Price: 1095.94\n",
+                    + "Code: GOOG, Shares: 250.00, Average Buy-in Price: 1095.94\n"
+                    + "The commission fee of this portfolio is $0.00\n",
             myModel.getPortfolioState("First Portfolio"));
     assertEquals("Second Portfolio:\n"
-                    + "Code: MSFT, Shares: 200.00, Average Buy-in Price: 97.23\n",
+                    + "Code: MSFT, Shares: 200.00, Average Buy-in Price: 97.23\n"
+                    + "The commission fee of this portfolio is $0.00\n",
             myModel.getPortfolioState("Second Portfolio"));
 
     try {
