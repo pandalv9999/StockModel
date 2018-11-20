@@ -48,6 +48,15 @@ public class StockControllerImpl implements StockController {
     }
   }
 
+  /**
+   * This method is a helper function. It can convert a date string from certain format to the
+   * paradigm format. If it fails to convert, it will return an empty string.
+   *
+   * @param paradigm the format of date string we need
+   * @param format   the format of the inputting string
+   * @param date     the date string
+   * @return the result of converting
+   */
   private String convertDate(SimpleDateFormat paradigm, SimpleDateFormat format, String date) {
     String res = "";
     try {
@@ -62,6 +71,12 @@ public class StockControllerImpl implements StockController {
     return res;
   }
 
+  /**
+   * This method is used to input a date string and it will convert it to the paradigm format.
+   *
+   * @param scan a scanner object
+   * @return a paradigm date string or N/n/Q/q
+   */
   private String inputDate(Scanner scan) throws IllegalArgumentException {
     String date = input(scan);
     if (date.equals("N") || date.equals("n") || date.equals("Q") || date.equals("q")) {
@@ -234,6 +249,12 @@ public class StockControllerImpl implements StockController {
     }
   }
 
+  /**
+   * This method will create a fixed portfolio according to the inputting message.
+   *
+   * @param model a stock system model
+   * @param scan  a scanner object
+   */
   private void createFixed(StockModel model, Scanner scan) {
     output("Please input the portfolio's name.\n");
     String portfolioName = input(scan);
@@ -369,6 +390,12 @@ public class StockControllerImpl implements StockController {
             + "%\n");
   }
 
+  /**
+   * This method will create an empty portfolio.
+   *
+   * @param model a stock system model
+   * @param scan  a Scanner object
+   */
   private void create(StockModel model, Scanner scan) {
     output("Please input the portfolio's name.\n");
     String portfolioName = input(scan);
@@ -385,6 +412,12 @@ public class StockControllerImpl implements StockController {
     output("Created an empty portfolio successfully.\n");
   }
 
+  /**
+   * This method will buy a certain stock into a portfolio.
+   *
+   * @param model a stock system model
+   * @param scan  a Scanner object
+   */
   private void buy(StockModel model, Scanner scan) {
     output("Please input the portfolio's name.\n");
     String portfolioName = input(scan);
@@ -444,6 +477,13 @@ public class StockControllerImpl implements StockController {
             + "%\n");
   }
 
+
+  /**
+   * This method will try to determine a portfolio's cost basis and its commission fee.
+   *
+   * @param model a stock system model
+   * @param scan  a Scanner object
+   */
   private void determineCost(StockModel model, Scanner scan) {
     output("Please input the portfolio's name.\n");
     String portfolioName = input(scan);
@@ -466,6 +506,12 @@ public class StockControllerImpl implements StockController {
             + "\n");
   }
 
+  /**
+   * This method will determine a portfolio in a certain date.
+   *
+   * @param model a stock system model
+   * @param scan  a Scanner object
+   */
   private void determineValue(StockModel model, Scanner scan) {
     output("Please input the portfolio's name.\n");
     String portfolioName = input(scan);
@@ -491,6 +537,12 @@ public class StockControllerImpl implements StockController {
             + Double.toString(res) + "\n");
   }
 
+  /**
+   * This method will determine the commission fee of a portfolio.
+   *
+   * @param model a stock system model
+   * @param scan  a Scanner object
+   */
   private void determineCommissionFee(StockModel model, Scanner scan) {
     output("Please input the portfolio's name.\n");
     String portfolioName = input(scan);
@@ -510,6 +562,13 @@ public class StockControllerImpl implements StockController {
             + Double.toString(res) + "\n");
   }
 
+  /**
+   * This method will buy a fixed portfolio in a certain date according to its percentage of each
+   * stock.
+   *
+   * @param model a stock system model
+   * @param scan  a Scanner object
+   */
   private void buyByPercentage(StockModel model, Scanner scan) {
     output("Please input the portfolio's name.\n");
     String portfolioName = input(scan);
@@ -560,6 +619,12 @@ public class StockControllerImpl implements StockController {
             + "% in this transaction.\n");
   }
 
+  /**
+   * This method will get the state of a portfolio.
+   *
+   * @param model a stock system model
+   * @param scan  a Scanner object
+   */
   private void getState(StockModel model, Scanner scan) {
 
     output("Please input the portfolio's name.\n");
@@ -580,6 +645,12 @@ public class StockControllerImpl implements StockController {
     output(res);
   }
 
+
+  /**
+   * This method will get the state of every portfolio.
+   *
+   * @param model a stock system model
+   */
   private void getAllState(StockModel model) {
 
     String res = "";

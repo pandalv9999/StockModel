@@ -9,7 +9,7 @@ import java.util.Map;
 public interface StockModel {
 
   /**
-   * The method create a new Portfolio with given name.
+   * The method create a new empty Portfolio with given name.
    *
    * @param portfolioName The given Portfolio name.
    * @throws IllegalArgumentException If the name is illegal.
@@ -17,6 +17,18 @@ public interface StockModel {
 
   void createPortfolio(String portfolioName) throws IllegalArgumentException;
 
+
+  /**
+   * This method create a fixed portfolio with specific buying plan.
+   *
+   * @param portfolioName The given Portfolio name.
+   * @param information   The information of the buying plan with some companies to buy and their
+   *                      percentage.
+   * @param amt           The amount of money you want to buy.
+   * @param date          The date you want to buy this portfolio.
+   * @throws IllegalArgumentException If the name is illegal. If the information goes wrong. If the
+   *                                  buying fails.
+   */
   double createPortfolio(String portfolioName, Map<String, Double> information,
                          double amt, String date)
           throws IllegalArgumentException;
