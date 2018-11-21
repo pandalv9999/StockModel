@@ -443,36 +443,36 @@ public class StockControllerImplTest {
     StringBuffer out = new StringBuffer();
     StockControllerImpl controller = new StockControllerImpl(in, out);
     controller.start(stockModel);
-    assertEquals("Welcome to the stock trading system.\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
-            "determinefee, createfixed, buyp, or q/Q\n" +
-            "Please input the portfolio's name.\n" +
-            "Equal proportion or separate?(E/S)\n" +
-            "Number of companies?\n" +
-            "Name of company?\n" +
-            "Proportion in percentage? E.g. input 30 to represent 30%.\n" +
-            "Name of company?\n" +
-            "Proportion in percentage? E.g. input 30 to represent 30%.\n" +
-            "Amount of investment?\n" +
-            "Ongoing? Y/N\n" +
-            "Provide a start date?(yyyy-mm-dd / N/n)\n" +
-            "Provide a end date?(yyyy-mm-dd / N/n)\n" +
-            "Provide a interval in days?(e.g 15, 30, 60 / N/n)\n" +
-            "Created a Fixed portfolio successfully with commission fee $110.0\n" +
-            "The total cost is $22110.0\n" +
-            "Commission fee is of 0.4975124378109453%\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
-            "determinefee, createfixed, buyp, or q/Q\n" +
-            "The state of all portfolios:\n" +
-            "p1:\n" +
-            "Code: NFLX, Shares: 43.20, Average Buy-in Price: 305.59\n" +
-            "Code: MSFT, Shares: 89.31, Average Buy-in Price: 98.53\n" +
-            "The commission fee of this portfolio is $110.00\n" +
-            "\n" +
-            "\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
-            "determinefee, createfixed, buyp, or q/Q\n" +
-            "Quit.\n", out.toString());
+    assertEquals("Welcome to the stock trading system.\n"
+            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n"
+            + "Please input the portfolio's name.\n"
+            + "Equal proportion or separate?(E/S)\n"
+            + "Number of companies?\n"
+            + "Name of company?\n"
+            + "Proportion in percentage? E.g. input 30 to represent 30%.\n"
+            + "Name of company?\n"
+            + "Proportion in percentage? E.g. input 30 to represent 30%.\n"
+            + "Amount of investment?\n"
+            + "Ongoing? Y/N\n"
+            + "Provide a start date?(yyyy-mm-dd / N/n)\n"
+            + "Provide a end date?(yyyy-mm-dd / N/n)\n"
+            + "Provide a interval in days?(e.g 15, 30, 60 / N/n)\n"
+            + "Created a Fixed portfolio successfully with commission fee $110.0\n"
+            + "The total cost is $22110.0\n"
+            + "Commission fee is of 0.4975124378109453%\n"
+            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n"
+            + "The state of all portfolios:\n"
+            + "p1:\n"
+            + "Code: NFLX, Shares: 43.20, Average Buy-in Price: 305.59\n"
+            + "Code: MSFT, Shares: 89.31, Average Buy-in Price: 98.53\n"
+            + "The commission fee of this portfolio is $110.00\n"
+            + "\n"
+            + "\n"
+            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n"
+            + "Quit.\n", out.toString());
   }
 
   @Test
@@ -506,141 +506,143 @@ public class StockControllerImplTest {
             + "determinefee, createfixed, buyp, or q/Q\n"
             + "Please input the portfolio's name.\n"
             + "Created an empty portfolio successfully.\n"
-            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate,"
-            + " determinefee, createfixed, buyp, or q/Q\n"
+            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n"
             + "Please input the portfolio's name.\n"
             + "Please input the company's name.\n"
             + "How many shares you want to buy?\n"
             + "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n"
-            + "Successfully bought google with 100 shares on 2018-11-09 and total cost is $105315."
-            + "99999999999 with commission fee $5.0\n"
+            + "Successfully bought google with 100 shares on 2018-11-09 and total cost is "
+            + "$105315.99999999999 with commission fee $5.0\n"
             + "Commission fee is of 0.004747616696418398%\n"
+            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n"
+            + "Please input the portfolio's name.\n"
+            + "Please input the company's name.\n"
+            + "How many shares you want to buy?\n"
+            + "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n"
+            + "Successfully bought microsoft with 200 shares on 2018-11-09 and total cost is "
+            + "$21757.0 with commission fee $5.0\n"
+            + "Commission fee is of 0.02298110952796801%\n"
+            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n"
+            + "Please input the portfolio's name.\n"
+            + "Please input the company's name.\n"
+            + "How many shares you want to buy?\n"
+            + "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n"
+            + "Successfully bought facebook with 300 shares on 2018-11-09 and total cost is "
+            + "$43226.0 with commission fee $5.0\n"
+            + "Commission fee is of 0.011567112386063944%\n"
+            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n"
+            + "Please input the portfolio's name.\n"
+            + "The cost basis of buying in portfolio1 is $170284.0 with commission fee $15.0\n"
+            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n"
+            + "Please input the portfolio's name.\n"
+            + "Please input the date you want to check in format yyyy-mm-dd.\n"
+            + "The value of all stocks in this portfolio on 2018-11-08 is $177051.0\n"
+            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n"
+            + "Please input the portfolio's name.\n"
+            + "Equal proportion or separate?(E/S)\n"
+            + "Number of companies?\n"
+            + "Name of company?\n"
+            + "Name of company?\n"
+            + "Amount of investment?\n"
+            + "Ongoing? Y/N\n"
+            + "Provide a start date?(yyyy-mm-dd / N/n)\n"
+            + "Provide a end date?(yyyy-mm-dd / N/n)\n"
+            + "Provide a interval in days?(e.g 15, 30, 60 / N/n)\n"
+            + "Created a Fixed portfolio successfully with commission fee $110.0\n"
+            + "The total cost is $22110.0\n"
+            + "Commission fee is of 0.4975124378109453%\n"
             + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate,"
-            + " determinefee, createfixed, buyp, or q/Q\n" +
-            "Please input the portfolio's name.\n" +
-            "Please input the company's name.\n" +
-            "How many shares you want to buy?\n" +
-            "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n" +
-            "Successfully bought microsoft with 200 shares on 2018-11-09 and total cost is " +
-            "$21757.0 "
-            + "with commission fee $5.0\n" +
-            "Commission fee is of 0.02298110952796801%\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
-            "determinefee, createfixed, buyp, or q/Q\n" +
-            "Please input the portfolio's name.\n" +
-            "Please input the company's name.\n" +
-            "How many shares you want to buy?\n" +
-            "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n" +
-            "There is no price on this date.\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
-            "determinefee, createfixed, buyp, or q/Q\n" +
-            "Please input the portfolio's name.\n" +
-            "The cost basis of buying in portfolio1 is $127062.99999999999 with commission fee " +
-            "$10.0\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
-            "determinefee, createfixed, buyp, or q/Q\n" +
-            "Please input the portfolio's name.\n" +
-            "Please input the date you want to check in format yyyy-mm-dd.\n" +
-            "The value of all stocks in this portfolio on 2018-11-08 is $131769.0\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
-            "determinefee, createfixed, buyp, or q/Q\n" +
-            "Please input the portfolio's name.\n" +
-            "Equal proportion or separate?(E/S)\n" +
-            "Number of companies?\n" +
-            "Name of company?\n" +
-            "Name of company?\n" +
-            "Amount of investment?\n" +
-            "Ongoing? Y/N\n" +
-            "Provide a start date?(yyyy-mm-dd / N/n)\n" +
-            "Provide a end date?(yyyy-mm-dd / N/n)\n" +
-            "Provide a interval in days?(e.g 15, 30, 60 / N/n)\n" +
-            "Created a Fixed portfolio successfully with commission fee $110.0\n" +
-            "The total cost is $22110.0\n" +
-            "Commission fee is of 0.4975124378109453%\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
-            + "determinefee, createfixed, buyp, or q/Q\n" +
-            "Please input the portfolio's name.\n" +
-            "Amount of investment?\n" +
-            "Please input the date you want to buy in format yyyy-mm-dd/N/n.\n" +
-            "The cost of buying this portfolio is $2010.0 with commission fee $10.0\n" +
-            "Commission fee is of 0.4975124378109453% in this transaction.\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
-            "determinefee, createfixed, buyp, or q/Q\n" +
-            "Please input the portfolio's name.\n" +
-            "Amount of investment?\n" +
-            "Please input the date you want to buy in format yyyy-mm-dd/N/n.\n" +
-            "The cost of buying this portfolio is $3010.0 with commission fee $10.0\n" +
-            "Commission fee is of 0.33222591362126247% in this transaction.\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
-            "determinefee, createfixed, buyp, or q/Q\n" +
-            "Please input the portfolio's name.\n" +
-            "Equal proportion or separate?(E/S)\n" +
-            "Number of companies?\n" +
-            "Name of company?\n" +
-            "Proportion in percentage? E.g. input 30 to represent 30%.\n" +
-            "Name of company?\n" +
-            "Proportion in percentage? E.g. input 30 to represent 30%.\n" +
-            "Amount of investment?\n" +
-            "Ongoing? Y/N\n" +
-            "Provide a start date?(yyyy-mm-dd / N/n)\n" +
-            "Provide a end date?(yyyy-mm-dd / N/n)\n" +
-            "Provide a interval in days?(e.g 15, 30, 60 / N/n)\n" +
-            "Created a Fixed portfolio successfully with commission fee $110.0\n" +
-            "The total cost is $11110.0\n" +
-            "Commission fee is of 0.9900990099009901%\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
-            "determinefee, createfixed, buyp, or q/Q\n" +
-            "Please input the portfolio's name.\n" +
-            "Equal proportion or separate?(E/S)\n" +
-            "Number of companies?\n" +
-            "Name of company?\n" +
-            "Proportion in percentage? E.g. input 30 to represent 30%.\n" +
-            "Name of company?\n" +
-            "Proportion in percentage? E.g. input 30 to represent 30%.\n" +
-            "Amount of investment?\n" +
-            "Ongoing? Y/N\n" +
-            "Provide a buying date?(yyyy-mm-dd / N/n)\n" +
-            "Created a Fixed portfolio successfully with commission fee $10.0\n" +
-            "The total cost is $1010.0\n" +
-            "Commission fee is of 0.9900990099009901%\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
-            "determinefee, createfixed, buyp, or q/Q\n" +
-            "Please input the portfolio's name.\n" +
-            "The state of portfolio1\n" +
-            "portfolio1:\n" +
-            "Code: MSFT, Shares: 200.00, Average Buy-in Price: 108.76\n" +
-            "Code: GOOG, Shares: 100.00, Average Buy-in Price: 1053.11\n" +
-            "The commission fee of this portfolio is $10.00\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
-            "determinefee, createfixed, buyp, or q/Q\n" +
-            "Please input the portfolio's name.\n" +
-            "The fee of all transactions in this portfolio is $110.0\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
-            "determinefee, createfixed, buyp, or q/Q\n" +
-            "The state of all portfolios:\n" +
-            "2:\n" +
-            "Code: MSFT, Shares: 134.73, Average Buy-in Price: 100.20\n" +
-            "Code: GOOG, Shares: 12.33, Average Buy-in Price: 1095.14\n" +
-            "The commission fee of this portfolio is $130.00\n" +
-            "\n" +
-            "3:\n" +
-            "Code: MSFT, Shares: 78.15, Average Buy-in Price: 98.53\n" +
-            "Code: GOOG, Shares: 2.98, Average Buy-in Price: 1108.28\n" +
-            "The commission fee of this portfolio is $110.00\n" +
-            "\n" +
-            "4:\n" +
-            "Code: MSFT, Shares: 6.55, Average Buy-in Price: 106.87\n" +
-            "Code: GOOG, Shares: 0.29, Average Buy-in Price: 1038.63\n" +
-            "The commission fee of this portfolio is $10.00\n" +
-            "\n" +
-            "portfolio1:\n" +
-            "Code: MSFT, Shares: 200.00, Average Buy-in Price: 108.76\n" +
-            "Code: GOOG, Shares: 100.00, Average Buy-in Price: 1053.11\n" +
-            "The commission fee of this portfolio is $10.00\n" +
-            "\n" +
-            "\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
-            "determinefee, createfixed, buyp, or q/Q\n" +
-            "Quit.\n", out.toString());
+            + " determinefee, createfixed, buyp, or q/Q\n"
+            + "Please input the portfolio's name.\n"
+            + "Amount of investment?\n"
+            + "Please input the date you want to buy in format yyyy-mm-dd/N/n.\n"
+            + "The cost of buying this portfolio is $2010.0 with commission fee $10.0\n"
+            + "Commission fee is of 0.4975124378109453% in this transaction.\n"
+            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n"
+            + "Please input the portfolio's name.\n"
+            + "Amount of investment?\n"
+            + "Please input the date you want to buy in format yyyy-mm-dd/N/n.\n"
+            + "The cost of buying this portfolio is $3010.0 with commission fee $10.0\n"
+            + "Commission fee is of 0.33222591362126247% in this transaction.\n"
+            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n"
+            + "Please input the portfolio's name.\n"
+            + "Equal proportion or separate?(E/S)\n"
+            + "Number of companies?\n"
+            + "Name of company?\n"
+            + "Proportion in percentage? E.g. input 30 to represent 30%.\n"
+            + "Name of company?\n"
+            + "Proportion in percentage? E.g. input 30 to represent 30%.\n"
+            + "Amount of investment?\n"
+            + "Ongoing? Y/N\n"
+            + "Provide a start date?(yyyy-mm-dd / N/n)\n"
+            + "Provide a end date?(yyyy-mm-dd / N/n)\n"
+            + "Provide a interval in days?(e.g 15, 30, 60 / N/n)\n"
+            + "Created a Fixed portfolio successfully with commission fee $110.0\n"
+            + "The total cost is $11110.0\n"
+            + "Commission fee is of 0.9900990099009901%\n"
+            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n"
+            + "Please input the portfolio's name.\n"
+            + "Equal proportion or separate?(E/S)\n"
+            + "Number of companies?\n"
+            + "Name of company?\n"
+            + "Proportion in percentage? E.g. input 30 to represent 30%.\n"
+            + "Name of company?\n"
+            + "Proportion in percentage? E.g. input 30 to represent 30%.\n"
+            + "Amount of investment?\n"
+            + "Ongoing? Y/N\n"
+            + "Provide a buying date?(yyyy-mm-dd / N/n)\n"
+            + "Created a Fixed portfolio successfully with commission fee $10.0\n"
+            + "The total cost is $1010.0\n"
+            + "Commission fee is of 0.9900990099009901%\n"
+            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n"
+            + "Please input the portfolio's name.\n"
+            + "The state of portfolio1\n"
+            + "portfolio1:\n"
+            + "Code: MSFT, Shares: 200.00, Average Buy-in Price: 108.76\n"
+            + "Code: GOOG, Shares: 100.00, Average Buy-in Price: 1053.11\n"
+            + "Code: FB, Shares: 300.00, Average Buy-in Price: 144.07\n"
+            + "The commission fee of this portfolio is $15.00\n"
+            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n"
+            + "Please input the portfolio's name.\n"
+            + "The fee of all transactions in this portfolio is $110.0\n"
+            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n"
+            + "The state of all portfolios:\n"
+            + "2:\n"
+            + "Code: MSFT, Shares: 134.87, Average Buy-in Price: 100.09\n"
+            + "Code: GOOG, Shares: 12.27, Average Buy-in Price: 1100.04\n"
+            + "The commission fee of this portfolio is $130.00\n"
+            + "\n"
+            + "3:\n"
+            + "Code: MSFT, Shares: 78.15, Average Buy-in Price: 98.53\n"
+            + "Code: GOOG, Shares: 2.98, Average Buy-in Price: 1108.28\n"
+            + "The commission fee of this portfolio is $110.00\n"
+            + "\n"
+            + "4:\n"
+            + "Code: MSFT, Shares: 6.55, Average Buy-in Price: 106.87\n"
+            + "Code: GOOG, Shares: 0.29, Average Buy-in Price: 1038.63\n"
+            + "The commission fee of this portfolio is $10.00\n"
+            + "\n"
+            + "portfolio1:\n"
+            + "Code: MSFT, Shares: 200.00, Average Buy-in Price: 108.76\n"
+            + "Code: GOOG, Shares: 100.00, Average Buy-in Price: 1053.11\n"
+            + "Code: FB, Shares: 300.00, Average Buy-in Price: 144.07\n"
+            + "The commission fee of this portfolio is $15.00\n"
+            + "\n"
+            + "\n"
+            + "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n"
+            + "Quit.\n", out.toString());
   }
 }
