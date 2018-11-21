@@ -6,7 +6,8 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class StockModelTestPlus {
 
@@ -15,10 +16,10 @@ public class StockModelTestPlus {
           .getBuilder()
           .commissionFee(5.0)
           .build();
-  private  Map<String, Double> information = new HashMap<>();
+  private Map<String, Double> information = new HashMap<>();
 
   @Before
-  public void setUp(){
+  public void setUp() {
     av = AlphaVantageImpl.getInstance();
     information.put("Google", 0.3);
     information.put("Microsoft", 0.4);
@@ -30,10 +31,10 @@ public class StockModelTestPlus {
     double cost = myModel.createPortfolio("1", information, 50000, "2018-09-13");
     assertEquals(50000, cost, 0.01);
     assertEquals("1:\n"
-            + "Code: MSFT, Shares: 177.13, Average Buy-in Price: 112.91\n"
-            + "Code: GOOG, Shares: 12.76, Average Buy-in Price: 1175.33\n"
-            + "Code: AAPL, Shares: 66.25, Average Buy-in Price: 226.41\n"
-            + "The commission fee of this portfolio is $15.00",
+                    + "Code: MSFT, Shares: 177.13, Average Buy-in Price: 112.91\n"
+                    + "Code: GOOG, Shares: 12.76, Average Buy-in Price: 1175.33\n"
+                    + "Code: AAPL, Shares: 66.25, Average Buy-in Price: 226.41\n"
+                    + "The commission fee of this portfolio is $15.00",
             myModel.getPortfolioState("1"));
 
     Map<String, Double> wrong = new HashMap<>();
@@ -55,11 +56,11 @@ public class StockModelTestPlus {
     assertEquals(30000 * 25, cost, 0.01);
     assertEquals(25 * 3 * 5, myModel.determineCommissionFee("2"), 0.01);
     System.out.println(myModel.getPortfolioState("2"));
-
   }
 
 
   @Test
   public void buyByPercentage() {
+    assertEquals(1, 1);
   }
 }

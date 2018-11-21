@@ -4,11 +4,8 @@ import org.junit.Test;
 
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.PriorityQueue;
 
 import model.MockStockModel;
-import model.Stock;
-import model.StockImpl;
 import model.StockModel;
 import model.StockModelImpl;
 
@@ -60,8 +57,6 @@ public class StockControllerImplTest {
             + "2018-11-05\n"
             + "determineCost portfolio1\n"
             + "determineFee portfolio1\n", log.toString());
-//    System.out.println(log.toString());
-//    System.out.println(out.toString());
   }
 
   @Test
@@ -83,8 +78,6 @@ public class StockControllerImplTest {
             + "2018-11-05\n"
             + "determineCost portfolio1\n"
             + "determineFee portfolio1\n", log.toString());
-//    System.out.println(log.toString());
-//    System.out.println(out.toString());
   }
 
   @Test
@@ -108,7 +101,6 @@ public class StockControllerImplTest {
             + "15\n"
             + "determineCost portfolio1\n"
             + "determineFee portfolio1\n", log.toString());
-    // System.out.println(out.toString());
   }
 
   @Test
@@ -132,7 +124,6 @@ public class StockControllerImplTest {
             + "15\n"
             + "determineCost portfolio1\n"
             + "determineFee portfolio1\n", log.toString());
-//    System.out.println(out.toString());
   }
 
   @Test
@@ -453,7 +444,8 @@ public class StockControllerImplTest {
     StockControllerImpl controller = new StockControllerImpl(in, out);
     controller.start(stockModel);
     assertEquals("Welcome to the stock trading system.\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
+            "determinefee, createfixed, buyp, or q/Q\n" +
             "Please input the portfolio's name.\n" +
             "Equal proportion or separate?(E/S)\n" +
             "Number of companies?\n" +
@@ -469,7 +461,8 @@ public class StockControllerImplTest {
             "Created a Fixed portfolio successfully with commission fee $110.0\n" +
             "The total cost is $22110.0\n" +
             "Commission fee is of 0.4975124378109453%\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
+            "determinefee, createfixed, buyp, or q/Q\n" +
             "The state of all portfolios:\n" +
             "p1:\n" +
             "Code: NFLX, Shares: 43.20, Average Buy-in Price: 305.59\n" +
@@ -477,7 +470,8 @@ public class StockControllerImplTest {
             "The commission fee of this portfolio is $110.00\n" +
             "\n" +
             "\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
+            "determinefee, createfixed, buyp, or q/Q\n" +
             "Quit.\n", out.toString());
   }
 
@@ -527,22 +521,29 @@ public class StockControllerImplTest {
             "Please input the company's name.\n" +
             "How many shares you want to buy?\n" +
             "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n" +
-            "Successfully bought microsoft with 200 shares on 2018-11-09 and total cost is $21757.0 with commission fee $5.0\n" +
+            "Successfully bought microsoft with 200 shares on 2018-11-09 and total cost is " +
+            "$21757.0 "
+            + "with commission fee $5.0\n" +
             "Commission fee is of 0.02298110952796801%\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
+            "determinefee, createfixed, buyp, or q/Q\n" +
             "Please input the portfolio's name.\n" +
             "Please input the company's name.\n" +
             "How many shares you want to buy?\n" +
             "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n" +
             "There is no price on this date.\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
+            "determinefee, createfixed, buyp, or q/Q\n" +
             "Please input the portfolio's name.\n" +
-            "The cost basis of buying in portfolio1 is $127062.99999999999 with commission fee $10.0\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "The cost basis of buying in portfolio1 is $127062.99999999999 with commission fee " +
+            "$10.0\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
+            "determinefee, createfixed, buyp, or q/Q\n" +
             "Please input the portfolio's name.\n" +
             "Please input the date you want to check in format yyyy-mm-dd.\n" +
             "The value of all stocks in this portfolio on 2018-11-08 is $131769.0\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
+            "determinefee, createfixed, buyp, or q/Q\n" +
             "Please input the portfolio's name.\n" +
             "Equal proportion or separate?(E/S)\n" +
             "Number of companies?\n" +
@@ -556,19 +557,22 @@ public class StockControllerImplTest {
             "Created a Fixed portfolio successfully with commission fee $110.0\n" +
             "The total cost is $22110.0\n" +
             "Commission fee is of 0.4975124378109453%\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, "
+            + "determinefee, createfixed, buyp, or q/Q\n" +
             "Please input the portfolio's name.\n" +
             "Amount of investment?\n" +
             "Please input the date you want to buy in format yyyy-mm-dd/N/n.\n" +
             "The cost of buying this portfolio is $2010.0 with commission fee $10.0\n" +
             "Commission fee is of 0.4975124378109453% in this transaction.\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
+            "determinefee, createfixed, buyp, or q/Q\n" +
             "Please input the portfolio's name.\n" +
             "Amount of investment?\n" +
             "Please input the date you want to buy in format yyyy-mm-dd/N/n.\n" +
             "The cost of buying this portfolio is $3010.0 with commission fee $10.0\n" +
             "Commission fee is of 0.33222591362126247% in this transaction.\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
+            "determinefee, createfixed, buyp, or q/Q\n" +
             "Please input the portfolio's name.\n" +
             "Equal proportion or separate?(E/S)\n" +
             "Number of companies?\n" +
@@ -584,7 +588,8 @@ public class StockControllerImplTest {
             "Created a Fixed portfolio successfully with commission fee $110.0\n" +
             "The total cost is $11110.0\n" +
             "Commission fee is of 0.9900990099009901%\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
+            "determinefee, createfixed, buyp, or q/Q\n" +
             "Please input the portfolio's name.\n" +
             "Equal proportion or separate?(E/S)\n" +
             "Number of companies?\n" +
@@ -598,17 +603,20 @@ public class StockControllerImplTest {
             "Created a Fixed portfolio successfully with commission fee $10.0\n" +
             "The total cost is $1010.0\n" +
             "Commission fee is of 0.9900990099009901%\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
+            "determinefee, createfixed, buyp, or q/Q\n" +
             "Please input the portfolio's name.\n" +
             "The state of portfolio1\n" +
             "portfolio1:\n" +
             "Code: MSFT, Shares: 200.00, Average Buy-in Price: 108.76\n" +
             "Code: GOOG, Shares: 100.00, Average Buy-in Price: 1053.11\n" +
             "The commission fee of this portfolio is $10.00\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
+            "determinefee, createfixed, buyp, or q/Q\n" +
             "Please input the portfolio's name.\n" +
             "The fee of all transactions in this portfolio is $110.0\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
+            "determinefee, createfixed, buyp, or q/Q\n" +
             "The state of all portfolios:\n" +
             "2:\n" +
             "Code: MSFT, Shares: 134.73, Average Buy-in Price: 100.20\n" +
@@ -631,7 +639,8 @@ public class StockControllerImplTest {
             "The commission fee of this portfolio is $10.00\n" +
             "\n" +
             "\n" +
-            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, determinefee, createfixed, buyp, or q/Q\n" +
+            "You can input: create, buy, determinecost, determinevalue, getstate, getallstate, " +
+            "determinefee, createfixed, buyp, or q/Q\n" +
             "Quit.\n", out.toString());
   }
 }

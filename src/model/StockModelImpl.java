@@ -146,8 +146,7 @@ public class StockModelImpl implements StockModel {
    *
    * @param dateOne The date you want to compare.
    * @param dateTwo The date you want to compare.
-   * @return -1 means dateOne is earlier, 1 means dateTwo is earlier. If they are the same date, it
-   * will return 0.
+   * @return which is earlier
    */
   private int compareDate(String dateOne, String dateTwo) {
 
@@ -186,7 +185,8 @@ public class StockModelImpl implements StockModel {
   }
 
   @Override
-  public double createPortfolio(String portfolioName, Map<String, Double> information, double amt, String date)
+  public double createPortfolio(String portfolioName, Map<String, Double> information,
+                                double amt, String date)
           throws IllegalArgumentException {
 
     if (information == null || information.isEmpty() || date.isEmpty()) {
@@ -391,7 +391,7 @@ public class StockModelImpl implements StockModel {
       double specificMoney = amt * e.getValue();
       String buyDate = getNextAvailableDate(date, alphaVantage.searchCode(company));
       double numOfShares = countShares(company, buyDate, "close", specificMoney);
-      totalAmt += buy(portfolioName, company, numOfShares, buyDate, "close"); // change previous share to double
+      totalAmt += buy(portfolioName, company, numOfShares, buyDate, "close");
     }
 
     return totalAmt;

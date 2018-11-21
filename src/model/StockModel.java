@@ -111,7 +111,8 @@ public interface StockModel {
    * @throws IllegalArgumentException If any argument is illegal.
    */
 
-  double buyByPercentage(String portfolioName, double amt, String date) throws IllegalArgumentException;
+  double buyByPercentage(String portfolioName, double amt, String date)
+          throws IllegalArgumentException;
 
   /**
    * The method gets the information of all Portfolios.

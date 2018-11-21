@@ -233,6 +233,7 @@ public class AlphaVantageImpl implements AlphaVantage {
     return res2;
   }
 
+  @Override
   public double getPrice(String code, String date, String priceType) {
     double res = 0.0;
     if (priceType.equals("low")) {

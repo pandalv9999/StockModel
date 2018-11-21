@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 public class AlphaVantageImplTest {
 
   AlphaVantageImpl a;
+
   @Before
   public void setUp() {
     a = AlphaVantageImpl.getInstance();
