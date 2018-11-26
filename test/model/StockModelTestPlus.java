@@ -11,7 +11,6 @@ import static org.junit.Assert.fail;
 
 public class StockModelTestPlus {
 
-  private AlphaVantage av;
   private StockModel myModel = StockModelImpl
           .getBuilder()
           .commissionFee(5.0)
@@ -20,15 +19,14 @@ public class StockModelTestPlus {
 
   @Before
   public void setUp() {
-    av = AlphaVantageImpl.getInstance();
     information.put("Google", 0.3);
-    information.put("Microsoft", 0.4);
-    information.put("Apple", 0.3);
+    information.put("Microsoft", 0.7);
   }
 
   @Test
   public void createPortfolio() {
-    double cost = myModel.createPortfolio("1", information, 50000, "2018-09-13");
+    double cost = myModel.createPortfolio("1", information, 50000,
+            "2018-09-13");
     assertEquals(50000, cost, 0.01);
     assertEquals("1:\n"
                     + "Code: MSFT, Shares: 177.13, Average Buy-in Price: 112.91\n"
@@ -61,6 +59,21 @@ public class StockModelTestPlus {
 
   @Test
   public void buyByPercentage() {
-    assertEquals(1, 1);
+    double cost = myModel.createPortfolio("1", information, 50000,
+            "2018-09-13");
+    assertEquals(50000, cost, 0.01);
+
+    assertEquals("1:\n"
+                    + "Code: MSFT, Shares: 309.98, Average Buy-in Price: 112.91\n"
+                    + "Code: GOOG, Shares: 12.76, Average Buy-in Price: 1175.33\n"
+                    + "The commission fee of this portfolio is $10.00\n",
+            myModel.getPortfolioState("1"));
+
+    myModel.buyByPercentage("1", 2000, "2018-11-15");
+    assertEquals("1:\n"
+                    + "Code: MSFT, Shares: 323.03, Average Buy-in Price: 112.68\n"
+                    + "Code: GOOG, Shares: 13.33, Average Buy-in Price: 1170.65\n"
+                    + "The commission fee of this portfolio is $20.00\n",
+            myModel.getPortfolioState("1"));
   }
 }
