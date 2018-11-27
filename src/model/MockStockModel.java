@@ -3,6 +3,10 @@ package model;
 
 import java.util.Map;
 
+/**
+ * This is a mock model for the testing purpose.
+ */
+
 public class MockStockModel implements StockModel {
 
   private StringBuilder log;
