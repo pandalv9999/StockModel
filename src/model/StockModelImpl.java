@@ -7,6 +7,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The class implements the stock Model.
+ */
+
 public class StockModelImpl implements StockModel {
 
   private Map<String, Map<String, Stock>> portfolio;

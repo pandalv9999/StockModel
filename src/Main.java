@@ -12,6 +12,7 @@ public class Main {
   /**
    * This is the main program of our project. It has the same effect when open the file in the .jar
    * file.
+   * @param args No argument needed.
    */
 
   public static void main(String[] args) {

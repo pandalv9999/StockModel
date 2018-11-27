@@ -26,6 +26,7 @@ public interface StockModel {
    *                      percentage.
    * @param amt           The amount of money you want to buy.
    * @param date          The date you want to buy this portfolio.
+   * @return the total cost of current operation.
    * @throws IllegalArgumentException If the name is illegal. If the information goes wrong. If the
    *                                  buying fails.
    */
@@ -47,6 +48,7 @@ public interface StockModel {
    * @param startDate     The starting date you want to buy this portfolio.
    * @param endDate       The ending date you want to buy this portfolio.
    * @param interval      The interval of two dates of buying.
+   * @return the total cost of current operation.
    * @throws IllegalArgumentException If the name is illegal. If the information goes wrong. If the
    *                                  buying fails.
    */
