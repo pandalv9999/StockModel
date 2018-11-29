@@ -34,7 +34,7 @@ public class StockControllerImpl implements StockController {
     try {
       st = scan.next();
     } catch (NoSuchElementException e) {
-      throw new IllegalStateException("Reader fails.");
+      throw new IllegalStateException("Not enough parameters");
     }
     return st;
   }
@@ -161,8 +161,8 @@ public class StockControllerImpl implements StockController {
     ButtonListener buttonListener = new ButtonListener();
 
     buttonClickedMap.put("Echo Button", () -> {
-      String portfolioName = view.getInputString();
-      view.setEchoOutput(create(portfolioName));
+      String command = view.getInputString();
+      view.setEchoOutput(processCommand(command));
 
       //clear input textfield
       view.clearInputString();
@@ -171,6 +171,8 @@ public class StockControllerImpl implements StockController {
       view.resetFocus();
 
     });
+
+
     buttonClickedMap.put("Exit Button", () -> {
       System.exit(0);
     });
@@ -192,42 +194,43 @@ public class StockControllerImpl implements StockController {
   /**
    * This method is the main method of the controller. It takes a model as the parameter and call
    * its methods.
-   *
-   * @param model a stock system model
    */
-//  public void start(StockModel model)
-//          throws IllegalArgumentException, IllegalStateException {
-//    if (model == null) {
-//      throw new IllegalArgumentException("Model should not be null.");
-//    }
-//    Scanner scan = new Scanner(this.in);
+  public String processCommand(String command)
+          throws IllegalArgumentException, IllegalStateException {
+    if (model == null) {
+      throw new IllegalArgumentException("Model should not be null.");
+    }
+    if (command.length() == 0) {
+      throw new IllegalArgumentException("command should not be null.");
+    }
+    System.out.println(command);
+    Scanner scan = new Scanner(command);
+    StringBuilder output = new StringBuilder();
+    String cmd = null;
+
 //    output("Welcome to the stock trading system.\n");
-//    while (true) {
+    while (scan.hasNext()) {
 //      output("You can input: create, buy, determinecost, determinevalue, getstate, "
 //              + "getallstate, determinefee, createfixed, buyp, or q/Q\n");
-//      String command = input(scan);
-//
-//      if (isQuit(command)) {
-//        output("Quit.\n");
-//        return;
-//      }
-//
-//      if (command.equals("createfixed")) {
-//        try {
-//          createFixed(model, scan);
-//        } catch (IllegalArgumentException e) {
-//          continue;
-//        }
-//      }
-//
-////      if (command.equals("create")) {
-////        try {
-////          create(model, scan);
-////        } catch (IllegalArgumentException e) {
-////          continue;
-////        }
-////      }
-//
+      String in = scan.next();
+
+      if (isQuit(in)) {
+        output.append("Quit.\n");
+        return output.toString();
+      }
+
+      if (in.equals("createfixed")) {
+        try {
+          createFixed(model, scan, output);
+        } catch (Exception e) {
+          output.append(e.getMessage());
+        }
+      }
+
+      if (in.equals("create")) {
+        create(model, scan, output);
+      }
+
 //      if (command.equals("buy")) {
 //        try {
 //          buy(model, scan);
@@ -283,166 +286,185 @@ public class StockControllerImpl implements StockController {
 //          continue;
 //        }
 //      }
-//    }
-//  }
-//
+    }
+    return output.toString();
+  }
+
+  //
 //  /**
 //   * This method will create a fixed portfolio according to the inputting message.
 //   *
 //   * @param model a stock system model
 //   * @param scan  a scanner object
 //   */
-//  private void createFixed(StockModel model, Scanner scan) {
-//    output("Please input the portfolio's name.\n");
-//    String portfolioName = input(scan);
-//    if (isQuit(portfolioName)) {
-//      output("Quit.\n");
-//      return;
-//    }
-//    output("Equal proportion or separate?(E/S)\n");
-//    String equal = input(scan);
-//    if (isQuit(equal)) {
-//      output("Quit.\n");
-//      return;
-//    }
-//    Map<String, Double> company = new HashMap<>();
-//    output("Number of companies?\n");
-//    int n;
-//    try {
-//      n = Integer.parseInt(input(scan));
-//    } catch (IllegalArgumentException e) {
-//      throw new IllegalArgumentException("Illegal number.");
-//    }
-//    for (int i = 0; i < n; i++) {
-//      output("Name of company?\n");
-//      String companyName = input(scan);
-//
-//      if (isQuit(companyName)) {
-//        output("Quit.\n");
-//        return;
-//      }
-//      double proportion = 1.0 / n;
-//      if (equal.equals("S") || equal.equals("s")) {
-//        output("Proportion in percentage? E.g. input 30 to represent 30%.\n");
-//        try {
-//          proportion = Double.parseDouble(input(scan)) / 100.0;
-//        } catch (IllegalArgumentException e) {
-//          throw new IllegalArgumentException("Illegal number.");
-//        }
-//      }
-//      company.put(companyName, proportion);
-//    }
-//
-//    double amount = 0.0;
-//    output("Amount of investment?\n");
-//    try {
-//      amount = Double.parseDouble(input(scan));
-//    } catch (IllegalArgumentException e) {
-//      throw new IllegalArgumentException("Illegal number.");
-//    }
-//    if (isQuit(portfolioName)) {
-//      output("Quit.\n");
-//      return;
-//    }
-//
-//    output("Ongoing? Y/N\n");
-//    String onGoing = input(scan);
-//    if (isQuit(onGoing)) {
-//      output("Quit.\n");
-//      return;
-//    }
-//
-//    String startDate;
-//    String endDate = "N";
-//    if (onGoing.equals("Y") || onGoing.equals("y")) {
-//
-//      output("Provide a start date?(yyyy-mm-dd / N/n)\n");
-//      // startDate = input(scan);
-//      startDate = inputDate(scan);
-//      if (isQuit(startDate)) {
-//        output("Quit.\n");
-//        return;
-//      }
-//
-//      if (!startDate.equals("N") && !startDate.equals("n")) {
-//        output("Provide a end date?(yyyy-mm-dd / N/n)\n");
-//        // endDate = input(scan);
-//        endDate = inputDate(scan);
-//        if (isQuit(endDate)) {
-//          output("Quit.\n");
-//          return;
-//        }
-//      }
-//
-//      int interval = 30;
-//      if (!startDate.equals("N") && !startDate.equals("n")) {
-//        output("Provide a interval in days?(e.g 15, 30, 60 / N/n)\n");
-//        String st = input(scan);
-//        if (isQuit(st)) {
-//          output("Quit.\n");
-//          return;
-//        }
-//        if (!st.equals("n") && !st.equals("N")) {
-//          try {
-//            interval = Integer.parseInt(st);
-//          } catch (IllegalArgumentException e) {
-//            throw new IllegalArgumentException("Illegal number.");
-//          }
-//        }
-//      }
-//
-//      try {   // better to add a things to ask what should be the interval. 30 days, 60 days. Done.
-//        model.dollarCostAverage(portfolioName, company, amount, startDate, endDate, interval);
-//      } catch (IllegalArgumentException e) {
-//        output(e.getMessage());
-//        output("\n");
-//        throw new IllegalArgumentException();
-//      }
-//    } else {
-//      output("Provide a buying date?(yyyy-mm-dd / N/n)\n");
-//      // String date = input(scan);
-//      String date = inputDate(scan);
-//      if (isQuit(date)) {
-//        output("Quit.\n");
-//        return;
-//      }
-//
-//      try {
-//        model.createPortfolio(portfolioName, company, amount, date);
-//      } catch (IllegalArgumentException e) {
-//        output(e.getMessage());
-//        output("\n");
-//        throw new IllegalArgumentException();
-//      }
-//    }
-//    Double cost = model.determineCost(portfolioName);
-//    Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
-//    output("Created a Fixed portfolio successfully " + "with commission fee $"
-//            + Double.toString(commissionFeeAfter) + "\n");
-//    output("The total cost is $"
-//            + Double.toString(cost
-//            + commissionFeeAfter) + "\n");
-//    output("Commission fee is of "
-//            + Double.toString(commissionFeeAfter
-//            / (cost + commissionFeeAfter)
-//            * 100.0)
-//            + "%\n");
-//  }
-//
+  private void createFixed(StockModel model, Scanner scan, StringBuilder output) {
+    output.append("Please input the portfolio's name.\n");
+    String portfolioName = input(scan);
+    if (isQuit(portfolioName)) {
+      output.append("Quit.\n");
+      return;
+    }
+    output.append("Equal proportion or separate?(E/S)\n");
+    String equal = input(scan);
+    if (isQuit(equal)) {
+      output.append("Quit.\n");
+      return;
+    }
+    Map<String, Double> company = new HashMap<>();
+    output.append("Number of companies?\n");
+    int n;
+    try {
+      n = Integer.parseInt(input(scan));
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("Illegal number.");
+    }
+    for (int i = 0; i < n; i++) {
+      output.append("Name of company?\n");
+      String companyName = input(scan);
+
+      if (isQuit(companyName)) {
+        output.append("Quit.\n");
+        return;
+      }
+      double proportion = 1.0 / n;
+      if (equal.equals("S") || equal.equals("s")) {
+        output.append("Proportion in percentage? E.g. input 30 to represent 30%.\n");
+        try {
+          proportion = Double.parseDouble(input(scan)) / 100.0;
+        } catch (IllegalArgumentException e) {
+          throw new IllegalArgumentException("Illegal number.");
+        }
+      }
+      company.put(companyName, proportion);
+    }
+
+    double amount = 0.0;
+    output.append("Amount of investment?\n");
+    try {
+      amount = Double.parseDouble(input(scan));
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("Illegal number.");
+    }
+    if (isQuit(portfolioName)) {
+      output.append("Quit.\n");
+      return;
+    }
+
+    output.append("Ongoing? Y/N\n");
+    String onGoing = input(scan);
+    if (isQuit(onGoing)) {
+      output.append("Quit.\n");
+      return;
+    }
+
+    String startDate;
+    String endDate = "N";
+    if (onGoing.equals("Y") || onGoing.equals("y")) {
+
+      output.append("Provide a start date?(yyyy-mm-dd / N/n)\n");
+      // startDate = input(scan);
+      startDate = inputDate(scan);
+      if (isQuit(startDate)) {
+        output.append("Quit.\n");
+        return;
+      }
+
+      if (!startDate.equals("N") && !startDate.equals("n")) {
+        output.append("Provide a end date?(yyyy-mm-dd / N/n)\n");
+        // endDate = input(scan);
+        endDate = inputDate(scan);
+        if (isQuit(endDate)) {
+          output.append("Quit.\n");
+          return;
+        }
+      }
+
+      int interval = 30;
+      if (!startDate.equals("N") && !startDate.equals("n")) {
+        output.append("Provide a interval in days?(e.g 15, 30, 60 / N/n)\n");
+        String st = input(scan);
+        if (isQuit(st)) {
+          output.append("Quit.\n");
+          return;
+        }
+        if (!st.equals("n") && !st.equals("N")) {
+          try {
+            interval = Integer.parseInt(st);
+          } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Illegal number.");
+          }
+        }
+      }
+
+      try {   // better to add a things to ask what should be the interval. 30 days, 60 days. Done.
+        model.dollarCostAverage(portfolioName, company, amount, startDate, endDate, interval);
+      } catch (IllegalArgumentException e) {
+        output.append(e.getMessage());
+        output.append("\n");
+        throw new IllegalArgumentException();
+      }
+    } else {
+      output.append("Provide a buying date?(yyyy-mm-dd / N/n)\n");
+      // String date = input(scan);
+      String date = inputDate(scan);
+      if (isQuit(date)) {
+        output.append("Quit.\n");
+        return;
+      }
+
+      try {
+        model.createPortfolio(portfolioName, company, amount, date);
+      } catch (IllegalArgumentException e) {
+        output.append(e.getMessage());
+        output.append("\n");
+        throw new IllegalArgumentException();
+      }
+    }
+    Double cost = model.determineCost(portfolioName);
+    Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
+    output.append("Created a Fixed portfolio successfully " + "with commission fee $"
+            + Double.toString(commissionFeeAfter) + "\n");
+    output.append("The total cost is $"
+            + Double.toString(cost
+            + commissionFeeAfter) + "\n");
+    output.append("Commission fee is of "
+            + Double.toString(commissionFeeAfter
+            / (cost + commissionFeeAfter)
+            * 100.0)
+            + "%\n");
+  }
+
+  //
 //  /**
 //   * This method will create an empty portfolio.
 //   *
 //   * @param model a stock system model
 //   * @param scan  a Scanner object
 //   */
-  private String create(String portfolioName) {
+  private void create(StockModel model, Scanner scan, StringBuilder output) {
+    output.append("Please input the portfolio's name.\n");
+    String portfolioName = input(scan);
+    if (isQuit(portfolioName)) {
+      output.append("Quit.\n");
+      return;
+    }
     try {
       model.createPortfolio(portfolioName);
     } catch (IllegalArgumentException e) {
-      return e.getMessage();
+      output.append(e.getMessage());
+      return;
     }
-    return "Created an empty portfolio successfully.\n";
+    output.append("Created an empty portfolio successfully.\n");
   }
+
+//  private String create(String portfolioName) {
+//    try {
+//      model.createPortfolio(portfolioName);
+//    } catch (IllegalArgumentException e) {
+//      return e.getMessage();
+//    }
+//    return "Created an empty portfolio successfully.\n";
+//  }
 //
 //  /**
 //   * This method will buy a certain stock into a portfolio.
@@ -508,6 +530,7 @@ public class StockControllerImpl implements StockController {
 //            * 100.0)
 //            + "%\n");
 //  }
+
 //
 //
 //  /**

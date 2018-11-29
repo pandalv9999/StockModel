@@ -11,7 +11,7 @@ import controller.StockControllerImpl;
 
 public class JFrameView extends JFrame implements IView {
   private JLabel display;
-  private JButton echoButton, exitButton;
+  private JButton echoButton, exitButton, createButton;
   private JTextField input;
 
   public JFrameView(String caption, StockControllerImpl controller) {
@@ -24,9 +24,8 @@ public class JFrameView extends JFrame implements IView {
 
 
     this.setLayout(new FlowLayout());
-
-    display = new JLabel("To be displayed");
-    //label = new JLabel(new ImageIcon("Jellyfish.JPG"));
+    display = new JLabel("You can input: create, buy, determinecost, determinevalue, getstate, "
+            + "getallstate, determinefee, createfixed, buyp, or q/Q\n");
 
 
     this.add(display);
@@ -39,6 +38,11 @@ public class JFrameView extends JFrame implements IView {
     echoButton = new JButton("Echo");
     echoButton.setActionCommand("Echo Button");
     this.add(echoButton);
+
+    //createButton
+    createButton = new JButton("create empty portfolio");
+    createButton.setActionCommand("Create Button");
+    this.add(createButton);
 
     //exit button
     exitButton = new JButton("Exit");
@@ -54,6 +58,7 @@ public class JFrameView extends JFrame implements IView {
   @Override
   public void addActionListener(ActionListener actionListener) {
     echoButton.addActionListener(actionListener);
+    createButton.addActionListener(actionListener);
     exitButton.addActionListener(actionListener);
   }
 

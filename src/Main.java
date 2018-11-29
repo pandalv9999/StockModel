@@ -16,13 +16,14 @@ public class Main {
   /**
    * This is the main program of our project. It has the same effect when open the file in the .jar
    * file.
+   *
    * @param args No argument needed.
    */
 
   public static void main(String[] args) {
     StockModel model = StockModelImpl.getBuilder().commissionFee(5.0).build();
     StockControllerImpl controller = new StockControllerImpl(model);
-    IView view = new JFrameView("GStocks",controller);
+    IView view = new JFrameView("GStocks", controller);
     controller.setView(view);
   }
 }
