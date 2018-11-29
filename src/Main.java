@@ -1,7 +1,11 @@
 import java.io.InputStreamReader;
 
 import controller.StockControllerImpl;
+import model.Stock;
+import model.StockModel;
 import model.StockModelImpl;
+import view.IView;
+import view.JFrameView;
 
 /**
  * The class is the main class of the program.
@@ -16,8 +20,10 @@ public class Main {
    */
 
   public static void main(String[] args) {
-    new StockControllerImpl(new InputStreamReader(System.in), System.out)
-            .start(StockModelImpl.getBuilder().commissionFee(5.0).build());
+    StockModel model = StockModelImpl.getBuilder().commissionFee(5.0).build();
+    StockControllerImpl controller = new StockControllerImpl(model);
+    IView view = new JFrameView("GStocks",controller);
+    controller.setView(view);
   }
 }
 

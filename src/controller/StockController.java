@@ -8,11 +8,11 @@ import model.StockModel;
  */
 public interface StockController {
 
-  /**
-   * This method is the main method of the controller. It takes a model as the parameter and call
-   * its methods.
-   *
-   * @param model a stock system model
-   */
-  void start(StockModel model);
+//  /**
+//   * This method is the main method of the controller. It takes a model as the parameter and call
+//   * its methods.
+//   *
+//   * @param model a stock system model
+//   */
+//  void start(StockModel model);
 }
