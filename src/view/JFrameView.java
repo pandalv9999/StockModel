@@ -11,7 +11,7 @@ import controller.StockControllerImpl;
 
 public class JFrameView extends JFrame implements IView {
   private JLabel display;
-  private JButton echoButton, exitButton, createButton;
+  private JButton echoButton, exitButton;
   private JTextField input;
 
   public JFrameView(String caption, StockControllerImpl controller) {
@@ -35,14 +35,9 @@ public class JFrameView extends JFrame implements IView {
     this.add(input);
 
     //echobutton
-    echoButton = new JButton("Echo");
+    echoButton = new JButton("Go");
     echoButton.setActionCommand("Echo Button");
     this.add(echoButton);
-
-    //createButton
-    createButton = new JButton("create empty portfolio");
-    createButton.setActionCommand("Create Button");
-    this.add(createButton);
 
     //exit button
     exitButton = new JButton("Exit");
@@ -58,7 +53,6 @@ public class JFrameView extends JFrame implements IView {
   @Override
   public void addActionListener(ActionListener actionListener) {
     echoButton.addActionListener(actionListener);
-    createButton.addActionListener(actionListener);
     exitButton.addActionListener(actionListener);
   }
 
