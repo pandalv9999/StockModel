@@ -12,6 +12,8 @@ import java.util.Scanner;
 
 import model.StockModel;
 import view.ButtonListener;
+import view.BuyPercentageView;
+import view.BuyView;
 import view.CreateView;
 import view.DetermineCostView;
 import view.DetermineFeeView;
@@ -29,7 +31,8 @@ import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
  */
 public class StockControllerImpl implements StockController {
   private StockModel model;
-  private IView view, mainView, createView, getAllStateView, getStateView, determineCostView, determineFeeView, determineValueView;
+  private IView view, mainView, createView, getAllStateView, getStateView, determineCostView,
+          determineFeeView, determineValueView, buyView, buyPercentageView;
 
   /**
    * This method will take a scanner object as an input and get the string separated by blank space
@@ -144,7 +147,9 @@ public class StockControllerImpl implements StockController {
    * The constructor of this method. It will take in a inStream and outStream and initialize the
    * controller.
    */
-  public StockControllerImpl(StockModel m, IView mainView, IView createView, IView getAllStateView, IView getStateView, IView determineCostView, IView determineFeeView, IView determineValueView) throws IllegalArgumentException {
+  public StockControllerImpl(StockModel m, IView mainView, IView createView, IView getAllStateView,
+                             IView getStateView, IView determineCostView, IView determineFeeView,
+                             IView determineValueView, IView buyView, IView buyPercentageView) throws IllegalArgumentException {
     this.view = mainView;
     this.model = m;
     this.mainView = mainView;
@@ -154,6 +159,8 @@ public class StockControllerImpl implements StockController {
     this.determineCostView = determineCostView;
     this.determineFeeView = determineFeeView;
     this.determineValueView = determineValueView;
+    this.buyView = buyView;
+    this.buyPercentageView = buyPercentageView;
     configureKeyBoardListener();
     configureButtonListener();
 //    if (rd == null || ap == null) {
@@ -355,6 +362,59 @@ public class StockControllerImpl implements StockController {
     });
 
 
+    //Buy frame
+    buttonClickedMap.put("Buy Button", () -> {
+      System.out.println("haha2");
+      this.setView(this.buyView);
+      ((JFrameView) this.mainView).setVisible(false);
+      ((BuyView) this.buyView).setVisible(true);
+    });
+
+    buttonClickedMap.put("Buy Echo Button", () -> {
+      String command = view.getInputString();
+      view.setEchoOutput(processCommand(command));
+
+      //clear input textfield
+      view.clearInputString();
+
+      //set focus back to main frame so that keyboard events work
+      view.resetFocus();
+
+    });
+
+    buttonClickedMap.put("Buy Exit Button", () -> {
+      this.setView(this.mainView);
+      ((JFrameView) this.mainView).setVisible(true);
+      ((BuyView) this.buyView).setVisible(false);
+    });
+
+    //BuyPercentage frame
+    buttonClickedMap.put("BuyPercentage Button", () -> {
+      System.out.println("haha2");
+      this.setView(this.buyPercentageView);
+      ((JFrameView) this.mainView).setVisible(false);
+      ((BuyPercentageView) this.buyPercentageView).setVisible(true);
+    });
+
+    buttonClickedMap.put("BuyPercentage Echo Button", () -> {
+      String command = view.getInputString();
+      view.setEchoOutput(processCommand(command));
+
+      //clear input textfield
+      view.clearInputString();
+
+      //set focus back to main frame so that keyboard events work
+      view.resetFocus();
+
+    });
+
+    buttonClickedMap.put("BuyPercentage Exit Button", () -> {
+      this.setView(this.mainView);
+      ((JFrameView) this.mainView).setVisible(true);
+      ((BuyPercentageView) this.buyPercentageView).setVisible(false);
+    });
+
+
     buttonListener.setButtonClickedActionMap(buttonClickedMap);
     this.mainView.addActionListener(buttonListener);
     this.createView.addActionListener(buttonListener);
@@ -363,6 +423,8 @@ public class StockControllerImpl implements StockController {
     this.determineCostView.addActionListener(buttonListener);
     this.determineFeeView.addActionListener(buttonListener);
     this.determineValueView.addActionListener(buttonListener);
+    this.buyView.addActionListener(buttonListener);
+    this.buyPercentageView.addActionListener(buttonListener);
   }
 
   /**
@@ -409,7 +471,7 @@ public class StockControllerImpl implements StockController {
         } catch (Exception e) {
           output.append(e.getMessage());
         }
-      } else if (in.equals("buy")) {
+      } else if (in.equals("buy")) { //done
         try {
           buy(model, scan, output);
         } catch (Exception e) {
@@ -433,7 +495,7 @@ public class StockControllerImpl implements StockController {
         } catch (Exception e) {
           output.append(e.getMessage());
         }
-      } else if (in.equals("buyp")) {
+      } else if (in.equals("buyp")) { //done
         try {
           buyByPercentage(model, scan, output);
         } catch (Exception e) {
@@ -562,7 +624,7 @@ public class StockControllerImpl implements StockController {
       } catch (IllegalArgumentException e) {
         output.append(e.getMessage());
         output.append("\n");
-        throw new IllegalArgumentException();
+        return;
       }
     } else {
       // String date = input(scan);
@@ -577,7 +639,7 @@ public class StockControllerImpl implements StockController {
       } catch (IllegalArgumentException e) {
         output.append(e.getMessage());
         output.append("\n");
-        throw new IllegalArgumentException();
+        return;
       }
     }
     Double cost = model.determineCost(portfolioName);
@@ -672,7 +734,7 @@ public class StockControllerImpl implements StockController {
     } catch (IllegalArgumentException e) {
       output.append(e.getMessage());
       output.append("\n");
-      throw new IllegalArgumentException();
+      return;
     }
     Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
     output.append("Successfully bought " + companyName + " with " + shares + " shares on " + date
@@ -706,7 +768,7 @@ public class StockControllerImpl implements StockController {
     } catch (IllegalArgumentException e) {
       output.append(e.getMessage());
       output.append("\n");
-      throw new IllegalArgumentException();
+      return;
     }
     Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
     output.append("The cost basis of buying in " + portfolioName + " is $" + Double.toString(res)
@@ -738,7 +800,7 @@ public class StockControllerImpl implements StockController {
     } catch (IllegalArgumentException e) {
       output.append(e.getMessage());
       output.append("\n");
-      throw new IllegalArgumentException();
+      return;
     }
     output.append("The value of all stocks in this portfolio on " + date + " is $"
             + Double.toString(res) + "\n");
@@ -762,7 +824,7 @@ public class StockControllerImpl implements StockController {
     } catch (IllegalArgumentException e) {
       output.append(e.getMessage());
       output.append("\n");
-      throw new IllegalArgumentException();
+      return;
     }
     output.append("The fee of all transactions in this portfolio is $"
             + Double.toString(res) + "\n");
@@ -803,13 +865,14 @@ public class StockControllerImpl implements StockController {
     }
 
     Double res = 0.0;
-    Double commissionFeeBefore = model.determineCommissionFee(portfolioName);
+    Double commissionFeeBefore;
     try {
+      commissionFeeBefore = model.determineCommissionFee(portfolioName);
       res = model.buyByPercentage(portfolioName, amount, date);
     } catch (IllegalArgumentException e) {
       output.append(e.getMessage());
       output.append("\n");
-      throw new IllegalArgumentException();
+      return;
     }
     Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
     output.append("The cost of buying this portfolio is $"
@@ -842,7 +905,7 @@ public class StockControllerImpl implements StockController {
     } catch (Exception e) {
       output.append(e.getMessage());
       output.append("\n");
-      throw new IllegalArgumentException();
+      return;
     }
     output.append("The state of " + portfolioName + "\n");
     output.append(res);
@@ -862,7 +925,7 @@ public class StockControllerImpl implements StockController {
     } catch (IllegalArgumentException e) {
       output.append(e.getMessage());
       output.append("\n");
-      throw new IllegalArgumentException();
+      return;
     }
     output.append("The state of all portfolios:\n");
     output.append(res + "\n");

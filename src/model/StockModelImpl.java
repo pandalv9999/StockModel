@@ -361,7 +361,10 @@ public class StockModelImpl implements StockModel {
   }
 
   @Override
-  public double determineCommissionFee(String portfolioName) {
+  public double determineCommissionFee(String portfolioName) throws IllegalArgumentException{
+    if (counter.get(portfolioName) == null) {
+      throw new IllegalArgumentException("There is no such portfolio.");
+    }
     return counter.get(portfolioName) * commissionFee;
   }
 

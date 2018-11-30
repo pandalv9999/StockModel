@@ -12,7 +12,8 @@ import controller.StockControllerImpl;
 public class JFrameView extends JFrame implements IView {
   private JLabel display;
   private JButton echoButton, exitButton, createButton, getAllStateButton, getStateButton,
-          determineCostButton, determineFeeButton, determineValueButton;
+          determineCostButton, determineFeeButton, determineValueButton, buyButton,
+          buyPercentageButton;
   private JTextField input;
 
   public JFrameView(String caption) {
@@ -72,6 +73,16 @@ public class JFrameView extends JFrame implements IView {
     determineValueButton.setActionCommand("DetermineValue Button");
     this.add(determineValueButton);
 
+    //buyButton
+    buyButton = new JButton("Buy a stock");
+    buyButton.setActionCommand("Buy Button");
+    this.add(buyButton);
+
+    //buyPercentageButton
+    buyPercentageButton = new JButton("Buy a Portfolio");
+    buyPercentageButton.setActionCommand("BuyPercentage Button");
+    this.add(buyPercentageButton);
+
     //exit button
     exitButton = new JButton("Exit");
     exitButton.setActionCommand("Exit Button");
@@ -93,6 +104,8 @@ public class JFrameView extends JFrame implements IView {
     determineCostButton.addActionListener(actionListener);
     determineFeeButton.addActionListener(actionListener);
     determineValueButton.addActionListener(actionListener);
+    buyButton.addActionListener(actionListener);
+    buyPercentageButton.addActionListener(actionListener);
   }
 
 
