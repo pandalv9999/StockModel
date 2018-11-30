@@ -15,6 +15,7 @@ import view.ButtonListener;
 import view.CreateView;
 import view.DetermineCostView;
 import view.DetermineFeeView;
+import view.DetermineValueView;
 import view.GetAllStateView;
 import view.GetStateView;
 import view.IView;
@@ -28,7 +29,7 @@ import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
  */
 public class StockControllerImpl implements StockController {
   private StockModel model;
-  private IView view, mainView, createView, getAllStateView, getStateView, determineCostView, determineFeeView;
+  private IView view, mainView, createView, getAllStateView, getStateView, determineCostView, determineFeeView, determineValueView;
 
   /**
    * This method will take a scanner object as an input and get the string separated by blank space
@@ -143,7 +144,7 @@ public class StockControllerImpl implements StockController {
    * The constructor of this method. It will take in a inStream and outStream and initialize the
    * controller.
    */
-  public StockControllerImpl(StockModel m, IView mainView, IView createView, IView getAllStateView, IView getStateView, IView determineCostView, IView determineFeeView) throws IllegalArgumentException {
+  public StockControllerImpl(StockModel m, IView mainView, IView createView, IView getAllStateView, IView getStateView, IView determineCostView, IView determineFeeView, IView determineValueView) throws IllegalArgumentException {
     this.view = mainView;
     this.model = m;
     this.mainView = mainView;
@@ -152,6 +153,7 @@ public class StockControllerImpl implements StockController {
     this.getStateView = getStateView;
     this.determineCostView = determineCostView;
     this.determineFeeView = determineFeeView;
+    this.determineValueView = determineValueView;
     configureKeyBoardListener();
     configureButtonListener();
 //    if (rd == null || ap == null) {
@@ -326,6 +328,33 @@ public class StockControllerImpl implements StockController {
     });
 
 
+    //DetermineValue frame
+    buttonClickedMap.put("DetermineValue Button", () -> {
+      System.out.println("haha2");
+      this.setView(this.determineValueView);
+      ((JFrameView) this.mainView).setVisible(false);
+      ((DetermineValueView) this.determineValueView).setVisible(true);
+    });
+
+    buttonClickedMap.put("DetermineValue Echo Button", () -> {
+      String command = view.getInputString();
+      view.setEchoOutput(processCommand(command));
+
+      //clear input textfield
+      view.clearInputString();
+
+      //set focus back to main frame so that keyboard events work
+      view.resetFocus();
+
+    });
+
+    buttonClickedMap.put("DetermineValue Exit Button", () -> {
+      this.setView(this.mainView);
+      ((JFrameView) this.mainView).setVisible(true);
+      ((DetermineValueView) this.determineValueView).setVisible(false);
+    });
+
+
     buttonListener.setButtonClickedActionMap(buttonClickedMap);
     this.mainView.addActionListener(buttonListener);
     this.createView.addActionListener(buttonListener);
@@ -333,6 +362,7 @@ public class StockControllerImpl implements StockController {
     this.getStateView.addActionListener(buttonListener);
     this.determineCostView.addActionListener(buttonListener);
     this.determineFeeView.addActionListener(buttonListener);
+    this.determineValueView.addActionListener(buttonListener);
   }
 
   /**
@@ -391,7 +421,7 @@ public class StockControllerImpl implements StockController {
         } catch (Exception e) {
           output.append(e.getMessage());
         }
-      } else if (in.equals("determinevalue")) {
+      } else if (in.equals("determinevalue")) { //done
         try {
           determineValue(model, scan, output);
         } catch (Exception e) {

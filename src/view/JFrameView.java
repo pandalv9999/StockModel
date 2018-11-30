@@ -11,7 +11,8 @@ import controller.StockControllerImpl;
 
 public class JFrameView extends JFrame implements IView {
   private JLabel display;
-  private JButton echoButton, exitButton, createButton, getAllStateButton, getStateButton, determineCostButton, determineFeeButton;
+  private JButton echoButton, exitButton, createButton, getAllStateButton, getStateButton,
+          determineCostButton, determineFeeButton, determineValueButton;
   private JTextField input;
 
   public JFrameView(String caption) {
@@ -65,6 +66,12 @@ public class JFrameView extends JFrame implements IView {
     determineFeeButton.setActionCommand("DetermineFee Button");
     this.add(determineFeeButton);
 
+
+    //determineValueButton
+    determineValueButton = new JButton("Determine Value");
+    determineValueButton.setActionCommand("DetermineValue Button");
+    this.add(determineValueButton);
+
     //exit button
     exitButton = new JButton("Exit");
     exitButton.setActionCommand("Exit Button");
@@ -85,6 +92,7 @@ public class JFrameView extends JFrame implements IView {
     getStateButton.addActionListener(actionListener);
     determineCostButton.addActionListener(actionListener);
     determineFeeButton.addActionListener(actionListener);
+    determineValueButton.addActionListener(actionListener);
   }
 
 

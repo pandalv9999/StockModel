@@ -7,6 +7,7 @@ import model.StockModelImpl;
 import view.CreateView;
 import view.DetermineCostView;
 import view.DetermineFeeView;
+import view.DetermineValueView;
 import view.GetAllStateView;
 import view.GetStateView;
 import view.IView;
@@ -33,8 +34,9 @@ public class Main {
     IView getStateView = new GetStateView("Get state");
     IView determineCostView = new DetermineCostView("Get state");
     IView determineFeeView = new DetermineFeeView("Determine Fee");
+    IView determineValueView = new DetermineValueView("Determine Value");
     StockControllerImpl controller = new StockControllerImpl(model, mainView, createView,
-            getAllStateView, getStateView, determineCostView, determineFeeView);
+            getAllStateView, getStateView, determineCostView, determineFeeView, determineValueView);
     //controller.setView(mainView);
   }
 }
