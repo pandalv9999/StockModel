@@ -4,17 +4,13 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-import controller.StockControllerImpl;
-
-public class JFrameView extends JFrame implements IView {
+public class DetermineCostView extends JFrame implements IView {
   private JLabel display;
-  private JButton echoButton, exitButton, createButton, getAllStateButton, getStateButton, determineCostButton, determineFeeButton;
+  private JButton echoButton, exitButton;
   private JTextField input;
 
-  public JFrameView(String caption) {
+  public DetermineCostView(String caption) {
     super(caption);
     setSize(800, 600);
     setLocation(200, 200);
@@ -24,8 +20,7 @@ public class JFrameView extends JFrame implements IView {
 
 
     this.setLayout(new FlowLayout());
-    display = new JLabel("You can input: create, buy, determinecost, determinevalue, getstate, "
-            + "getallstate, determinefee, createfixed, buyp, or q/Q\n");
+    display = new JLabel("Please input the portfolio's name.");
 
 
     this.add(display);
@@ -35,56 +30,25 @@ public class JFrameView extends JFrame implements IView {
     this.add(input);
 
     //echobutton
-    echoButton = new JButton("Go");
-    echoButton.setActionCommand("Echo Button");
+    echoButton = new JButton("Determine Cost");
+    echoButton.setActionCommand("DetermineCost Echo Button");
     this.add(echoButton);
-
-    //createButton
-    createButton = new JButton("Create");
-    createButton.setActionCommand("Create Button");
-    this.add(createButton);
-
-    //getAllStateButton
-    getAllStateButton = new JButton("Get all state");
-    getAllStateButton.setActionCommand("GetAllState Button");
-    this.add(getAllStateButton);
-
-    //getStateButton
-    getStateButton = new JButton("Get state");
-    getStateButton.setActionCommand("GetState Button");
-    this.add(getStateButton);
-
-    //determineCostButton
-    determineCostButton = new JButton("Determine Cost");
-    determineCostButton.setActionCommand("DetermineCost Button");
-    this.add(determineCostButton);
-
-
-    //determineCostButton
-    determineFeeButton = new JButton("Determine Fee");
-    determineFeeButton.setActionCommand("DetermineFee Button");
-    this.add(determineFeeButton);
 
     //exit button
     exitButton = new JButton("Exit");
-    exitButton.setActionCommand("Exit Button");
+    exitButton.setActionCommand("DetermineCost Exit Button");
     this.add(exitButton);
 
 
     //pack();
-    setVisible(true);
+    setVisible(false);
 
   }
 
   @Override
   public void addActionListener(ActionListener actionListener) {
     echoButton.addActionListener(actionListener);
-    createButton.addActionListener(actionListener);
     exitButton.addActionListener(actionListener);
-    getAllStateButton.addActionListener(actionListener);
-    getStateButton.addActionListener(actionListener);
-    determineCostButton.addActionListener(actionListener);
-    determineFeeButton.addActionListener(actionListener);
   }
 
 
@@ -120,7 +84,7 @@ public class JFrameView extends JFrame implements IView {
 
   @Override
   public String getInputString() {
-    return input.getText();
+    return "determinecost " + input.getText();
   }
 
   @Override
@@ -130,4 +94,5 @@ public class JFrameView extends JFrame implements IView {
 
 
 }
+
 
