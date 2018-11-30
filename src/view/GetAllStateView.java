@@ -1,20 +1,20 @@
 package view;
 
-import javax.swing.*;
+        import javax.swing.*;
 
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+        import java.awt.*;
+        import java.awt.event.ActionListener;
+        import java.awt.event.KeyEvent;
+        import java.awt.event.KeyListener;
 
-import controller.StockControllerImpl;
+        import controller.StockControllerImpl;
 
-public class JFrameView extends JFrame implements IView {
+public class GetAllStateView extends JFrame implements IView {
   private JLabel display;
-  private JButton echoButton, exitButton, createButton, getAllStateButton;
+  private JButton echoButton, exitButton;
   private JTextField input;
 
-  public JFrameView(String caption) {
+  public GetAllStateView(String caption) {
     super(caption);
     setSize(800, 600);
     setLocation(200, 200);
@@ -24,8 +24,7 @@ public class JFrameView extends JFrame implements IView {
 
 
     this.setLayout(new FlowLayout());
-    display = new JLabel("You can input: create, buy, determinecost, determinevalue, getstate, "
-            + "getallstate, determinefee, createfixed, buyp, or q/Q\n");
+    display = new JLabel("Please input the portfolio's name.");
 
 
     this.add(display);
@@ -35,37 +34,25 @@ public class JFrameView extends JFrame implements IView {
     this.add(input);
 
     //echobutton
-    echoButton = new JButton("Go");
-    echoButton.setActionCommand("Echo Button");
+    echoButton = new JButton("Get all state");
+    echoButton.setActionCommand("GetAllState Echo Button");
     this.add(echoButton);
-
-    //createButton
-    createButton = new JButton("Create");
-    createButton.setActionCommand("Create Button");
-    this.add(createButton);
-
-    //getAllStateButton
-    getAllStateButton = new JButton("Get all state");
-    getAllStateButton.setActionCommand("GetAllState Button");
-    this.add(getAllStateButton);
 
     //exit button
     exitButton = new JButton("Exit");
-    exitButton.setActionCommand("Exit Button");
+    exitButton.setActionCommand("GetAllState Exit Button");
     this.add(exitButton);
 
 
     //pack();
-    setVisible(true);
+    setVisible(false);
 
   }
 
   @Override
   public void addActionListener(ActionListener actionListener) {
     echoButton.addActionListener(actionListener);
-    createButton.addActionListener(actionListener);
     exitButton.addActionListener(actionListener);
-    getAllStateButton.addActionListener(actionListener);
   }
 
 
@@ -101,7 +88,7 @@ public class JFrameView extends JFrame implements IView {
 
   @Override
   public String getInputString() {
-    return input.getText();
+    return "getallstate";
   }
 
   @Override

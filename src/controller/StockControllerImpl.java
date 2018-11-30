@@ -13,6 +13,7 @@ import java.util.Scanner;
 import model.StockModel;
 import view.ButtonListener;
 import view.CreateView;
+import view.GetAllStateView;
 import view.IView;
 import view.JFrameView;
 import view.KeyboardListener;
@@ -24,7 +25,7 @@ import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
  */
 public class StockControllerImpl implements StockController {
   private StockModel model;
-  private IView view, mainView, createView;
+  private IView view, mainView, createView, getAllStateView;
 
   /**
    * This method will take a scanner object as an input and get the string separated by blank space
@@ -139,11 +140,12 @@ public class StockControllerImpl implements StockController {
    * The constructor of this method. It will take in a inStream and outStream and initialize the
    * controller.
    */
-  public StockControllerImpl(StockModel m, IView mainView, IView createView) throws IllegalArgumentException {
+  public StockControllerImpl(StockModel m, IView mainView, IView createView, IView getAllStateView) throws IllegalArgumentException {
     this.view = mainView;
     this.model = m;
     this.mainView = mainView;
     this.createView = createView;
+    this.getAllStateView = getAllStateView;
     configureKeyBoardListener();
     configureButtonListener();
 //    if (rd == null || ap == null) {
@@ -179,6 +181,18 @@ public class StockControllerImpl implements StockController {
 
     });
 
+    buttonClickedMap.put("Exit Button", () -> {
+      System.exit(0);
+    });
+
+    //create empty portfolio frame
+    buttonClickedMap.put("Create Button", () -> {
+      System.out.println("haha");
+      this.setView(this.createView);
+      ((JFrameView) this.mainView).setVisible(false);
+      ((CreateView) this.createView).setVisible(true);
+    });
+
     buttonClickedMap.put("Create Echo Button", () -> {
       String command = view.getInputString();
       view.setEchoOutput(processCommand(command));
@@ -191,36 +205,46 @@ public class StockControllerImpl implements StockController {
 
     });
 
-    buttonClickedMap.put("Create Button", () -> {
-      System.out.println("haha");
-      this.setView(this.createView);
-      ((JFrameView) this.mainView).setVisible(false);
-      ((CreateView) this.createView).setVisible(true);
-
-//      String command = view.getInputString();
-//      view.setEchoOutput(processCommand(command));
-//
-//      //clear input textfield
-//      view.clearInputString();
-//
-//      //set focus back to main frame so that keyboard events work
-//      view.resetFocus();
-
-    });
-
     buttonClickedMap.put("Create Exit Button", () -> {
       this.setView(this.mainView);
       ((JFrameView) this.mainView).setVisible(true);
       ((CreateView) this.createView).setVisible(false);
     });
 
-    buttonClickedMap.put("Exit Button", () -> {
-      System.exit(0);
+
+    //GetAllState frame
+    buttonClickedMap.put("GetAllState Button", () -> {
+      System.out.println("haha2");
+      this.setView(this.getAllStateView);
+      ((JFrameView) this.mainView).setVisible(false);
+      ((GetAllStateView) this.getAllStateView).setVisible(true);
+      view.setEchoOutput(processCommand("getallstate"));
     });
+
+    buttonClickedMap.put("GetAllState Echo Button", () -> {
+      System.out.println("haha3");
+      String command = view.getInputString();
+      view.setEchoOutput(processCommand("getallstate"));
+
+      //clear input textfield
+      view.clearInputString();
+
+      //set focus back to main frame so that keyboard events work
+      view.resetFocus();
+
+    });
+
+    buttonClickedMap.put("GetAllState Exit Button", () -> {
+      this.setView(this.mainView);
+      ((JFrameView) this.mainView).setVisible(true);
+      ((GetAllStateView) this.getAllStateView).setVisible(false);
+    });
+
 
     buttonListener.setButtonClickedActionMap(buttonClickedMap);
     this.mainView.addActionListener(buttonListener);
     this.createView.addActionListener(buttonListener);
+    this.getAllStateView.addActionListener(buttonListener);
   }
 
   /**
