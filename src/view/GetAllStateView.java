@@ -1,13 +1,9 @@
 package view;
 
-        import javax.swing.*;
+import javax.swing.*;
 
-        import java.awt.*;
-        import java.awt.event.ActionListener;
-        import java.awt.event.KeyEvent;
-        import java.awt.event.KeyListener;
-
-        import controller.StockControllerImpl;
+import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class GetAllStateView extends JFrame implements IView {
   private JLabel display;
@@ -31,12 +27,12 @@ public class GetAllStateView extends JFrame implements IView {
 
     //the textfield
     input = new JTextField(10);
-    this.add(input);
+    //this.add(input);
 
     //echobutton
-    echoButton = new JButton("Get all state");
-    echoButton.setActionCommand("GetAllState Echo Button");
-    this.add(echoButton);
+//    echoButton = new JButton("Get all state");
+//    echoButton.setActionCommand("GetAllState Echo Button");
+//    this.add(echoButton);
 
     //exit button
     exitButton = new JButton("Exit");
@@ -51,7 +47,7 @@ public class GetAllStateView extends JFrame implements IView {
 
   @Override
   public void addActionListener(ActionListener actionListener) {
-    echoButton.addActionListener(actionListener);
+//    echoButton.addActionListener(actionListener);
     exitButton.addActionListener(actionListener);
   }
 

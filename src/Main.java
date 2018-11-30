@@ -6,6 +6,7 @@ import model.StockModel;
 import model.StockModelImpl;
 import view.CreateView;
 import view.GetAllStateView;
+import view.GetStateView;
 import view.IView;
 import view.JFrameView;
 
@@ -27,7 +28,9 @@ public class Main {
     IView mainView = new JFrameView("GStocks");
     IView createView = new CreateView("Create empty portfolio");
     IView getAllStateView = new GetAllStateView("Get all state");
-    StockControllerImpl controller = new StockControllerImpl(model, mainView, createView, getAllStateView);
+    IView getStateView = new GetStateView("Get state");
+    StockControllerImpl controller = new StockControllerImpl(model, mainView, createView,
+            getAllStateView, getStateView);
     //controller.setView(mainView);
   }
 }
