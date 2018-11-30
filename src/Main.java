@@ -4,6 +4,7 @@ import controller.StockControllerImpl;
 import model.Stock;
 import model.StockModel;
 import model.StockModelImpl;
+import view.CreateView;
 import view.IView;
 import view.JFrameView;
 
@@ -22,9 +23,10 @@ public class Main {
 
   public static void main(String[] args) {
     StockModel model = StockModelImpl.getBuilder().commissionFee(5.0).build();
-    StockControllerImpl controller = new StockControllerImpl(model);
-    IView view = new JFrameView("GStocks", controller);
-    controller.setView(view);
+    IView mainView = new JFrameView("GStocks");
+    IView createView = new CreateView("Create empty portfolio");
+    StockControllerImpl controller = new StockControllerImpl(model, mainView, createView);
+    //controller.setView(mainView);
   }
 }
 

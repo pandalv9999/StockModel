@@ -9,12 +9,12 @@ import java.awt.event.KeyListener;
 
 import controller.StockControllerImpl;
 
-public class JFrameView extends JFrame implements IView {
+public class CreateView extends JFrame implements IView {
   private JLabel display;
-  private JButton echoButton, exitButton, createButton;
+  private JButton echoButton, exitButton;
   private JTextField input;
 
-  public JFrameView(String caption) {
+  public CreateView(String caption) {
     super(caption);
     setSize(800, 600);
     setLocation(200, 200);
@@ -24,8 +24,7 @@ public class JFrameView extends JFrame implements IView {
 
 
     this.setLayout(new FlowLayout());
-    display = new JLabel("You can input: create, buy, determinecost, determinevalue, getstate, "
-            + "getallstate, determinefee, createfixed, buyp, or q/Q\n");
+    display = new JLabel("Please input the portfolio's name.");
 
 
     this.add(display);
@@ -36,29 +35,23 @@ public class JFrameView extends JFrame implements IView {
 
     //echobutton
     echoButton = new JButton("Go");
-    echoButton.setActionCommand("Echo Button");
+    echoButton.setActionCommand("Create Echo Button");
     this.add(echoButton);
-
-    //createButton
-    createButton = new JButton("Create");
-    createButton.setActionCommand("Create Button");
-    this.add(createButton);
 
     //exit button
     exitButton = new JButton("Exit");
-    exitButton.setActionCommand("Exit Button");
+    exitButton.setActionCommand("Create Exit Button");
     this.add(exitButton);
 
 
     //pack();
-    setVisible(true);
+    setVisible(false);
 
   }
 
   @Override
   public void addActionListener(ActionListener actionListener) {
     echoButton.addActionListener(actionListener);
-    createButton.addActionListener(actionListener);
     exitButton.addActionListener(actionListener);
   }
 
@@ -95,7 +88,7 @@ public class JFrameView extends JFrame implements IView {
 
   @Override
   public String getInputString() {
-    return input.getText();
+    return "create " + input.getText();
   }
 
   @Override

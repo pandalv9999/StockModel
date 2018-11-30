@@ -12,15 +12,19 @@ import java.util.Scanner;
 
 import model.StockModel;
 import view.ButtonListener;
+import view.CreateView;
 import view.IView;
+import view.JFrameView;
 import view.KeyboardListener;
+
+import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
 
 /**
  * This class represents an implementation of a stock controller.
  */
 public class StockControllerImpl implements StockController {
   private StockModel model;
-  private IView view;
+  private IView view, mainView, createView;
 
   /**
    * This method will take a scanner object as an input and get the string separated by blank space
@@ -29,12 +33,12 @@ public class StockControllerImpl implements StockController {
    * @param scan a scanner object
    * @return a string input
    */
-  private String input(Scanner scan) throws IllegalStateException {
+  private String input(Scanner scan, String cue) throws IllegalStateException {
     String st = "";
     try {
       st = scan.next();
     } catch (NoSuchElementException e) {
-      throw new IllegalStateException("Not enough parameters");
+      throw new IllegalStateException("Not enough parameters. " + cue);
     }
     return st;
   }
@@ -81,8 +85,8 @@ public class StockControllerImpl implements StockController {
    * @param scan a scanner object
    * @return a paradigm date string or N/n/Q/q
    */
-  private String inputDate(Scanner scan) throws IllegalArgumentException {
-    String date = input(scan);
+  private String inputDate(Scanner scan, String cue) throws IllegalArgumentException {
+    String date = input(scan, cue);
     if (date.equals("N") || date.equals("n") || date.equals("Q") || date.equals("q")) {
       return date;
     }
@@ -135,8 +139,13 @@ public class StockControllerImpl implements StockController {
    * The constructor of this method. It will take in a inStream and outStream and initialize the
    * controller.
    */
-  public StockControllerImpl(StockModel m) throws IllegalArgumentException {
+  public StockControllerImpl(StockModel m, IView mainView, IView createView) throws IllegalArgumentException {
+    this.view = mainView;
     this.model = m;
+    this.mainView = mainView;
+    this.createView = createView;
+    configureKeyBoardListener();
+    configureButtonListener();
 //    if (rd == null || ap == null) {
 //      throw new IllegalArgumentException("Input and output should not be null.");
 //    }
@@ -147,8 +156,6 @@ public class StockControllerImpl implements StockController {
   public void setView(IView v) {
     view = v;
     //create and set the keyboard listener
-    configureKeyBoardListener();
-    configureButtonListener();
   }
 
   private void configureKeyBoardListener() {
@@ -172,13 +179,48 @@ public class StockControllerImpl implements StockController {
 
     });
 
+    buttonClickedMap.put("Create Echo Button", () -> {
+      String command = view.getInputString();
+      view.setEchoOutput(processCommand(command));
+
+      //clear input textfield
+      view.clearInputString();
+
+      //set focus back to main frame so that keyboard events work
+      view.resetFocus();
+
+    });
+
+    buttonClickedMap.put("Create Button", () -> {
+      System.out.println("haha");
+      this.setView(this.createView);
+      ((JFrameView) this.mainView).setVisible(false);
+      ((CreateView) this.createView).setVisible(true);
+
+//      String command = view.getInputString();
+//      view.setEchoOutput(processCommand(command));
+//
+//      //clear input textfield
+//      view.clearInputString();
+//
+//      //set focus back to main frame so that keyboard events work
+//      view.resetFocus();
+
+    });
+
+    buttonClickedMap.put("Create Exit Button", () -> {
+      this.setView(this.mainView);
+      ((JFrameView) this.mainView).setVisible(true);
+      ((CreateView) this.createView).setVisible(false);
+    });
 
     buttonClickedMap.put("Exit Button", () -> {
       System.exit(0);
     });
 
     buttonListener.setButtonClickedActionMap(buttonClickedMap);
-    this.view.addActionListener(buttonListener);
+    this.mainView.addActionListener(buttonListener);
+    this.createView.addActionListener(buttonListener);
   }
 
   /**
@@ -197,96 +239,79 @@ public class StockControllerImpl implements StockController {
    */
   public String processCommand(String command)
           throws IllegalArgumentException, IllegalStateException {
+    System.out.println(command);
     if (model == null) {
       throw new IllegalArgumentException("Model should not be null.");
     }
-    if (command.length() == 0) {
-      throw new IllegalArgumentException("command should not be null.");
-    }
-    System.out.println(command);
+
     Scanner scan = new Scanner(command);
     StringBuilder output = new StringBuilder();
     String cmd = null;
 
 //    output("Welcome to the stock trading system.\n");
     while (scan.hasNext()) {
-      String in = input(scan).toLowerCase();
+      String in = input(scan, "Please input a command.").toLowerCase();
 
       if (isQuit(in)) {
         output.append("Quit.\n");
         return output.toString();
-      }
-
-      if (in.equals("createfixed")) {
+      } else if (in.equals("createfixed")) {
         try {
           createFixed(model, scan, output);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
-      }
-
-      if (in.equals("create")) {
+      } else if (in.equals("create")) {
         try {
           create(model, scan, output);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
-      }
-
-      if (in.equals("buy")) {
+      } else if (in.equals("buy")) {
         try {
           buy(model, scan, output);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
-      }
-
-      if (in.equals("determinecost")) {
+      } else if (in.equals("determinecost")) {
         try {
           determineCost(model, scan, output);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
-      }
-
-      if (in.equals("determinevalue")) {
+      } else if (in.equals("determinevalue")) {
         try {
           determineValue(model, scan, output);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
-      }
-
-      if (in.equals("determinefee")) {
+      } else if (in.equals("determinefee")) {
         try {
           determineCommissionFee(model, scan, output);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
-      }
-
-      if (in.equals("buyp")) {
+      } else if (in.equals("buyp")) {
         try {
           buyByPercentage(model, scan, output);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
           output.append(e.getMessage());
         }
-      }
-
-      if (in.equals("getstate")) {
+      } else if (in.equals("getstate")) {
         try {
           getState(model, scan, output);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
           output.append(e.getMessage());
         }
-      }
-
-      if (in.equals("getallstate")) {
+      } else if (in.equals("getallstate")) {
         try {
           getAllState(model, output);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
+      } else {
+        output.append("You can input: create, buy, determinecost, determinevalue, getstate, "
+                + "getallstate, determinefee, createfixed, buyp, or q/Q\n");
       }
     }
     return output.toString();
@@ -301,29 +326,25 @@ public class StockControllerImpl implements StockController {
    * @param scan  a scanner object
    */
   private void createFixed(StockModel model, Scanner scan, StringBuilder output) {
-    output.append("Please input the portfolio's name.\n");
-    String portfolioName = input(scan);
+    String portfolioName = input(scan, "Please input the portfolio's name.\n");
     if (isQuit(portfolioName)) {
       output.append("Quit.\n");
       return;
     }
-    output.append("Equal proportion or separate?(E/S)\n");
-    String equal = input(scan);
+    String equal = input(scan, "Equal proportion or separate?(E/S)\n");
     if (isQuit(equal)) {
       output.append("Quit.\n");
       return;
     }
     Map<String, Double> company = new HashMap<>();
-    output.append("Number of companies?\n");
     int n;
     try {
-      n = Integer.parseInt(input(scan));
+      n = Integer.parseInt(input(scan, "Number of companies?\n"));
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Illegal number.");
     }
     for (int i = 0; i < n; i++) {
-      output.append("Name of company?\n");
-      String companyName = input(scan);
+      String companyName = input(scan, "Name of company?\n");
 
       if (isQuit(companyName)) {
         output.append("Quit.\n");
@@ -331,9 +352,9 @@ public class StockControllerImpl implements StockController {
       }
       double proportion = 1.0 / n;
       if (equal.equals("S") || equal.equals("s")) {
-        output.append("Proportion in percentage? E.g. input 30 to represent 30%.\n");
         try {
-          proportion = Double.parseDouble(input(scan)) / 100.0;
+          proportion = Double.parseDouble(input(scan,
+                  "Proportion in percentage? E.g. input 30 to represent 30%.\n")) / 100.0;
         } catch (IllegalArgumentException e) {
           throw new IllegalArgumentException("Illegal number.");
         }
@@ -342,9 +363,8 @@ public class StockControllerImpl implements StockController {
     }
 
     double amount = 0.0;
-    output.append("Amount of investment?\n");
     try {
-      amount = Double.parseDouble(input(scan));
+      amount = Double.parseDouble(input(scan, "Amount of investment?\n"));
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Illegal number.");
     }
@@ -353,8 +373,7 @@ public class StockControllerImpl implements StockController {
       return;
     }
 
-    output.append("Ongoing? Y/N\n");
-    String onGoing = input(scan);
+    String onGoing = input(scan, "Ongoing? Y/N\n");
     if (isQuit(onGoing)) {
       output.append("Quit.\n");
       return;
@@ -364,18 +383,16 @@ public class StockControllerImpl implements StockController {
     String endDate = "N";
     if (onGoing.equals("Y") || onGoing.equals("y")) {
 
-      output.append("Provide a start date?(yyyy-mm-dd / N/n)\n");
       // startDate = input(scan);
-      startDate = inputDate(scan);
+      startDate = inputDate(scan, "Provide a start date?(yyyy-mm-dd / N/n)\n");
       if (isQuit(startDate)) {
         output.append("Quit.\n");
         return;
       }
 
       if (!startDate.equals("N") && !startDate.equals("n")) {
-        output.append("Provide a end date?(yyyy-mm-dd / N/n)\n");
         // endDate = input(scan);
-        endDate = inputDate(scan);
+        endDate = inputDate(scan, "Provide a end date?(yyyy-mm-dd / N/n)\n");
         if (isQuit(endDate)) {
           output.append("Quit.\n");
           return;
@@ -384,8 +401,7 @@ public class StockControllerImpl implements StockController {
 
       int interval = 30;
       if (!startDate.equals("N") && !startDate.equals("n")) {
-        output.append("Provide a interval in days?(e.g 15, 30, 60 / N/n)\n");
-        String st = input(scan);
+        String st = input(scan, "Provide a interval in days?(e.g 15, 30, 60 / N/n)\n");
         if (isQuit(st)) {
           output.append("Quit.\n");
           return;
@@ -407,9 +423,8 @@ public class StockControllerImpl implements StockController {
         throw new IllegalArgumentException();
       }
     } else {
-      output.append("Provide a buying date?(yyyy-mm-dd / N/n)\n");
       // String date = input(scan);
-      String date = inputDate(scan);
+      String date = inputDate(scan, "Provide a buying date?(yyyy-mm-dd / N/n)\n");
       if (isQuit(date)) {
         output.append("Quit.\n");
         return;
@@ -446,8 +461,7 @@ public class StockControllerImpl implements StockController {
    * @param scan  a Scanner object
    */
   private void create(StockModel model, Scanner scan, StringBuilder output) {
-    output.append("Please input the portfolio's name.\n");
-    String portfolioName = input(scan);
+    String portfolioName = input(scan, "Please input the portfolio's name.\n");
     if (isQuit(portfolioName)) {
       output.append("Quit.\n");
       return;
@@ -478,22 +492,19 @@ public class StockControllerImpl implements StockController {
    * @param scan  a Scanner object
    */
   private void buy(StockModel model, Scanner scan, StringBuilder output) {
-    output.append("Please input the portfolio's name.\n");
-    String portfolioName = input(scan);
+    String portfolioName = input(scan, "Please input the portfolio's name.\n");
     if (isQuit(portfolioName)) {
       output.append("Quit.\n");
       return;
     }
-    output.append("Please input the company's name.\n");
-    String companyName = input(scan);
+    String companyName = input(scan, "Please input the company's name.\n");
     if (isQuit(companyName)) {
       output.append("Quit.\n");
       return;
     }
-    output.append("How many shares you want to buy?\n");
     int shares = 0;
     try {
-      String st = input(scan);
+      String st = input(scan, "How many shares you want to buy?\n");
       if (isQuit(st)) {
         output.append("Quit.\n");
         return;
@@ -504,9 +515,9 @@ public class StockControllerImpl implements StockController {
       return;
     }
 
-    output.append("Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n");
     // String date = input(scan);
-    String date = inputDate(scan);
+    String date = inputDate(scan,
+            "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n");
     if (isQuit(date)) {
       output.append("Quit.\n");
       return;
@@ -542,8 +553,7 @@ public class StockControllerImpl implements StockController {
    * @param scan  a Scanner object
    */
   private void determineCost(StockModel model, Scanner scan, StringBuilder output) {
-    output.append("Please input the portfolio's name.\n");
-    String portfolioName = input(scan);
+    String portfolioName = input(scan, "Please input the portfolio's name.\n");
     if (isQuit(portfolioName)) {
       output.append("Quit.\n");
       return;
@@ -570,14 +580,12 @@ public class StockControllerImpl implements StockController {
    * @param scan  a Scanner object
    */
   private void determineValue(StockModel model, Scanner scan, StringBuilder output) {
-    output.append("Please input the portfolio's name.\n");
-    String portfolioName = input(scan);
+    String portfolioName = input(scan, "Please input the portfolio's name.\n");
     if (isQuit(portfolioName)) {
       output.append("Quit.\n");
       return;
     }
-    output.append("Please input the date you want to check in format yyyy-mm-dd.\n");
-    String date = inputDate(scan);
+    String date = inputDate(scan, "Please input the date you want to check in format yyyy-mm-dd.\n");
     if (isQuit(date)) {
       output.append("Quit.\n");
       return;
@@ -601,8 +609,7 @@ public class StockControllerImpl implements StockController {
    * @param scan  a Scanner object
    */
   private void determineCommissionFee(StockModel model, Scanner scan, StringBuilder output) {
-    output.append("Please input the portfolio's name.\n");
-    String portfolioName = input(scan);
+    String portfolioName = input(scan, "Please input the portfolio's name.\n");
     if (isQuit(portfolioName)) {
       output.append("Quit.\n");
       return;
@@ -627,17 +634,15 @@ public class StockControllerImpl implements StockController {
    * @param scan  a Scanner object
    */
   private void buyByPercentage(StockModel model, Scanner scan, StringBuilder output) {
-    output.append("Please input the portfolio's name.\n");
-    String portfolioName = input(scan);
+    String portfolioName = input(scan, "Please input the portfolio's name.\n");
     if (isQuit(portfolioName)) {
       output.append("Quit.\n");
       return;
     }
 
     double amount = 0.0;
-    output.append("Amount of investment?\n");
     try {
-      String st = input(scan);
+      String st = input(scan, "Amount of investment?\n");
       if (isQuit(st)) {
         output.append("Quit.\n");
         return;
@@ -647,9 +652,9 @@ public class StockControllerImpl implements StockController {
       throw new IllegalArgumentException("Illegal number");
     }
 
-    output.append("Please input the date you want to buy in format yyyy-mm-dd/N/n.\n");
     // String date = input(scan);
-    String date = inputDate(scan);
+    String date = inputDate(scan,
+            "Please input the date you want to buy in format yyyy-mm-dd/N/n.\n");
     if (isQuit(date)) {
       output.append("Quit.\n");
       return;
@@ -684,8 +689,7 @@ public class StockControllerImpl implements StockController {
    */
   private void getState(StockModel model, Scanner scan, StringBuilder output) {
 
-    output.append("Please input the portfolio's name.\n");
-    String portfolioName = input(scan);
+    String portfolioName = input(scan, "Please input the portfolio's name.\n");
     if (isQuit(portfolioName)) {
       output.append("Quit.\n");
       return;
@@ -693,7 +697,7 @@ public class StockControllerImpl implements StockController {
     String res = "";
     try {
       res = model.getPortfolioState(portfolioName);
-    } catch (IllegalArgumentException e) {
+    } catch (Exception e) {
       output.append(e.getMessage());
       output.append("\n");
       throw new IllegalArgumentException();
