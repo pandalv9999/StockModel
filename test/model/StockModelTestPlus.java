@@ -69,7 +69,7 @@ public class StockModelTestPlus {
                     + "The commission fee of this portfolio is $10.00\n",
             myModel.getPortfolioState("1"));
 
-    myModel.buyByPercentage("1", 2000, "2018-11-15");
+    myModel.buyByPercentage("1", "1", 2000, "2018-11-15");
     assertEquals("1:\n"
                     + "Code: MSFT, Shares: 323.03, Average Buy-in Price: 112.68\n"
                     + "Code: GOOG, Shares: 13.33, Average Buy-in Price: 1170.65\n"

@@ -30,6 +30,17 @@ public class MockStockModel implements StockModel {
   }
 
   @Override
+  public void createPercentage(String percentagesName, Map<String, Double> information)
+          throws IllegalArgumentException {
+
+    log.append("createp ");
+    log.append(percentagesName);
+    log.append("\n");
+    log.append(information.toString());
+    log.append("\n");
+  }
+
+  @Override
   public void createPortfolio(String portfolioName) throws IllegalArgumentException {
     log.append("create ");
     log.append(portfolioName);
@@ -37,7 +48,7 @@ public class MockStockModel implements StockModel {
   }
 
   @Override
-  public double createPortfolio(String portfolioName,Map<String, Double> information,
+  public double createPortfolio(String portfolioName, Map<String, Double> information,
                                 double amt, String date) throws IllegalArgumentException {
     log.append("create fixed");
     log.append("\n");
@@ -79,7 +90,7 @@ public class MockStockModel implements StockModel {
 
   @Override
   public double buy(String portfolioName, String companyName,
-             double shares, String date, String priceType) throws IllegalArgumentException {
+                    double shares, String date, String priceType) throws IllegalArgumentException {
     log.append("buy ");
     log.append(portfolioName);
     log.append(" ");
@@ -121,9 +132,11 @@ public class MockStockModel implements StockModel {
   }
 
   @Override
-  public double buyByPercentage(String portfolioName, double amt, String date) {
+  public double buyByPercentage(String portfolioName, String percentagesName, double amt, String date) {
     log.append("buyByPercentage ");
     log.append(portfolioName);
+    log.append(" ");
+    log.append(percentagesName);
     log.append(" ");
     log.append(Double.toString(amt));
     log.append(" ");

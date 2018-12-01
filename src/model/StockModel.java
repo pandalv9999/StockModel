@@ -36,6 +36,10 @@ public interface StockModel {
           throws IllegalArgumentException;
 
 
+  void createPercentage(String percentagesName, Map<String, Double> information)
+          throws IllegalArgumentException;
+
+
   /**
    * This method create a fixed portfolio with specific buying plan. It will buy after a certain
    * period of time. If a date is not available, it will automatically search for a nearest
@@ -113,7 +117,7 @@ public interface StockModel {
    * @throws IllegalArgumentException If any argument is illegal.
    */
 
-  double buyByPercentage(String portfolioName, double amt, String date)
+  double buyByPercentage(String portfolioName, String percentagesName, double amt, String date)
           throws IllegalArgumentException;
 
   double buyByAmount(String portfolioName, String companyName, double amount, String date);

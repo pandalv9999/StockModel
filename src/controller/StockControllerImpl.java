@@ -16,6 +16,7 @@ import view.BuyAmountView;
 import view.BuyPercentageView;
 import view.BuyView;
 import view.CreateFixedView;
+import view.CreatePercentageView;
 import view.CreateView;
 import view.DetermineCostView;
 import view.DetermineFeeView;
@@ -35,7 +36,7 @@ public class StockControllerImpl implements StockController {
   private StockModel model;
   private IView view, mainView, createView, getAllStateView, getStateView, determineCostView,
           determineFeeView, determineValueView, buyView, buyPercentageView, buyAmountView,
-          createFixedView;
+          createFixedView, createPercentageView;
 
   /**
    * This method will take a scanner object as an input and get the string separated by blank space
@@ -153,7 +154,7 @@ public class StockControllerImpl implements StockController {
   private StockControllerImpl(StockModel m, IView mainView, IView createView, IView getAllStateView,
                               IView getStateView, IView determineCostView, IView determineFeeView,
                               IView determineValueView, IView buyView, IView buyPercentageView,
-                              IView buyAmountView, IView createFixedView) throws IllegalArgumentException {
+                              IView buyAmountView, IView createFixedView, IView createPercentageView) throws IllegalArgumentException {
     this.view = mainView;
     this.model = m;
     this.mainView = mainView;
@@ -167,6 +168,7 @@ public class StockControllerImpl implements StockController {
     this.buyPercentageView = buyPercentageView;
     this.buyAmountView = buyAmountView;
     this.createFixedView = createFixedView;
+    this.createPercentageView = createPercentageView;
     configureKeyBoardListener();
     configureButtonListener();
 //    if (rd == null || ap == null) {
@@ -474,6 +476,33 @@ public class StockControllerImpl implements StockController {
     });
 
 
+    //CreatePercentage frame
+    buttonClickedMap.put("CreatePercentage Button", () -> {
+      System.out.println("haha2");
+      this.setView(this.createPercentageView);
+      ((JFrameView) this.mainView).setVisible(false);
+      ((CreatePercentageView) this.createPercentageView).setVisible(true);
+    });
+
+    buttonClickedMap.put("CreatePercentage Echo Button", () -> {
+      String command = view.getInputString();
+      view.setEchoOutput(processCommand(command));
+
+      //clear input textfield
+      view.clearInputString();
+
+      //set focus back to main frame so that keyboard events work
+      view.resetFocus();
+
+    });
+
+    buttonClickedMap.put("CreatePercentage Exit Button", () -> {
+      this.setView(this.mainView);
+      ((JFrameView) this.mainView).setVisible(true);
+      ((CreatePercentageView) this.createPercentageView).setVisible(false);
+    });
+
+
     buttonListener.setButtonClickedActionMap(buttonClickedMap);
     this.mainView.addActionListener(buttonListener);
     this.createView.addActionListener(buttonListener);
@@ -486,6 +515,7 @@ public class StockControllerImpl implements StockController {
     this.buyPercentageView.addActionListener(buttonListener);
     this.buyAmountView.addActionListener(buttonListener);
     this.createFixedView.addActionListener(buttonListener);
+    this.createPercentageView.addActionListener(buttonListener);
   }
 
   /**
@@ -529,6 +559,12 @@ public class StockControllerImpl implements StockController {
       } else if (in.equals("create")) { //done
         try {
           create(model, scan, output);
+        } catch (Exception e) {
+          output.append(e.getMessage());
+        }
+      } else if (in.equals("createp")) { //done
+        try {
+          createPercentage(model, scan, output);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
@@ -602,6 +638,7 @@ public class StockControllerImpl implements StockController {
       output.append("Quit.\n");
       return;
     }
+
     String equal = input(scan, "Equal proportion or separate?(E/S)\n");
     if (isQuit(equal)) {
       output.append("Quit.\n");
@@ -972,6 +1009,12 @@ public class StockControllerImpl implements StockController {
       return;
     }
 
+    String percentagesName = input(scan, "Please input the investment plan's name.\n");
+    if (isQuit(percentagesName)) {
+      output.append("Quit.\n");
+      return;
+    }
+
     double amount = 0.0;
     try {
       String st = input(scan, "Amount of investment?\n");
@@ -996,7 +1039,7 @@ public class StockControllerImpl implements StockController {
     Double commissionFeeBefore;
     try {
       commissionFeeBefore = model.determineCommissionFee(portfolioName);
-      res = model.buyByPercentage(portfolioName, amount, date);
+      res = model.buyByPercentage(portfolioName, percentagesName, amount, date);
     } catch (IllegalArgumentException e) {
       output.append(e.getMessage());
       output.append("\n");
@@ -1012,6 +1055,58 @@ public class StockControllerImpl implements StockController {
             / (res + commissionFeeAfter - commissionFeeBefore)
             * 100.0)
             + "% in this transaction.\n");
+  }
+
+
+  private void createPercentage(StockModel model, Scanner scan, StringBuilder output) {
+
+    String percentagesName = input(scan, "Please input the investment plan's name.\n");
+    if (isQuit(percentagesName)) {
+      output.append("Quit.\n");
+      return;
+    }
+
+    String equal = input(scan, "Equal proportion or separate?(E/S)\n");
+    if (isQuit(equal)) {
+      output.append("Quit.\n");
+      return;
+    }
+
+    Map<String, Double> company = new HashMap<>();
+    int n;
+    try {
+      n = Integer.parseInt(input(scan, "Number of companies?\n"));
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("Illegal number.");
+    }
+    for (int i = 0; i < n; i++) {
+      String companyName = input(scan, "Name of company?\n");
+
+      if (isQuit(companyName)) {
+        output.append("Quit.\n");
+        return;
+      }
+      double proportion = 1.0 / n;
+      if (equal.equals("S") || equal.equals("s")) {
+        try {
+          proportion = Double.parseDouble(input(scan,
+                  "Proportion in percentage? E.g. input 30 to represent 30%.\n")) / 100.0;
+        } catch (IllegalArgumentException e) {
+          throw new IllegalArgumentException("Illegal number.");
+        }
+      }
+      company.put(companyName, proportion);
+    }
+
+    Double res = 0.0;
+    try {
+      model.createPercentage(percentagesName, company);
+    } catch (IllegalArgumentException e) {
+      output.append(e.getMessage());
+      output.append("\n");
+      return;
+    }
+    output.append("Successfully created investing plan " + percentagesName + ".");
   }
 
   /**
@@ -1068,7 +1163,7 @@ public class StockControllerImpl implements StockController {
 
     private IView mainView, createView, getAllStateView, getStateView, determineCostView,
             determineFeeView, determineValueView, buyView, buyPercentageView, buyAmountView,
-            createFixedView;
+            createFixedView, createPercentageView;
     private StockModel model;
 
     private StockControllerBuilderImpl() {
@@ -1083,6 +1178,7 @@ public class StockControllerImpl implements StockController {
       this.buyPercentageView = null;
       this.buyAmountView = null;
       this.createFixedView = null;
+      this.createPercentageView = null;
     }
 
     public StockControllerBuilderImpl model(StockModel model) {
@@ -1193,11 +1289,20 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    public StockControllerBuilderImpl createPercentageView(IView createPercentageView) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model should not be null.");
+
+      }
+      this.createPercentageView = createPercentageView;
+      return this;
+    }
+
     public StockController build() {
       return new StockControllerImpl(this.model, this.mainView, this.createView, this.getAllStateView,
               this.getStateView, this.determineCostView, this.determineFeeView,
               this.determineValueView, this.buyView, this.buyPercentageView,
-              this.buyAmountView, this.createFixedView);
+              this.buyAmountView, this.createFixedView, this.createPercentageView);
     }
   }
 }

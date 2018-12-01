@@ -5,12 +5,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class BuyPercentageView extends JFrame implements IView {
+public class CreatePercentageView extends JFrame implements IView {
   private JLabel display;
   private JButton echoButton, exitButton;
-  private JTextField portfolioName, percentagesName, amount, date;
+  private JTextField percentageName, equal, companyNumber, companyNameSet;
 
-  public BuyPercentageView(String caption) {
+  public CreatePercentageView(String caption) {
     super(caption);
     setSize(800, 600);
     setLocation(200, 200);
@@ -26,32 +26,34 @@ public class BuyPercentageView extends JFrame implements IView {
     this.add(display);
 
     //the textfield
-    portfolioName = new JTextField(5);
-    this.add(portfolioName);
+    percentageName = new JTextField(5);
+    this.add(percentageName);
 
 
     //the textfield
-    percentagesName = new JTextField(5);
-    this.add(percentagesName);
+    equal = new JTextField(8);
+    this.add(equal);
 
 
     //the textfield
-    amount = new JTextField(8);
-    this.add(amount);
+    companyNumber = new JTextField(8);
+    this.add(companyNumber);
 
 
     //the textfield
-    date = new JTextField(8);
-    this.add(date);
+    companyNameSet = new JTextField(8);
+    this.add(companyNameSet);
+
 
     //echobutton
-    echoButton = new JButton("Buy a Portfolio");
-    echoButton.setActionCommand("BuyPercentage Echo Button");
+    echoButton = new JButton("Create an investing plan");
+    echoButton.setActionCommand("CreatePercentage Echo Button");
     this.add(echoButton);
+
 
     //exit button
     exitButton = new JButton("Exit");
-    exitButton.setActionCommand("BuyPercentage Exit Button");
+    exitButton.setActionCommand("CreatePercentage Exit Button");
     this.add(exitButton);
 
 
@@ -99,18 +101,16 @@ public class BuyPercentageView extends JFrame implements IView {
 
   @Override
   public String getInputString() {
-    return "buyp " + portfolioName.getText() + " "
-            + percentagesName.getText() + " "
-            + amount.getText() + " "
-            + date.getText();
+    return "createp " + percentageName.getText() + " " + equal.getText() + " "
+            + companyNumber.getText() + " " + companyNameSet.getText();
   }
 
   @Override
   public void clearInputString() {
-    portfolioName.setText("");
-    percentagesName.setText("");
-    date.setText("");
-    amount.setText("");
+    percentageName.setText("");
+    equal.setText("");
+    companyNumber.setText("");
+    companyNameSet.setText("");
   }
 
 

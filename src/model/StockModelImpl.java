@@ -222,7 +222,39 @@ public class StockModelImpl implements StockModel {
     createPortfolio(portfolioName);
     this.percentages.put(portfolioName, information);
 
-    return buyByPercentage(portfolioName, amt, date);
+    return buyByPercentage(portfolioName, portfolioName, amt, date);
+  }
+
+  @Override
+  public void createPercentage(String percentagesName, Map<String, Double> information)
+          throws IllegalArgumentException {
+
+    if (information == null || information.isEmpty() || percentagesName == null
+            || percentagesName.equals("")) {
+      throw new IllegalArgumentException("Invalid argument!");
+    }
+
+    if (Double.compare(information.values().stream().mapToDouble(b -> b).sum(), 1.0) != 0) {
+      throw new IllegalArgumentException("The sum of all percentage is not one!");
+    }
+
+    if (this.percentages.containsKey(percentagesName)) {
+      throw new IllegalArgumentException("The investment plan's name already exists!");
+    }
+
+//    String randomCode = "";
+//    for (String name : information.keySet()) {
+//      try {
+//        randomCode = alphaVantage.searchCode(name);
+//        if (randomCode.equals("")) {
+//          throw new IllegalArgumentException("Some of the companies does not exist!");
+//        }
+//      } catch (IllegalArgumentException e) {
+//        throw new IllegalArgumentException("Some of the companies does not exist!");
+//      }
+//    }
+
+    this.percentages.put(percentagesName, information);
   }
 
   @Override
@@ -387,13 +419,13 @@ public class StockModelImpl implements StockModel {
   }
 
   @Override
-  public double buyByPercentage(String portfolioName, double amt, String date)
+  public double buyByPercentage(String portfolioName, String percentagesName, double amt, String date)
           throws IllegalArgumentException {
 
     double totalAmt = 0.0;
     Map<String, Double> information;
     try {
-      information = this.percentages.get(portfolioName);
+      information = this.percentages.get(percentagesName);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("There is no such buying plan.");
     }

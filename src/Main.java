@@ -9,6 +9,7 @@ import view.BuyAmountView;
 import view.BuyPercentageView;
 import view.BuyView;
 import view.CreateFixedView;
+import view.CreatePercentageView;
 import view.CreateView;
 import view.DetermineCostView;
 import view.DetermineFeeView;
@@ -44,6 +45,7 @@ public class Main {
     IView buyPercentageView = new BuyPercentageView("Buy a portfolio");
     IView buyAmountView = new BuyAmountView("Buy a stock by amount");
     IView createFixedView = new CreateFixedView("Buy a stock by amount");
+    IView createPercentageView = new CreatePercentageView("Create an investing plan");
     StockController controller = StockControllerImpl
             .getBuilder()
             .model(model)
@@ -58,6 +60,7 @@ public class Main {
             .buyPercentageView(buyPercentageView)
             .buyAmountView(buyAmountView)
             .createFixedView(createFixedView)
+            .createPercentageView(createPercentageView)
             .build();
 //    StockControllerImpl controller = new StockControllerImpl(model, mainView, createView,
 //            getAllStateView, getStateView, determineCostView, determineFeeView, determineValueView,
