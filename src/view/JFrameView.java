@@ -13,7 +13,7 @@ public class JFrameView extends JFrame implements IView {
   private JLabel display;
   private JButton echoButton, exitButton, createButton, getAllStateButton, getStateButton,
           determineCostButton, determineFeeButton, determineValueButton, buyButton,
-          buyPercentageButton;
+          buyPercentageButton, buyAmountButton, createFixedButton;
   private JTextField input;
 
   public JFrameView(String caption) {
@@ -74,7 +74,7 @@ public class JFrameView extends JFrame implements IView {
     this.add(determineValueButton);
 
     //buyButton
-    buyButton = new JButton("Buy a stock");
+    buyButton = new JButton("Buy a stock by shares");
     buyButton.setActionCommand("Buy Button");
     this.add(buyButton);
 
@@ -82,6 +82,16 @@ public class JFrameView extends JFrame implements IView {
     buyPercentageButton = new JButton("Buy a Portfolio");
     buyPercentageButton.setActionCommand("BuyPercentage Button");
     this.add(buyPercentageButton);
+
+    //buyAmountButton
+    buyAmountButton = new JButton("Buy a stock by amount");
+    buyAmountButton.setActionCommand("BuyAmount Button");
+    this.add(buyAmountButton);
+
+    //createFixedButton
+    createFixedButton = new JButton("Create a fixed portfolio");
+    createFixedButton.setActionCommand("CreateFixed Button");
+    this.add(createFixedButton);
 
     //exit button
     exitButton = new JButton("Exit");
@@ -106,6 +116,8 @@ public class JFrameView extends JFrame implements IView {
     determineValueButton.addActionListener(actionListener);
     buyButton.addActionListener(actionListener);
     buyPercentageButton.addActionListener(actionListener);
+    buyAmountButton.addActionListener(actionListener);
+    createFixedButton.addActionListener(actionListener);
   }
 
 

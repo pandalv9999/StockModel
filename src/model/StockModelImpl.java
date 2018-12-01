@@ -335,6 +335,24 @@ public class StockModelImpl implements StockModel {
   }
 
   @Override
+  public double buyByAmount(String portfolioName, String companyName,
+                            double amount, String date) {
+    String code;
+    try {
+      code = alphaVantage.searchCode(companyName);
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("There is no information for the provided company name.");
+    }
+    if (date.equals("N") || date.equals("n")) {
+      date = getLastAvailableDate(code);
+    }
+    double totalAmt = 0.0;
+    double numOfShares = countShares(companyName, date, "low", amount);
+    totalAmt += buy(portfolioName, companyName, numOfShares, date, "low");
+    return totalAmt;
+  }
+
+  @Override
   public double determineCost(String portfolioName) throws IllegalArgumentException {
 
     if (!portfolio.containsKey(portfolioName)) {
@@ -361,7 +379,7 @@ public class StockModelImpl implements StockModel {
   }
 
   @Override
-  public double determineCommissionFee(String portfolioName) throws IllegalArgumentException{
+  public double determineCommissionFee(String portfolioName) throws IllegalArgumentException {
     if (counter.get(portfolioName) == null) {
       throw new IllegalArgumentException("There is no such portfolio.");
     }

@@ -12,8 +12,10 @@ import java.util.Scanner;
 
 import model.StockModel;
 import view.ButtonListener;
+import view.BuyAmountView;
 import view.BuyPercentageView;
 import view.BuyView;
+import view.CreateFixedView;
 import view.CreateView;
 import view.DetermineCostView;
 import view.DetermineFeeView;
@@ -32,7 +34,8 @@ import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
 public class StockControllerImpl implements StockController {
   private StockModel model;
   private IView view, mainView, createView, getAllStateView, getStateView, determineCostView,
-          determineFeeView, determineValueView, buyView, buyPercentageView;
+          determineFeeView, determineValueView, buyView, buyPercentageView, buyAmountView,
+          createFixedView;
 
   /**
    * This method will take a scanner object as an input and get the string separated by blank space
@@ -149,7 +152,8 @@ public class StockControllerImpl implements StockController {
    */
   public StockControllerImpl(StockModel m, IView mainView, IView createView, IView getAllStateView,
                              IView getStateView, IView determineCostView, IView determineFeeView,
-                             IView determineValueView, IView buyView, IView buyPercentageView) throws IllegalArgumentException {
+                             IView determineValueView, IView buyView, IView buyPercentageView,
+                             IView buyAmountView, IView createFixedView) throws IllegalArgumentException {
     this.view = mainView;
     this.model = m;
     this.mainView = mainView;
@@ -161,6 +165,8 @@ public class StockControllerImpl implements StockController {
     this.determineValueView = determineValueView;
     this.buyView = buyView;
     this.buyPercentageView = buyPercentageView;
+    this.buyAmountView = buyAmountView;
+    this.createFixedView = createFixedView;
     configureKeyBoardListener();
     configureButtonListener();
 //    if (rd == null || ap == null) {
@@ -414,6 +420,59 @@ public class StockControllerImpl implements StockController {
       ((BuyPercentageView) this.buyPercentageView).setVisible(false);
     });
 
+    //BuyAmount frame
+    buttonClickedMap.put("BuyAmount Button", () -> {
+      System.out.println("haha2");
+      this.setView(this.buyAmountView);
+      ((JFrameView) this.mainView).setVisible(false);
+      ((BuyAmountView) this.buyAmountView).setVisible(true);
+    });
+
+    buttonClickedMap.put("BuyAmount Echo Button", () -> {
+      String command = view.getInputString();
+      view.setEchoOutput(processCommand(command));
+
+      //clear input textfield
+      view.clearInputString();
+
+      //set focus back to main frame so that keyboard events work
+      view.resetFocus();
+
+    });
+
+    buttonClickedMap.put("BuyAmount Exit Button", () -> {
+      this.setView(this.mainView);
+      ((JFrameView) this.mainView).setVisible(true);
+      ((BuyAmountView) this.buyAmountView).setVisible(false);
+    });
+
+
+    //CreateFixed frame
+    buttonClickedMap.put("CreateFixed Button", () -> {
+      System.out.println("haha2");
+      this.setView(this.createFixedView);
+      ((JFrameView) this.mainView).setVisible(false);
+      ((CreateFixedView) this.createFixedView).setVisible(true);
+    });
+
+    buttonClickedMap.put("CreateFixed Echo Button", () -> {
+      String command = view.getInputString();
+      view.setEchoOutput(processCommand(command));
+
+      //clear input textfield
+      view.clearInputString();
+
+      //set focus back to main frame so that keyboard events work
+      view.resetFocus();
+
+    });
+
+    buttonClickedMap.put("CreateFixed Exit Button", () -> {
+      this.setView(this.mainView);
+      ((JFrameView) this.mainView).setVisible(true);
+      ((CreateFixedView) this.createFixedView).setVisible(false);
+    });
+
 
     buttonListener.setButtonClickedActionMap(buttonClickedMap);
     this.mainView.addActionListener(buttonListener);
@@ -425,6 +484,8 @@ public class StockControllerImpl implements StockController {
     this.determineValueView.addActionListener(buttonListener);
     this.buyView.addActionListener(buttonListener);
     this.buyPercentageView.addActionListener(buttonListener);
+    this.buyAmountView.addActionListener(buttonListener);
+    this.createFixedView.addActionListener(buttonListener);
   }
 
   /**
@@ -474,6 +535,12 @@ public class StockControllerImpl implements StockController {
       } else if (in.equals("buy")) { //done
         try {
           buy(model, scan, output);
+        } catch (Exception e) {
+          output.append(e.getMessage());
+        }
+      } else if (in.equals("buya")) { //done
+        try {
+          buyByAmount(model, scan, output);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
@@ -738,6 +805,67 @@ public class StockControllerImpl implements StockController {
     }
     Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
     output.append("Successfully bought " + companyName + " with " + shares + " shares on " + date
+            + " and total cost is $"
+            + Double.toString(res + commissionFeeAfter - commissionFeeBefore)
+            + " with commission fee $"
+            + Double.toString(commissionFeeAfter - commissionFeeBefore) + "\n");
+    output.append("Commission fee is of "
+            + Double.toString((commissionFeeAfter - commissionFeeBefore)
+            / (res + commissionFeeAfter - commissionFeeBefore)
+            * 100.0)
+            + "%\n");
+  }
+
+
+  /**
+   * This method will buy a certain stock into a portfolio.
+   *
+   * @param model a stock system model
+   * @param scan  a Scanner object
+   */
+  private void buyByAmount(StockModel model, Scanner scan, StringBuilder output) {
+    String portfolioName = input(scan, "Please input the portfolio's name.\n");
+    if (isQuit(portfolioName)) {
+      output.append("Quit.\n");
+      return;
+    }
+    String companyName = input(scan, "Please input the company's name.\n");
+    if (isQuit(companyName)) {
+      output.append("Quit.\n");
+      return;
+    }
+    double amount = 0;
+    try {
+      String st = input(scan, "What is the amount of money you want to invest?\n");
+      if (isQuit(st)) {
+        output.append("Quit.\n");
+        return;
+      }
+      amount = Double.parseDouble(st);
+    } catch (Exception e) {
+      output.append("Invalid shares, input again.\n");
+      return;
+    }
+
+    // String date = input(scan);
+    String date = inputDate(scan,
+            "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n");
+    if (isQuit(date)) {
+      output.append("Quit.\n");
+      return;
+    }
+    Double res = 0.0;
+
+    Double commissionFeeBefore = model.determineCommissionFee(portfolioName);
+    try {
+      res = model.buyByAmount(portfolioName, companyName, amount, date);
+    } catch (IllegalArgumentException e) {
+      output.append(e.getMessage());
+      output.append("\n");
+      return;
+    }
+    Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
+    output.append("Successfully bought " + companyName + " with $" + amount + " on " + date
             + " and total cost is $"
             + Double.toString(res + commissionFeeAfter - commissionFeeBefore)
             + " with commission fee $"

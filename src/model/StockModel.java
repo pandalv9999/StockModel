@@ -116,6 +116,8 @@ public interface StockModel {
   double buyByPercentage(String portfolioName, double amt, String date)
           throws IllegalArgumentException;
 
+  double buyByAmount(String portfolioName, String companyName, double amount, String date);
+
   /**
    * The method gets the information of all Portfolios.
    *
