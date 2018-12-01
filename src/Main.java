@@ -1,5 +1,6 @@
 import java.io.InputStreamReader;
 
+import controller.StockController;
 import controller.StockControllerImpl;
 import model.Stock;
 import model.StockModel;
@@ -43,9 +44,24 @@ public class Main {
     IView buyPercentageView = new BuyPercentageView("Buy a portfolio");
     IView buyAmountView = new BuyAmountView("Buy a stock by amount");
     IView createFixedView = new CreateFixedView("Buy a stock by amount");
-    StockControllerImpl controller = new StockControllerImpl(model, mainView, createView,
-            getAllStateView, getStateView, determineCostView, determineFeeView, determineValueView,
-            buyView, buyPercentageView, buyAmountView, createFixedView);
+    StockController controller = StockControllerImpl
+            .getBuilder()
+            .model(model)
+            .mainView(mainView)
+            .createView(createView)
+            .getAllStateView(getAllStateView)
+            .getStateView(getStateView)
+            .determineCostView(determineCostView)
+            .determineFeeView(determineFeeView)
+            .determineValueView(determineValueView)
+            .buyView(buyView)
+            .buyPercentageView(buyPercentageView)
+            .buyAmountView(buyAmountView)
+            .createFixedView(createFixedView)
+            .build();
+//    StockControllerImpl controller = new StockControllerImpl(model, mainView, createView,
+//            getAllStateView, getStateView, determineCostView, determineFeeView, determineValueView,
+//            buyView, buyPercentageView, buyAmountView, createFixedView);
     //controller.setView(mainView);
   }
 }

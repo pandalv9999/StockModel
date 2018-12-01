@@ -150,10 +150,10 @@ public class StockControllerImpl implements StockController {
    * The constructor of this method. It will take in a inStream and outStream and initialize the
    * controller.
    */
-  public StockControllerImpl(StockModel m, IView mainView, IView createView, IView getAllStateView,
-                             IView getStateView, IView determineCostView, IView determineFeeView,
-                             IView determineValueView, IView buyView, IView buyPercentageView,
-                             IView buyAmountView, IView createFixedView) throws IllegalArgumentException {
+  private StockControllerImpl(StockModel m, IView mainView, IView createView, IView getAllStateView,
+                              IView getStateView, IView determineCostView, IView determineFeeView,
+                              IView determineValueView, IView buyView, IView buyPercentageView,
+                              IView buyAmountView, IView createFixedView) throws IllegalArgumentException {
     this.view = mainView;
     this.model = m;
     this.mainView = mainView;
@@ -1057,5 +1057,147 @@ public class StockControllerImpl implements StockController {
     }
     output.append("The state of all portfolios:\n");
     output.append(res + "\n");
+  }
+
+
+  public static StockControllerBuilderImpl getBuilder() {
+    return new StockControllerBuilderImpl();
+  }
+
+  public static class StockControllerBuilderImpl {
+
+    private IView mainView, createView, getAllStateView, getStateView, determineCostView,
+            determineFeeView, determineValueView, buyView, buyPercentageView, buyAmountView,
+            createFixedView;
+    private StockModel model;
+
+    private StockControllerBuilderImpl() {
+      this.mainView = null;
+      this.createView = null;
+      this.getAllStateView = null;
+      this.getStateView = null;
+      this.determineCostView = null;
+      this.determineFeeView = null;
+      this.determineValueView = null;
+      this.buyView = null;
+      this.buyPercentageView = null;
+      this.buyAmountView = null;
+      this.createFixedView = null;
+    }
+
+    public StockControllerBuilderImpl model(StockModel model) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model should not be null.");
+
+      }
+      this.model = model;
+      return this;
+    }
+
+    public StockControllerBuilderImpl mainView(IView mainView) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model should not be null.");
+
+      }
+      this.mainView = mainView;
+      return this;
+    }
+
+    public StockControllerBuilderImpl createView(IView createView) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model should not be null.");
+
+      }
+      this.createView = createView;
+      return this;
+    }
+
+    public StockControllerBuilderImpl getAllStateView(IView getAllStateView) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model should not be null.");
+
+      }
+      this.getAllStateView = getAllStateView;
+      return this;
+    }
+
+    public StockControllerBuilderImpl getStateView(IView getStateView) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model should not be null.");
+
+      }
+      this.getStateView = getStateView;
+      return this;
+    }
+
+    public StockControllerBuilderImpl determineCostView(IView determineCostView) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model should not be null.");
+
+      }
+      this.determineCostView = determineCostView;
+      return this;
+    }
+
+    public StockControllerBuilderImpl determineFeeView(IView determineFeeView) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model should not be null.");
+
+      }
+      this.determineFeeView = determineFeeView;
+      return this;
+    }
+
+    public StockControllerBuilderImpl determineValueView(IView determineValueView) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model should not be null.");
+
+      }
+      this.determineValueView = determineValueView;
+      return this;
+    }
+
+    public StockControllerBuilderImpl buyView(IView buyView) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model should not be null.");
+
+      }
+      this.buyView = buyView;
+      return this;
+    }
+
+    public StockControllerBuilderImpl buyPercentageView(IView buyPercentageView) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model should not be null.");
+
+      }
+      this.buyPercentageView = buyPercentageView;
+      return this;
+    }
+
+    public StockControllerBuilderImpl buyAmountView(IView buyAmountView) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model should not be null.");
+
+      }
+      this.buyAmountView = buyAmountView;
+      return this;
+    }
+
+    public StockControllerBuilderImpl createFixedView(IView createFixedView) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model should not be null.");
+
+      }
+      this.createFixedView = createFixedView;
+      return this;
+    }
+
+    public StockController build() {
+      return new StockControllerImpl(this.model, this.mainView, this.createView, this.getAllStateView,
+              this.getStateView, this.determineCostView, this.determineFeeView,
+              this.determineValueView, this.buyView, this.buyPercentageView,
+              this.buyAmountView, this.createFixedView);
+    }
   }
 }
