@@ -18,6 +18,8 @@ import view.GetAllStateView;
 import view.GetStateView;
 import view.IView;
 import view.JFrameView;
+import view.LoadPercentageView;
+import view.LoadPortfolioView;
 import view.SavePercentageView;
 import view.SavePortfolioView;
 
@@ -50,6 +52,8 @@ public class Main {
     IView createPercentageView = new CreatePercentageView("Create an investing plan");
     IView savePortfolioView = new SavePortfolioView("Save a portfolio");
     IView savePercentageView = new SavePercentageView("Save an investing plan");
+    IView loadPortfolioView = new LoadPortfolioView("Load a portfolio");
+    IView loadPercentageView = new LoadPercentageView("Load an investing plan");
     StockController controller = StockControllerImpl
             .getBuilder()
             .model(model)
@@ -67,6 +71,8 @@ public class Main {
             .createPercentageView(createPercentageView)
             .savePortfolioView(savePortfolioView)
             .savePercentageView(savePercentageView)
+            .loadPortfolioView(loadPortfolioView)
+            .loadPercentageView(loadPercentageView)
             .build();
 //    StockControllerImpl controller = new StockControllerImpl(model, mainView, createView,
 //            getAllStateView, getStateView, determineCostView, determineFeeView, determineValueView,

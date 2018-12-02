@@ -26,6 +26,8 @@ import view.GetStateView;
 import view.IView;
 import view.JFrameView;
 import view.KeyboardListener;
+import view.LoadPercentageView;
+import view.LoadPortfolioView;
 import view.SavePercentageView;
 import view.SavePortfolioView;
 
@@ -38,7 +40,8 @@ public class StockControllerImpl implements StockController {
   private StockModel model;
   private IView view, mainView, createView, getAllStateView, getStateView, determineCostView,
           determineFeeView, determineValueView, buyView, buyPercentageView, buyAmountView,
-          createFixedView, createPercentageView, savePortfolioView, savePercentageView;
+          createFixedView, createPercentageView, savePortfolioView, savePercentageView,
+          loadPortfolioView, loadPercentageView;
 
   /**
    * This method will take a scanner object as an input and get the string separated by blank space
@@ -157,7 +160,8 @@ public class StockControllerImpl implements StockController {
                               IView getStateView, IView determineCostView, IView determineFeeView,
                               IView determineValueView, IView buyView, IView buyPercentageView,
                               IView buyAmountView, IView createFixedView, IView createPercentageView,
-                              IView savePortfolioView, IView savePercentageView) throws IllegalArgumentException {
+                              IView savePortfolioView, IView savePercentageView,
+                              IView loadPortfolioView, IView loadPercentageView) throws IllegalArgumentException {
     this.view = mainView;
     this.model = m;
     this.mainView = mainView;
@@ -174,6 +178,8 @@ public class StockControllerImpl implements StockController {
     this.createPercentageView = createPercentageView;
     this.savePortfolioView = savePortfolioView;
     this.savePercentageView = savePercentageView;
+    this.loadPortfolioView = loadPortfolioView;
+    this.loadPercentageView = loadPercentageView;
     configureKeyBoardListener();
     configureButtonListener();
 //    if (rd == null || ap == null) {
@@ -559,6 +565,59 @@ public class StockControllerImpl implements StockController {
       ((SavePercentageView) this.savePercentageView).setVisible(false);
     });
 
+    //LoadPortfolio frame
+    buttonClickedMap.put("LoadPortfolio Button", () -> {
+      this.setView(this.loadPortfolioView);
+      ((JFrameView) this.mainView).setVisible(false);
+      ((LoadPortfolioView) this.loadPortfolioView).setVisible(true);
+    });
+
+    buttonClickedMap.put("LoadPortfolio Echo Button", () -> {
+      System.out.println("LoadPortfolio Echo Button");
+      String command = view.getInputString();
+      view.setEchoOutput(processCommand(command));
+
+      //clear input textfield
+      view.clearInputString();
+
+      //set focus back to main frame so that keyboard events work
+      view.resetFocus();
+
+    });
+
+    buttonClickedMap.put("LoadPortfolio Exit Button", () -> {
+      this.setView(this.mainView);
+      ((JFrameView) this.mainView).setVisible(true);
+      ((LoadPortfolioView) this.loadPortfolioView).setVisible(false);
+    });
+
+
+    //LoadPercentage frame
+    buttonClickedMap.put("LoadPercentage Button", () -> {
+      this.setView(this.loadPercentageView);
+      ((JFrameView) this.mainView).setVisible(false);
+      ((LoadPercentageView) this.loadPercentageView).setVisible(true);
+    });
+
+    buttonClickedMap.put("LoadPercentage Echo Button", () -> {
+      System.out.println("LoadPercentage Echo Button");
+      String command = view.getInputString();
+      view.setEchoOutput(processCommand(command));
+
+      //clear input textfield
+      view.clearInputString();
+
+      //set focus back to main frame so that keyboard events work
+      view.resetFocus();
+
+    });
+
+    buttonClickedMap.put("LoadPercentage Exit Button", () -> {
+      this.setView(this.mainView);
+      ((JFrameView) this.mainView).setVisible(true);
+      ((LoadPercentageView) this.loadPercentageView).setVisible(false);
+    });
+
 
     buttonListener.setButtonClickedActionMap(buttonClickedMap);
     this.mainView.addActionListener(buttonListener);
@@ -575,6 +634,8 @@ public class StockControllerImpl implements StockController {
     this.createPercentageView.addActionListener(buttonListener);
     this.savePortfolioView.addActionListener(buttonListener);
     this.savePercentageView.addActionListener(buttonListener);
+    this.loadPortfolioView.addActionListener(buttonListener);
+    this.loadPercentageView.addActionListener(buttonListener);
   }
 
   /**
@@ -1341,7 +1402,8 @@ public class StockControllerImpl implements StockController {
 
     private IView mainView, createView, getAllStateView, getStateView, determineCostView,
             determineFeeView, determineValueView, buyView, buyPercentageView, buyAmountView,
-            createFixedView, createPercentageView, savePortfolioView, savePercentageView;
+            createFixedView, createPercentageView, savePortfolioView, savePercentageView,
+            loadPortfolioView, loadPercentageView;
     private StockModel model;
 
     private StockControllerBuilderImpl() {
@@ -1359,6 +1421,8 @@ public class StockControllerImpl implements StockController {
       this.createPercentageView = null;
       this.savePortfolioView = null;
       this.savePercentageView = null;
+      this.loadPortfolioView = null;
+      this.loadPercentageView = null;
     }
 
     public StockControllerBuilderImpl model(StockModel model) {
@@ -1496,12 +1560,31 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    public StockControllerBuilderImpl loadPortfolioView(IView loadPortfolioView) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model should not be null.");
+
+      }
+      this.loadPortfolioView = loadPortfolioView;
+      return this;
+    }
+
+    public StockControllerBuilderImpl loadPercentageView(IView loadPercentageView) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model should not be null.");
+
+      }
+      this.loadPercentageView = loadPercentageView;
+      return this;
+    }
+
     public StockController build() {
       return new StockControllerImpl(this.model, this.mainView, this.createView, this.getAllStateView,
               this.getStateView, this.determineCostView, this.determineFeeView,
               this.determineValueView, this.buyView, this.buyPercentageView,
               this.buyAmountView, this.createFixedView, this.createPercentageView,
-              this.savePortfolioView, this.savePercentageView);
+              this.savePortfolioView, this.savePercentageView, this.loadPortfolioView,
+              this.loadPercentageView);
     }
   }
 }

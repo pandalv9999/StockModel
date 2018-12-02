@@ -14,7 +14,7 @@ public class JFrameView extends JFrame implements IView {
   private JButton echoButton, exitButton, createButton, getAllStateButton, getStateButton,
           determineCostButton, determineFeeButton, determineValueButton, buyButton,
           buyPercentageButton, buyAmountButton, createFixedButton, createPercentageButton,
-          savePortfolioButton, savePercentageButton;
+          savePortfolioButton, savePercentageButton, loadPortfolioButton, loadPercentageButton;
   private JTextField input;
 
   public JFrameView(String caption) {
@@ -109,6 +109,16 @@ public class JFrameView extends JFrame implements IView {
     savePercentageButton.setActionCommand("SavePercentage Button");
     this.add(savePercentageButton);
 
+    //loadPortfolioButton
+    loadPortfolioButton = new JButton("Load a portfolio");
+    loadPortfolioButton.setActionCommand("LoadPortfolio Button");
+    this.add(loadPortfolioButton);
+
+    //loadPercentageButton
+    loadPercentageButton = new JButton("Load an investing plan");
+    loadPercentageButton.setActionCommand("LoadPercentage Button");
+    this.add(loadPercentageButton);
+
     //exit button
     exitButton = new JButton("Exit");
     exitButton.setActionCommand("Exit Button");
@@ -137,6 +147,8 @@ public class JFrameView extends JFrame implements IView {
     createPercentageButton.addActionListener(actionListener);
     savePortfolioButton.addActionListener(actionListener);
     savePercentageButton.addActionListener(actionListener);
+    loadPortfolioButton.addActionListener(actionListener);
+    loadPercentageButton.addActionListener(actionListener);
   }
 
 
