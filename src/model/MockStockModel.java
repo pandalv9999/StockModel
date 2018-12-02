@@ -159,4 +159,36 @@ public class MockStockModel implements StockModel {
     log.append("\n");
     return null;
   }
+
+  @Override
+  public void savePortfolio(String portfolioName, String fileName) {
+    log.append("savePortfolio ");
+    log.append(portfolioName);
+    log.append("\n");
+    log.append(fileName);
+    log.append("\n");
+  }
+
+  @Override
+  public void loadPortfolio(String fileName) {
+    log.append("loadPortfolio ");
+    log.append(fileName);
+    log.append("\n");
+  }
+
+  @Override
+  public void savePercentage(String percentageName, String fileName) {
+    log.append("savePortfolio ");
+    log.append(percentageName);
+    log.append("\n");
+    log.append(fileName);
+    log.append("\n");
+  }
+
+  @Override
+  public void loadPercentage(String fileName) {
+    log.append("loadPortfolio ");
+    log.append(fileName);
+    log.append("\n");
+  }
 }

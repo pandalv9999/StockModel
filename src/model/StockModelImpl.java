@@ -1,5 +1,11 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -481,6 +487,158 @@ public class StockModelImpl implements StockModel {
     state.append("The commission fee of this portfolio is $")
             .append(String.format("%.2f", determineCommissionFee(portfolioName))).append("\n");
     return state.toString();
+  }
+
+  private void outputToFile(String fileName, String content) {
+    try {
+      File writeName = new File(fileName);
+      writeName.createNewFile(); // 创建新文件
+      BufferedWriter out = new BufferedWriter(new FileWriter(writeName));
+      out.write(content);
+      out.flush();
+      out.close();
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void savePortfolio(String portfolioName, String fileName) {
+
+    if (portfolioName.equals("") || fileName.equals("")) {
+      throw new IllegalArgumentException("The names should not be empty!");
+    }
+
+    if (!portfolio.containsKey(portfolioName)) {
+      throw new IllegalArgumentException("The portfolio is not yet created!");
+    }
+
+    StringBuilder state = new StringBuilder().append(portfolioName).append(",");
+    String res;
+
+    for (Stock st : portfolio.get(portfolioName).values()) {
+      state.append(st.getCode()).append(",")
+              .append(st.getShares()).append(",")
+              .append(st.getAverageBuyInPrice()).append(",");
+    }
+    state.append(counter.get(portfolioName));
+    res = state.toString();
+    outputToFile(fileName + ".csv", res);
+  }
+
+  @Override
+  public void savePercentage(String percentageName, String fileName) {
+
+    if (percentageName.equals("") || fileName.equals("")) {
+      throw new IllegalArgumentException("The names should not be empty!");
+    }
+
+    if (!percentages.containsKey(percentageName)) {
+      throw new IllegalArgumentException("The investing plan is not yet created!");
+    }
+
+    StringBuilder state = new StringBuilder().append(percentageName).append(",");
+    Map<String, Double> percentage = this.percentages.get(percentageName);
+    String res;
+
+    for (Map.Entry<String, Double> e : percentage.entrySet()) {
+      state.append(e.getKey()).append(",").append(e.getValue()).append(",");
+    }
+    res = state.toString();
+    outputToFile(fileName + ".csv", res);
+
+  }
+
+  private String[] readFile(String fileName) {
+    StringBuilder state = new StringBuilder();
+    String res;
+    String line = "";
+    try {
+      BufferedReader in = new BufferedReader(new FileReader(fileName));
+      line = in.readLine();
+      while (line != null) {
+        state.append(line);
+        line = in.readLine();
+      }
+      in.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    res = state.toString();
+    return res.split(",");
+  }
+
+  @Override
+  public void loadPortfolio(String fileName) {
+
+    String[] st = readFile(fileName + ".csv");
+    if (st[0].equals("")) {
+      throw new IllegalArgumentException("Portfolio name should not be empty.");
+    }
+    if (st[st.length - 1].equals("")) {
+      throw new IllegalArgumentException("Commission fee counter should not be empty.");
+    }
+    int commissionCount = 0;
+    try {
+      commissionCount = Integer.parseInt(st[st.length - 1]);
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Commission fee counter should be integer.");
+    }
+    createPortfolio(st[0]);
+    this.counter.put(st[0], commissionCount);
+    Map<String, Stock> currentPortfolio = this.portfolio.get(st[0]);
+
+    int start = 1;
+    while (start + 2 < st.length) {
+
+      String code = st[start];
+      double shares;
+      double price;
+
+      try {
+        shares = Double.parseDouble(st[start + 1]);
+      } catch (Exception e) {
+        throw new IllegalArgumentException("Share should be double.");
+      }
+
+      try {
+        price = Double.parseDouble(st[start + 2]);
+      } catch (Exception e) {
+        throw new IllegalArgumentException("Price should be double.");
+      }
+
+      currentPortfolio.put(code, new StockImpl(code, shares, price));
+      start += 3;
+    }
+
+  }
+
+  @Override
+  public void loadPercentage(String fileName) {
+
+    String[] st = readFile(fileName + ".csv");
+    if (st[0].equals("")) {
+      throw new IllegalArgumentException("Portfolio name should not be empty.");
+    }
+    Map<String, Double> information = new HashMap<>();
+    int start = 1;
+    while (start + 1 < st.length) {
+
+      String companyName = st[start];
+      double proportion;
+
+      try {
+        proportion = Double.parseDouble(st[start + 1]);
+      } catch (Exception e) {
+        throw new IllegalArgumentException("Proportion should be double.");
+      }
+      information.put(companyName, proportion);
+
+      start += 2;
+    }
+    createPercentage(st[0], information);
+
   }
 
   public static StockModelBuilderImpl getBuilder() {

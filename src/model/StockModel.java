@@ -139,4 +139,12 @@ public interface StockModel {
    */
 
   String getPortfolioState(String portfolioName) throws IllegalArgumentException;
+
+  void savePortfolio(String portfolioName, String fileName);
+
+  void loadPortfolio(String fileName);
+
+  void savePercentage(String portfolioName, String fileName);
+
+  void loadPercentage(String fileName);
 }

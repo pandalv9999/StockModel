@@ -616,6 +616,18 @@ public class StockControllerImpl implements StockController {
         } catch (Exception e) {
           output.append(e.getMessage());
         }
+      } else if (in.equals("saveportfolio")) { //done
+        try {
+          savePortfolio(model, scan, output);
+        } catch (Exception e) {
+          output.append(e.getMessage());
+        }
+      } else if (in.equals("loadportfolio")) { //done
+        try {
+          loadPortfolio(model, scan, output);
+        } catch (Exception e) {
+          output.append(e.getMessage());
+        }
       } else {
         output.append("You can input: create, buy, determinecost, determinevalue, getstate, "
                 + "getallstate, determinefee, createfixed, buyp, or q/Q\n");
@@ -663,6 +675,10 @@ public class StockControllerImpl implements StockController {
         try {
           proportion = Double.parseDouble(input(scan,
                   "Proportion in percentage? E.g. input 30 to represent 30%.\n")) / 100.0;
+          if (proportion < 0) {
+            throw new IllegalArgumentException("Proportion should be larger than 0.");
+
+          }
         } catch (IllegalArgumentException e) {
           throw new IllegalArgumentException("Illegal number.");
         }
@@ -1091,6 +1107,11 @@ public class StockControllerImpl implements StockController {
         try {
           proportion = Double.parseDouble(input(scan,
                   "Proportion in percentage? E.g. input 30 to represent 30%.\n")) / 100.0;
+
+          if (proportion < 0) {
+            throw new IllegalArgumentException("Proportion should be larger than 0.");
+
+          }
         } catch (IllegalArgumentException e) {
           throw new IllegalArgumentException("Illegal number.");
         }
@@ -1152,6 +1173,50 @@ public class StockControllerImpl implements StockController {
     }
     output.append("The state of all portfolios:\n");
     output.append(res + "\n");
+  }
+
+
+  private void savePortfolio(StockModel model, Scanner scan, StringBuilder output) {
+
+    String portfolioName = input(scan, "Please input the portfolio's name.\n");
+    if (isQuit(portfolioName)) {
+      output.append("Quit.\n");
+      return;
+    }
+
+    String fileName = input(scan, "Please input the file's name.\n");
+    if (isQuit(fileName)) {
+      output.append("Quit.\n");
+      return;
+    }
+
+    try {
+      model.savePortfolio(portfolioName, fileName);
+    } catch (IllegalArgumentException e) {
+      output.append(e.getMessage());
+      output.append("\n");
+      return;
+    }
+    output.append("Save portfolio ").append(portfolioName).append(" in file ").append(fileName).append(".csv.\n");
+  }
+
+
+  private void loadPortfolio(StockModel model, Scanner scan, StringBuilder output) {
+
+    String fileName = input(scan, "Please input the file's name.\n");
+    if (isQuit(fileName)) {
+      output.append("Quit.\n");
+      return;
+    }
+
+    try {
+      model.loadPortfolio(fileName);
+    } catch (IllegalArgumentException e) {
+      output.append(e.getMessage());
+      output.append("\n");
+      return;
+    }
+    output.append("Load portfolio from ").append(fileName).append(".csv.\n");
   }
 
 
