@@ -18,6 +18,8 @@ import view.GetAllStateView;
 import view.GetStateView;
 import view.IView;
 import view.JFrameView;
+import view.SavePercentageView;
+import view.SavePortfolioView;
 
 /**
  * The class is the main class of the program.
@@ -46,6 +48,8 @@ public class Main {
     IView buyAmountView = new BuyAmountView("Buy a stock by amount");
     IView createFixedView = new CreateFixedView("Buy a stock by amount");
     IView createPercentageView = new CreatePercentageView("Create an investing plan");
+    IView savePortfolioView = new SavePortfolioView("Save a portfolio");
+    IView savePercentageView = new SavePercentageView("Save an investing plan");
     StockController controller = StockControllerImpl
             .getBuilder()
             .model(model)
@@ -61,6 +65,8 @@ public class Main {
             .buyAmountView(buyAmountView)
             .createFixedView(createFixedView)
             .createPercentageView(createPercentageView)
+            .savePortfolioView(savePortfolioView)
+            .savePercentageView(savePercentageView)
             .build();
 //    StockControllerImpl controller = new StockControllerImpl(model, mainView, createView,
 //            getAllStateView, getStateView, determineCostView, determineFeeView, determineValueView,
