@@ -413,11 +413,9 @@ public class StockModelImpl implements StockModel {
     String date2;
     if (date.equals("N") || date.equals("n")) {
       date2 = getLastAvailableDate("GOOG");
-    }
-    else{
+    } else {
       date2 = date;
     }
-
 
 
     return portfolio.get(portfolioName).values()
@@ -560,7 +558,7 @@ public class StockModelImpl implements StockModel {
 
   }
 
-  private String[] readFile(String fileName) {
+  private String[] readFile(String fileName) throws IllegalArgumentException {
     StringBuilder state = new StringBuilder();
     String res;
     String line = "";
@@ -572,8 +570,8 @@ public class StockModelImpl implements StockModel {
         line = in.readLine();
       }
       in.close();
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Cannot find this file.");
     }
     res = state.toString();
     return res.split(",");
@@ -581,8 +579,12 @@ public class StockModelImpl implements StockModel {
 
   @Override
   public void loadPortfolio(String fileName) {
-
-    String[] st = readFile(fileName + ".csv");
+    String[] st;
+    try {
+      st = readFile(fileName + ".csv");
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(e.getMessage());
+    }
     if (st[0].equals("")) {
       throw new IllegalArgumentException("Portfolio name should not be empty.");
     }
@@ -627,7 +629,12 @@ public class StockModelImpl implements StockModel {
   @Override
   public void loadPercentage(String fileName) {
 
-    String[] st = readFile(fileName + ".csv");
+    String[] st;
+    try {
+      st = readFile(fileName + ".csv");
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(e.getMessage());
+    }
     if (st[0].equals("")) {
       throw new IllegalArgumentException("Portfolio name should not be empty.");
     }

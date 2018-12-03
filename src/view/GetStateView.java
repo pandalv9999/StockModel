@@ -24,8 +24,6 @@ public class GetStateView extends JFrame implements IView {
     this.setLayout(null);
     display = new JLabel("Portfolio's name.");
     display.setBounds(20, 10, 800, 20);
-
-
     this.add(display);
 
     //the textfield

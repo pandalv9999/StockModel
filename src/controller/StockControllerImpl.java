@@ -1437,7 +1437,7 @@ public class StockControllerImpl implements StockController {
 
     public StockControllerBuilderImpl model(StockModel model) {
       if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+        throw new IllegalArgumentException("model should not be null.");
 
       }
       this.model = model;
@@ -1445,8 +1445,8 @@ public class StockControllerImpl implements StockController {
     }
 
     public StockControllerBuilderImpl mainView(IView mainView) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+      if (mainView == null) {
+        throw new IllegalArgumentException("mainView should not be null.");
 
       }
       this.mainView = mainView;
@@ -1454,8 +1454,8 @@ public class StockControllerImpl implements StockController {
     }
 
     public StockControllerBuilderImpl createView(IView createView) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+      if (createView == null) {
+        throw new IllegalArgumentException("createView should not be null.");
 
       }
       this.createView = createView;
@@ -1463,8 +1463,8 @@ public class StockControllerImpl implements StockController {
     }
 
     public StockControllerBuilderImpl getAllStateView(IView getAllStateView) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+      if (getAllStateView == null) {
+        throw new IllegalArgumentException("getAllStateView should not be null.");
 
       }
       this.getAllStateView = getAllStateView;
@@ -1472,8 +1472,8 @@ public class StockControllerImpl implements StockController {
     }
 
     public StockControllerBuilderImpl getStateView(IView getStateView) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+      if (getStateView == null) {
+        throw new IllegalArgumentException("getStateView should not be null.");
 
       }
       this.getStateView = getStateView;
@@ -1481,8 +1481,8 @@ public class StockControllerImpl implements StockController {
     }
 
     public StockControllerBuilderImpl determineCostView(IView determineCostView) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+      if (determineCostView == null) {
+        throw new IllegalArgumentException("determineCostView should not be null.");
 
       }
       this.determineCostView = determineCostView;
@@ -1490,8 +1490,8 @@ public class StockControllerImpl implements StockController {
     }
 
     public StockControllerBuilderImpl determineFeeView(IView determineFeeView) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+      if (determineFeeView == null) {
+        throw new IllegalArgumentException("determineFeeView should not be null.");
 
       }
       this.determineFeeView = determineFeeView;
@@ -1499,8 +1499,8 @@ public class StockControllerImpl implements StockController {
     }
 
     public StockControllerBuilderImpl determineValueView(IView determineValueView) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+      if (determineValueView == null) {
+        throw new IllegalArgumentException("determineValueView should not be null.");
 
       }
       this.determineValueView = determineValueView;
@@ -1508,8 +1508,8 @@ public class StockControllerImpl implements StockController {
     }
 
     public StockControllerBuilderImpl buyView(IView buyView) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+      if (buyView == null) {
+        throw new IllegalArgumentException("buyView should not be null.");
 
       }
       this.buyView = buyView;
@@ -1517,8 +1517,8 @@ public class StockControllerImpl implements StockController {
     }
 
     public StockControllerBuilderImpl buyPercentageView(IView buyPercentageView) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+      if (buyPercentageView == null) {
+        throw new IllegalArgumentException("buyPercentageView should not be null.");
 
       }
       this.buyPercentageView = buyPercentageView;
@@ -1526,8 +1526,8 @@ public class StockControllerImpl implements StockController {
     }
 
     public StockControllerBuilderImpl buyAmountView(IView buyAmountView) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+      if (buyAmountView == null) {
+        throw new IllegalArgumentException("buyAmountView should not be null.");
 
       }
       this.buyAmountView = buyAmountView;
@@ -1535,8 +1535,8 @@ public class StockControllerImpl implements StockController {
     }
 
     public StockControllerBuilderImpl createFixedView(IView createFixedView) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+      if (createFixedView == null) {
+        throw new IllegalArgumentException("createFixedView should not be null.");
 
       }
       this.createFixedView = createFixedView;
@@ -1544,8 +1544,8 @@ public class StockControllerImpl implements StockController {
     }
 
     public StockControllerBuilderImpl createPercentageView(IView createPercentageView) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+      if (createPercentageView == null) {
+        throw new IllegalArgumentException("createPercentageView should not be null.");
 
       }
       this.createPercentageView = createPercentageView;
@@ -1553,8 +1553,8 @@ public class StockControllerImpl implements StockController {
     }
 
     public StockControllerBuilderImpl savePortfolioView(IView savePortfolioView) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+      if (savePortfolioView == null) {
+        throw new IllegalArgumentException("savePortfolioView should not be null.");
 
       }
       this.savePortfolioView = savePortfolioView;
@@ -1562,8 +1562,8 @@ public class StockControllerImpl implements StockController {
     }
 
     public StockControllerBuilderImpl savePercentageView(IView savePercentageView) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+      if (savePercentageView == null) {
+        throw new IllegalArgumentException("savePercentageView should not be null.");
 
       }
       this.savePercentageView = savePercentageView;
@@ -1571,8 +1571,8 @@ public class StockControllerImpl implements StockController {
     }
 
     public StockControllerBuilderImpl loadPortfolioView(IView loadPortfolioView) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+      if (loadPortfolioView == null) {
+        throw new IllegalArgumentException("loadPortfolioView should not be null.");
 
       }
       this.loadPortfolioView = loadPortfolioView;
@@ -1580,8 +1580,8 @@ public class StockControllerImpl implements StockController {
     }
 
     public StockControllerBuilderImpl loadPercentageView(IView loadPercentageView) {
-      if (model == null) {
-        throw new IllegalArgumentException("Model should not be null.");
+      if (loadPercentageView == null) {
+        throw new IllegalArgumentException("loadPercentageView should not be null.");
 
       }
       this.loadPercentageView = loadPercentageView;

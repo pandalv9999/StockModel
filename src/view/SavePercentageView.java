@@ -6,13 +6,14 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class SavePercentageView extends JFrame implements IView {
-  private JLabel display;
+  private JLabel display, display2;
   private JButton echoButton, exitButton;
-  private JTextField portfolioName, fileName;
+  private JTextField percentageName, fileName;
+  private JTextArea sTextArea;
 
   public SavePercentageView(String caption) {
     super(caption);
-    setSize(800, 600);
+    setSize(900, 600);
     setLocation(200, 200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     //this.setResizable(false);
@@ -20,28 +21,45 @@ public class SavePercentageView extends JFrame implements IView {
 
 
     this.setLayout(new FlowLayout());
-    display = new JLabel("Please input the portfolio's name.");
+    this.setLayout(null);
 
-
+    display = new JLabel("Investing plan's name.");
+    display.setBounds(20, 10, 800, 20);
     this.add(display);
 
     //the textfield
-    portfolioName = new JTextField(5);
-    this.add(portfolioName);
+    percentageName = new JTextField(5);
+    percentageName.setBounds(20, 40, 200, 20);
+    this.add(percentageName);
 
+    //output area
+    sTextArea = new JTextArea("Result will be displayed here.", 10, 20);
+    JScrollPane scrollPane = new JScrollPane(sTextArea);
+    sTextArea.setLineWrap(true);
+    //scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    scrollPane.setBorder(BorderFactory.createTitledBorder("Result"));
+    scrollPane.setBounds(500, 20, 340, 470);
+    this.add(scrollPane);
+
+    display2 = new JLabel("File name");
+    display2.setBounds(20, 80, 800, 20);
+    this.add(display2);
 
     //the textfield
     fileName = new JTextField(10);
+    fileName.setBounds(20, 110, 200, 20);
     this.add(fileName);
 
     //echobutton
     echoButton = new JButton("Save an investing plan");
     echoButton.setActionCommand("SavePercentage Echo Button");
+    echoButton.setBounds(20, 460, 180, 20);
     this.add(echoButton);
 
     //exit button
     exitButton = new JButton("Exit");
     exitButton.setActionCommand("SavePercentage Exit Button");
+    exitButton.setBounds(220, 460, 80, 20);
     this.add(exitButton);
 
 
@@ -84,17 +102,17 @@ public class SavePercentageView extends JFrame implements IView {
 
   @Override
   public void setEchoOutput(String s) {
-    display.setText(s);
+    sTextArea.setText(s);
   }
 
   @Override
   public String getInputString() {
-    return "savepercentage " + portfolioName.getText() + " " + fileName.getText();
+    return "savepercentage " + percentageName.getText() + " " + fileName.getText();
   }
 
   @Override
   public void clearInputString() {
-    portfolioName.setText("");
+    percentageName.setText("");
     fileName.setText("");
   }
 
