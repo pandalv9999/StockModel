@@ -988,6 +988,9 @@ public class StockControllerImpl implements StockController {
       output.append("\n");
       return;
     }
+    if (date.equals("n") || date.equals("N")) {
+      date = "the closest transaction date";
+    }
     Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
     output.append("Successfully bought " + companyName + " with " + shares + " shares on " + date
             + " and total cost is $"
@@ -1050,6 +1053,10 @@ public class StockControllerImpl implements StockController {
       return;
     }
     Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
+
+    if (date.equals("n") || date.equals("N")) {
+      date = "the closest transaction date";
+    }
     output.append("Successfully bought " + companyName + " with $" + amount + " on " + date
             + " and total cost is $"
             + Double.toString(res + commissionFeeAfter - commissionFeeBefore)
@@ -1114,6 +1121,9 @@ public class StockControllerImpl implements StockController {
       output.append(e.getMessage());
       output.append("\n");
       return;
+    }
+    if (date.equals("n") || date.equals("N")) {
+      date = "the closest transaction date";
     }
     output.append("The value of all stocks in this portfolio on " + date + " is $"
             + Double.toString(res) + "\n");

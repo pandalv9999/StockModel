@@ -410,9 +410,19 @@ public class StockModelImpl implements StockModel {
       throw new IllegalArgumentException("Date entered is invalid.");
     }
 
+    String date2;
+    if (date.equals("N") || date.equals("n")) {
+      date2 = getLastAvailableDate("GOOG");
+    }
+    else{
+      date2 = date;
+    }
+
+
+
     return portfolio.get(portfolioName).values()
             .stream()
-            .mapToDouble(b -> alphaVantage.getPrice(b.getCode(), date, "high") * b.getShares())
+            .mapToDouble(b -> alphaVantage.getPrice(b.getCode(), date2, "high") * b.getShares())
             .sum();
   }
 

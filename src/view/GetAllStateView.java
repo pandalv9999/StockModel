@@ -9,18 +9,21 @@ public class GetAllStateView extends JFrame implements IView {
   private JLabel display;
   private JButton echoButton, exitButton;
   private JTextField input;
+  private JTextArea sTextArea;
 
   public GetAllStateView(String caption) {
     super(caption);
-    setSize(800, 600);
+    setSize(900, 600);
     setLocation(200, 200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     //this.setResizable(false);
 //		this.setMinimumSize(new Dimension(300,300));
 
 
-    this.setLayout(new FlowLayout());
-    display = new JLabel("Please input the portfolio's name.");
+    //this.setLayout(new FlowLayout());
+    this.setLayout(null);
+    display = new JLabel("Get the state of all portfolios:");
+    display.setBounds(20, 10, 800, 20);
 
 
     this.add(display);
@@ -29,14 +32,19 @@ public class GetAllStateView extends JFrame implements IView {
     input = new JTextField(10);
     //this.add(input);
 
-    //echobutton
-//    echoButton = new JButton("Get all state");
-//    echoButton.setActionCommand("GetAllState Echo Button");
-//    this.add(echoButton);
+    //output area
+    sTextArea = new JTextArea("Result will be displayed here.", 10, 20);
+    JScrollPane scrollPane = new JScrollPane(sTextArea);
+    sTextArea.setLineWrap(true);
+    //scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    scrollPane.setBorder(BorderFactory.createTitledBorder("Result"));
+    scrollPane.setBounds(20, 40, 820, 400);
+    this.add(scrollPane);
 
     //exit button
     exitButton = new JButton("Exit");
     exitButton.setActionCommand("GetAllState Exit Button");
+    exitButton.setBounds(20, 500, 80, 20);
     this.add(exitButton);
 
 
@@ -79,7 +87,7 @@ public class GetAllStateView extends JFrame implements IView {
 
   @Override
   public void setEchoOutput(String s) {
-    display.setText(s);
+    sTextArea.setText(s);
   }
 
   @Override

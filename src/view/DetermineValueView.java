@@ -6,13 +6,14 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class DetermineValueView extends JFrame implements IView {
-  private JLabel display;
+  private JLabel display, display2;
   private JButton echoButton, exitButton;
   private JTextField portfolioName, date;
+  private JTextArea sTextArea;
 
   public DetermineValueView(String caption) {
     super(caption);
-    setSize(800, 600);
+    setSize(900, 600);
     setLocation(200, 200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     //this.setResizable(false);
@@ -20,28 +21,45 @@ public class DetermineValueView extends JFrame implements IView {
 
 
     this.setLayout(new FlowLayout());
-    display = new JLabel("Please input the portfolio's name.");
-
-
+    this.setLayout(null);
+    display = new JLabel("Portfolio's name.");
+    display.setBounds(20, 10, 800, 20);
     this.add(display);
 
     //the textfield
     portfolioName = new JTextField(5);
+    portfolioName.setBounds(20, 40, 200, 20);
     this.add(portfolioName);
 
+    //output area
+    sTextArea = new JTextArea("Result will be displayed here.", 10, 20);
+    JScrollPane scrollPane = new JScrollPane(sTextArea);
+    sTextArea.setLineWrap(true);
+    //scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    scrollPane.setBorder(BorderFactory.createTitledBorder("Result"));
+    scrollPane.setBounds(500, 20, 340, 470);
+    this.add(scrollPane);
+
+
+    display2 = new JLabel("Date: yyyyMMdd or N/n");
+    display2.setBounds(20, 80, 800, 20);
+    this.add(display2);
 
     //the textfield
     date = new JTextField(10);
+    date.setBounds(20, 110, 200, 20);
     this.add(date);
 
     //echobutton
     echoButton = new JButton("Determine Value");
     echoButton.setActionCommand("DetermineValue Echo Button");
+    echoButton.setBounds(20, 460, 150, 20);
     this.add(echoButton);
 
     //exit button
     exitButton = new JButton("Exit");
     exitButton.setActionCommand("DetermineValue Exit Button");
+    exitButton.setBounds(190, 460, 80, 20);
     this.add(exitButton);
 
 
@@ -84,7 +102,7 @@ public class DetermineValueView extends JFrame implements IView {
 
   @Override
   public void setEchoOutput(String s) {
-    display.setText(s);
+    sTextArea.setText(s);
   }
 
   @Override

@@ -37,7 +37,7 @@ public class JFrameView extends JFrame implements IView {
 
     //the textfield
     input = new JTextField(20);
-    input.setBounds(20, 40, 200, 20);
+    input.setBounds(20, 40, 240, 20);
     this.add(input);
 
     //output area
@@ -55,7 +55,7 @@ public class JFrameView extends JFrame implements IView {
     //echobutton
     echoButton = new JButton("Go");
     echoButton.setActionCommand("Echo Button");
-    echoButton.setBounds(240, 40, 80, 20);
+    echoButton.setBounds(280, 40, 80, 20);
     this.add(echoButton);
 
     //createButton
