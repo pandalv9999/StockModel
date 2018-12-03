@@ -59,7 +59,7 @@ public class JFrameView extends JFrame implements IView {
     this.add(echoButton);
 
     //createButton
-    createButton = new JButton("Create");
+    createButton = new JButton("Create an empty portfolio");
     createButton.setActionCommand("Create Button");
     createButton.setBounds(400, 40, 200, 20);
     this.add(createButton);
