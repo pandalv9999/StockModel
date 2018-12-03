@@ -103,7 +103,7 @@ public class JFrameView extends JFrame implements IView {
     this.add(buyButton);
 
     //buyPercentageButton
-    buyPercentageButton = new JButton("Buy a Portfolio");
+    buyPercentageButton = new JButton("Buy an investing plan");
     buyPercentageButton.setActionCommand("BuyPercentage Button");
     buyPercentageButton.setBounds(620, 220, 200, 20);
     this.add(buyPercentageButton);
@@ -120,9 +120,9 @@ public class JFrameView extends JFrame implements IView {
     createFixedButton.setBounds(620, 280, 200, 20);
     this.add(createFixedButton);
 
-    //createFixedButton
+    //createPercentageButton
     createPercentageButton = new JButton("Create an investing plan");
-    createPercentageButton.setActionCommand("SavePortfolio Button");
+    createPercentageButton.setActionCommand("CreatePercentage Button");
     createPercentageButton.setBounds(400, 340, 200, 20);
     this.add(createPercentageButton);
 
@@ -132,7 +132,7 @@ public class JFrameView extends JFrame implements IView {
     savePortfolioButton.setBounds(620, 340, 200, 20);
     this.add(savePortfolioButton);
 
-    //savePortfolioButton
+    //savePercentageButton
     savePercentageButton = new JButton("Save an investing plan");
     savePercentageButton.setActionCommand("SavePercentage Button");
     savePercentageButton.setBounds(400, 400, 200, 20);
