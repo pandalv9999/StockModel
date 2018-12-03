@@ -76,11 +76,11 @@ public class StockControllerImpl implements StockController {
 //    return st;
 //  }
 
-  /**
-   * This method will take a String object as an input and output the string to the output stream.
-   *
-   * @param st a string needed to output
-   */
+//  /**
+//   * This method will take a String object as an input and output the string to the output stream.
+//   *
+//   * @param st a string needed to output
+//   */
 //  private void output(String st) throws IllegalStateException {
 //    try {
 //      this.out.append(st);
