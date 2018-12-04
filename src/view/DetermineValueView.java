@@ -121,7 +121,7 @@ public class DetermineValueView extends JFrame implements IView {
   }
 
   public void plot(List<Double> data) {
-    final JFrame frame = new JFrame("Plot");
+    final JFrame frame = new JFrame("Portfolio's value in the last 12 months");
     frame.setSize(800, 600);
     double[] xData = new double[12];
     double[] yData = new double[12];
