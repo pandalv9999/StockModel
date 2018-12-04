@@ -1,6 +1,7 @@
 package model;
 
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -190,5 +191,13 @@ public class MockStockModel implements StockModel {
     log.append("loadPortfolio ");
     log.append(fileName);
     log.append("\n");
+  }
+
+  @Override
+  public List<Double> determineValuePlot(String portfolioName) throws IllegalArgumentException {
+    log.append("determineValuePlot ");
+    log.append(portfolioName);
+    log.append("\n");
+    return null;
   }
 }

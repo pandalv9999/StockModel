@@ -1,13 +1,18 @@
 package view;
 
+import org.knowm.xchart.QuickChart;
+import org.knowm.xchart.XChartPanel;
+import org.knowm.xchart.XYChart;
+
 import javax.swing.*;
 
+import java.util.List;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class DetermineValueView extends JFrame implements IView {
   private JLabel display, display2;
-  private JButton echoButton, exitButton;
+  private JButton echoButton, exitButton, plotButton;
   private JTextField portfolioName, date;
   private JTextArea sTextArea;
 
@@ -32,7 +37,9 @@ public class DetermineValueView extends JFrame implements IView {
     this.add(portfolioName);
 
     //output area
-    sTextArea = new JTextArea("Result will be displayed here.", 10, 20);
+    sTextArea = new JTextArea("Result will be displayed here. If you want to plot a "
+            + "portfolio's value in the last 12 months, entering the name is just fine.",
+            10, 20);
     JScrollPane scrollPane = new JScrollPane(sTextArea);
     sTextArea.setLineWrap(true);
     //scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -56,10 +63,17 @@ public class DetermineValueView extends JFrame implements IView {
     echoButton.setBounds(20, 460, 150, 20);
     this.add(echoButton);
 
+
+    //echobutton
+    plotButton = new JButton("Plot Value in 12 months");
+    plotButton.setActionCommand("DetermineValue Plot Button");
+    plotButton.setBounds(190, 460, 200, 20);
+    this.add(plotButton);
+
     //exit button
     exitButton = new JButton("Exit");
     exitButton.setActionCommand("DetermineValue Exit Button");
-    exitButton.setBounds(190, 460, 80, 20);
+    exitButton.setBounds(410, 460, 80, 20);
     this.add(exitButton);
 
 
@@ -71,6 +85,7 @@ public class DetermineValueView extends JFrame implements IView {
   @Override
   public void addActionListener(ActionListener actionListener) {
     echoButton.addActionListener(actionListener);
+    plotButton.addActionListener(actionListener);
     exitButton.addActionListener(actionListener);
   }
 
@@ -105,9 +120,34 @@ public class DetermineValueView extends JFrame implements IView {
     sTextArea.setText(s);
   }
 
+  public void plot(List<Double> data) {
+    final JFrame frame = new JFrame("Plot");
+    frame.setSize(800, 600);
+    double[] xData = new double[12];
+    double[] yData = new double[12];
+    for (int i = 0; i < 12; i++) {
+      xData[i] = i - 12;
+      yData[i] = data.get(i);
+    }
+
+    // Create Chart
+    XYChart chart = QuickChart.getChart("Portfolio's value in the last 12 months",
+            "months", "dollars", "change of portfolio's value", xData, yData);
+
+    XChartPanel chartPanel = new XChartPanel(chart);
+    chartPanel.setBounds(20, 80, 800, 600);
+    frame.add(chartPanel);
+    frame.pack();
+    frame.setVisible(true);
+  }
+
   @Override
   public String getInputString() {
     return "determinevalue " + portfolioName.getText() + " " + date.getText();
+  }
+
+  public String getPlotInputString() {
+    return portfolioName.getText();
   }
 
   @Override

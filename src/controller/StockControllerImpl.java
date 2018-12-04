@@ -23,6 +23,7 @@ import controller.commands.GetAllState;
 import controller.commands.GetState;
 import controller.commands.LoadPercentage;
 import controller.commands.LoadPortfolio;
+import controller.commands.PlotValue;
 import controller.commands.SavePercentage;
 import controller.commands.SavePortfolio;
 import controller.utility.Input;
@@ -388,6 +389,23 @@ public class StockControllerImpl implements StockController {
       //set focus back to main frame so that keyboard events work
       view.resetFocus();
 
+
+    });
+
+    buttonClickedMap.put("DetermineValue Plot Button", () -> {
+      String portfolioName = ((DetermineValueView)view).getPlotInputString();
+      try {
+        ((DetermineValueView) view).plot(PlotValue.plotValue(model, portfolioName));
+        view.setEchoOutput("Plot the value of all stocks in this portfolio in the last 12 months.\n");
+      } catch (Exception e) {
+        view.setEchoOutput("This portfolio does not exist!\n");
+
+      }
+      //clear input textfield
+      view.clearInputString();
+
+      //set focus back to main frame so that keyboard events work
+      view.resetFocus();
     });
 
     buttonClickedMap.put("DetermineValue Exit Button", () -> {

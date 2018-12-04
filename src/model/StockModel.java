@@ -1,5 +1,6 @@
 package model;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -147,4 +148,6 @@ public interface StockModel {
   void savePercentage(String portfolioName, String fileName);
 
   void loadPercentage(String fileName);
+
+  List<Double> determineValuePlot(String portfolioName) throws IllegalArgumentException;
 }

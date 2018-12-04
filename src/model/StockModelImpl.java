@@ -8,9 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -423,6 +425,36 @@ public class StockModelImpl implements StockModel {
             .mapToDouble(b -> alphaVantage.getPrice(b.getCode(), date2, "high") * b.getShares())
             .sum();
   }
+
+  @Override
+  public List<Double> determineValuePlot(String portfolioName) throws IllegalArgumentException {
+
+    if (portfolioName == null || portfolioName.isEmpty() || portfolioName.equals("")) {
+      throw new IllegalArgumentException("Portfolio name should not be empty");
+    }
+
+    if (portfolio.get(portfolioName) == null) {
+      throw new IllegalArgumentException("This portfolio does not exist.");
+
+    }
+
+    List<Double> res = new ArrayList();
+
+    String endDate = getLastAvailableDate("GOOG");
+
+
+    String nextDate = getNextNDate(endDate, -365);
+
+    for (int i = 0; i < 12; i++) {
+      String buyDate = getNextAvailableDate(nextDate, "GOOG");
+      res.add(determineValue(portfolioName, buyDate));
+      nextDate = getNextNDate(nextDate, 30);
+    }
+
+
+    return res;
+  }
+
 
   @Override
   public double determineCommissionFee(String portfolioName) throws IllegalArgumentException {
