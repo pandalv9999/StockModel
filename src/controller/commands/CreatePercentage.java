@@ -8,10 +8,25 @@ import java.util.Scanner;
 import controller.utility.Input;
 import model.StockModel;
 
+/**
+ * This class represents a creating an investing plan behavior in a controller. It will parse the
+ * command and pass it to the model.
+ */
 public class CreatePercentage {
-  public static void createPercentage(StockModel model, Scanner scan, Appendable output, boolean console) throws IOException {
 
-    String percentagesName = Input.input(scan, "Please input the investment plan's name.\n", output, console);
+  /**
+   * This method will parse the command of creating an investing plan and pass it to the model.
+   *
+   * @param model   a stock system model
+   * @param scan    a Scanner object
+   * @param output  an appendable object for output
+   * @param console whether this method is called by console controller or not
+   */
+  public static void createPercentage(StockModel model, Scanner scan, Appendable output,
+                                      boolean console) throws IOException {
+
+    String percentagesName = Input.input(scan, "Please input the investment plan's name.\n",
+            output, console);
     if (Input.isQuit(percentagesName)) {
       output.append("Quit.\n");
       return;
@@ -41,7 +56,8 @@ public class CreatePercentage {
       if (equal.equals("S") || equal.equals("s")) {
         try {
           proportion = Double.parseDouble(Input.input(scan,
-                  "Proportion in percentage? E.g. input 30 to represent 30%.\n", output, console)) / 100.0;
+                  "Proportion in percentage? E.g. input 30 to represent 30%.\n", output,
+                  console)) / 100.0;
 
           if (proportion < 0) {
             throw new IllegalArgumentException("Proportion should be larger than 0.");

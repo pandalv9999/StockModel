@@ -1,12 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import controller.commands.Buy;
@@ -30,7 +24,7 @@ import model.StockModel;
 /**
  * This class represents an implementation of a stock controller.
  */
-public class StockControllerCommandImpl implements StockController {
+public class StockControllerCommandImpl implements StockControllerCommand {
   private final Readable in;
   private final Appendable out;
 
@@ -158,15 +152,15 @@ public class StockControllerCommandImpl implements StockController {
     this.out = ap;
   }
 
-  /**
-   * This method will determine whether to quit or not.
-   *
-   * @param st the string to be predicated
-   * @return whether the string is a quitting message
-   */
-  private boolean isQuit(String st) {
-    return st.equals("q") || st.equals("Q");
-  }
+//  /**
+//   * This method will determine whether to quit or not.
+//   *
+//   * @param st the string to be predicated
+//   * @return whether the string is a quitting message
+//   */
+//  private boolean isQuit(String st) {
+//    return st.equals("q") || st.equals("Q");
+//  }
 
   /**
    * This method is the main method of the controller. It takes a model as the parameter and call
@@ -182,7 +176,8 @@ public class StockControllerCommandImpl implements StockController {
     Scanner scan = new Scanner(this.in);
     output("Welcome to the stock trading system.\n");
     while (true) {
-      String command = Input.input(scan, "You can input: create, createfixed, createp, buy, buya, buyp, "
+      String command = Input.input(scan, "You can input: create, createfixed, createp, buy, "
+              + "buya, buyp, "
               + "determinecost, determinevalue, determinefee, getstate, "
               + "getallstate, saveportfolio, loadportfolio, savepercentage, "
               + "loadpercentage or Q/q\n", this.out, true);

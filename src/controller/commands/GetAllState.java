@@ -4,11 +4,16 @@ import java.io.IOException;
 
 import model.StockModel;
 
+/**
+ * This class represents a getting all states behavior in a controller.
+ */
 public class GetAllState {
+
   /**
-   * This method will get the state of every portfolio.
+   * This method will call model's method of getting all portfolios' states.
    *
-   * @param model a stock system model
+   * @param model  a stock system model
+   * @param output an appendable object for output
    */
   public static void getAllState(StockModel model, Appendable output) throws IOException {
 

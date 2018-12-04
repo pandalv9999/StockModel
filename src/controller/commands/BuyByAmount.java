@@ -6,12 +6,20 @@ import java.util.Scanner;
 import controller.utility.Input;
 import model.StockModel;
 
+/**
+ * This class represents a buying by amount behavior in a controller. It will parse the command and
+ * pass it to the model.
+ */
 public class BuyByAmount {
+
   /**
-   * This method will buy a certain stock into a portfolio.
+   * This method will parse the command of buying a certain stock by amount of money into a
+   * portfolio.
    *
-   * @param model a stock system model
-   * @param scan  a Scanner object
+   * @param model   a stock system model
+   * @param scan    a Scanner object
+   * @param output  an appendable object for output
+   * @param console whether this method is called by console controller or not
    */
   public static void buyByAmount(StockModel model, Scanner scan, Appendable output, boolean console) throws IOException {
     String portfolioName = Input.input(scan, "Please input the portfolio's name.\n", output, console);

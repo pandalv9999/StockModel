@@ -7,8 +7,22 @@ import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * This class represents some utility functions in a controller. It will parse the scanner and get
+ * the input, or parse a date input in different formats.
+ */
 public class Input {
-  public static String input(Scanner scan, String cue, Appendable output, boolean console) throws IllegalStateException, IOException {
+
+  /**
+   * This method will parse the scanner and get you the input string.
+   *
+   * @param scan    a Scanner object
+   * @param cue     a cue for what to input
+   * @param output  an appendable object for output
+   * @param console whether this method is called by console controller or not
+   */
+  public static String input(Scanner scan, String cue, Appendable output, boolean console)
+          throws IllegalStateException, IOException {
     if (console) {
       output.append(cue);
     }
@@ -21,7 +35,15 @@ public class Input {
     return st;
   }
 
-  private static String convertDate(SimpleDateFormat paradigm, SimpleDateFormat format, String date) {
+  /**
+   * This method will change the input date string into a paradigm format.
+   *
+   * @param paradigm a paradigm date string format
+   * @param format   a current date string format
+   * @param date     a current date string
+   */
+  private static String convertDate(SimpleDateFormat paradigm, SimpleDateFormat format,
+                                    String date) {
     String res = "";
     try {
       format.setLenient(false);
@@ -35,7 +57,16 @@ public class Input {
     return res;
   }
 
-  public static String inputDate(Scanner scan, String cue, Appendable output, boolean console) throws IllegalArgumentException, IOException {
+  /**
+   * This method will parse the scanner and get you the input date string in a paradigm format.
+   *
+   * @param scan    a Scanner object
+   * @param cue     a cue for what to input
+   * @param output  an appendable object for output
+   * @param console whether this method is called by console controller or not
+   */
+  public static String inputDate(Scanner scan, String cue, Appendable output, boolean console)
+          throws IllegalArgumentException, IOException {
     String date = input(scan, cue, output, console);
     if (date.equals("N") || date.equals("n") || date.equals("Q") || date.equals("q")) {
       return date;

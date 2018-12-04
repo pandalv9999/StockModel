@@ -42,13 +42,10 @@ import view.GetAllStateView;
 import view.GetStateView;
 import view.IView;
 import view.JFrameView;
-import view.KeyboardListener;
 import view.LoadPercentageView;
 import view.LoadPortfolioView;
 import view.SavePercentageView;
 import view.SavePortfolioView;
-
-import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
 
 /**
  * This class represents an implementation of a stock controller.
@@ -216,7 +213,7 @@ public class StockControllerImpl implements StockController {
   }
 
   // add some action here
-  private void configureButtonListener() throws Exception{
+  private void configureButtonListener() throws Exception {
     Map<String, Runnable> buttonClickedMap = new HashMap<String, Runnable>();
     ButtonListener buttonListener = new ButtonListener();
 
@@ -421,7 +418,7 @@ public class StockControllerImpl implements StockController {
     });
 
     buttonClickedMap.put("DetermineValue Plot Button", () -> {
-      String portfolioName = ((DetermineValueView)view).getPlotInputString();
+      String portfolioName = ((DetermineValueView) view).getPlotInputString();
       try {
         ((DetermineValueView) view).plot(PlotValue.plotValue(model, portfolioName));
         view.setEchoOutput("Plot the value of all stocks in this portfolio in the last 12 months.\n");

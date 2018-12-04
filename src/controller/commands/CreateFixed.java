@@ -8,16 +8,25 @@ import java.util.Scanner;
 import controller.utility.Input;
 import model.StockModel;
 
+/**
+ * This class represents a creating an fixed portfolio behavior in a controller. It will parse the
+ * command and pass it to the model.
+ */
 public class CreateFixed {
 
   /**
-   * This method will create a fixed portfolio according to the inputting message.
+   * This method will parse the command of creating an fixed portfolio with a certain investing plan
+   * of the same name.
    *
-   * @param model a stock system model
-   * @param scan  a scanner object
+   * @param model   a stock system model
+   * @param scan    a Scanner object
+   * @param output  an appendable object for output
+   * @param console whether this method is called by console controller or not
    */
-  public static void createFixed(StockModel model, Scanner scan, Appendable output, boolean console) throws IOException {
-    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n", output, console);
+  public static void createFixed(StockModel model, Scanner scan, Appendable output, boolean console)
+          throws IOException {
+    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n", output,
+            console);
     if (Input.isQuit(portfolioName)) {
       output.append("Quit.\n");
       return;
@@ -46,7 +55,8 @@ public class CreateFixed {
       if (equal.equals("S") || equal.equals("s")) {
         try {
           proportion = Double.parseDouble(Input.input(scan,
-                  "Proportion in percentage? E.g. input 30 to represent 30%.\n", output, console)) / 100.0;
+                  "Proportion in percentage? E.g. input 30 to represent 30%.\n", output,
+                  console)) / 100.0;
           if (proportion < 0) {
             throw new IllegalArgumentException("Proportion should be larger than 0.");
 
@@ -60,7 +70,8 @@ public class CreateFixed {
 
     double amount = 0.0;
     try {
-      amount = Double.parseDouble(Input.input(scan, "Amount of investment?\n", output, console));
+      amount = Double.parseDouble(Input.input(scan, "Amount of investment?\n", output,
+              console));
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Illegal number.");
     }
@@ -80,7 +91,8 @@ public class CreateFixed {
     if (onGoing.equals("Y") || onGoing.equals("y")) {
 
       // startDate = input(scan);
-      startDate = Input.inputDate(scan, "Provide a start date?(yyyy-mm-dd / N/n)\n", output, console);
+      startDate = Input.inputDate(scan, "Provide a start date?(yyyy-mm-dd / N/n)\n", output,
+              console);
       if (Input.isQuit(startDate)) {
         output.append("Quit.\n");
         return;
@@ -88,7 +100,8 @@ public class CreateFixed {
 
       if (!startDate.equals("N") && !startDate.equals("n")) {
         // endDate = input(scan);
-        endDate = Input.inputDate(scan, "Provide a end date?(yyyy-mm-dd / N/n)\n", output, console);
+        endDate = Input.inputDate(scan, "Provide a end date?(yyyy-mm-dd / N/n)\n", output,
+                console);
         if (Input.isQuit(endDate)) {
           output.append("Quit.\n");
           return;
@@ -97,7 +110,8 @@ public class CreateFixed {
 
       int interval = 30;
       if (!startDate.equals("N") && !startDate.equals("n")) {
-        String st = Input.input(scan, "Provide a interval in days?(e.g 15, 30, 60 / N/n)\n", output, console);
+        String st = Input.input(scan, "Provide a interval in days?(e.g 15, 30, 60 / N/n)\n", output,
+                console);
         if (Input.isQuit(st)) {
           output.append("Quit.\n");
           return;
@@ -120,7 +134,8 @@ public class CreateFixed {
       }
     } else {
       // String date = input(scan);
-      String date = Input.inputDate(scan, "Provide a buying date?(yyyy-mm-dd / N/n)\n", output, console);
+      String date = Input.inputDate(scan, "Provide a buying date?(yyyy-mm-dd / N/n)\n", output,
+              console);
       if (Input.isQuit(date)) {
         output.append("Quit.\n");
         return;

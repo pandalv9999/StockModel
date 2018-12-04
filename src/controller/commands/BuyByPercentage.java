@@ -6,22 +6,32 @@ import java.util.Scanner;
 import controller.utility.Input;
 import model.StockModel;
 
+/**
+ * This class represents a buying an investing plan behavior in a controller. It will parse the
+ * command and pass it to the model.
+ */
 public class BuyByPercentage {
+
   /**
-   * This method will buy a fixed portfolio in a certain date according to its percentage of each
-   * stock.
+   * This method will parse the command of buying a certain investing plan by amount of money on an
+   * certain date into a portfolio.
    *
-   * @param model a stock system model
-   * @param scan  a Scanner object
+   * @param model   a stock system model
+   * @param scan    a Scanner object
+   * @param output  an appendable object for output
+   * @param console whether this method is called by console controller or not
    */
-  public static void buyByPercentage(StockModel model, Scanner scan, Appendable output, boolean console) throws IOException {
-    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n", output, console);
+  public static void buyByPercentage(StockModel model, Scanner scan, Appendable output,
+                                     boolean console) throws IOException {
+    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n", output,
+            console);
     if (Input.isQuit(portfolioName)) {
       output.append("Quit.\n");
       return;
     }
 
-    String percentagesName = Input.input(scan, "Please input the investment plan's name.\n", output, console);
+    String percentagesName = Input.input(scan, "Please input the investment plan's name.\n",
+            output, console);
     if (Input.isQuit(percentagesName)) {
       output.append("Quit.\n");
       return;
@@ -41,7 +51,8 @@ public class BuyByPercentage {
 
     // String date = input(scan);
     String date = Input.inputDate(scan,
-            "Please input the date you want to buy in format yyyy-mm-dd/N/n.\n", output, console);
+            "Please input the date you want to buy in format yyyy-mm-dd/N/n.\n", output,
+            console);
     if (Input.isQuit(date)) {
       output.append("Quit.\n");
       return;
