@@ -1,14 +1,15 @@
 package controller.commands;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import controller.utility.Input;
 import model.StockModel;
 
 public class LoadPercentage {
-  public static void loadPercentage(StockModel model, Scanner scan, StringBuilder output) {
+  public static void loadPercentage(StockModel model, Scanner scan, Appendable output, boolean console) throws IOException {
 
-    String fileName = Input.input(scan, "Please input the file's name.\n");
+    String fileName = Input.input(scan, "Please input the file's name.\n", output, console);
     if (Input.isQuit(fileName)) {
       output.append("Quit.\n");
       return;

@@ -178,7 +178,7 @@ public class StockControllerImpl implements StockController {
                               IView determineValueView, IView buyView, IView buyPercentageView,
                               IView buyAmountView, IView createFixedView, IView createPercentageView,
                               IView savePortfolioView, IView savePercentageView,
-                              IView loadPortfolioView, IView loadPercentageView) throws IllegalArgumentException {
+                              IView loadPortfolioView, IView loadPercentageView) throws Exception {
     this.view = mainView;
     this.model = m;
     this.mainView = mainView;
@@ -216,13 +216,17 @@ public class StockControllerImpl implements StockController {
   }
 
   // add some action here
-  private void configureButtonListener() {
+  private void configureButtonListener() throws Exception{
     Map<String, Runnable> buttonClickedMap = new HashMap<String, Runnable>();
     ButtonListener buttonListener = new ButtonListener();
 
     buttonClickedMap.put("Echo Button", () -> {
       String command = view.getInputString();
-      view.setEchoOutput(processCommand(command));
+      try {
+        view.setEchoOutput(processCommand(command));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       //clear input textfield
       view.clearInputString();
@@ -246,7 +250,11 @@ public class StockControllerImpl implements StockController {
 
     buttonClickedMap.put("Create Echo Button", () -> {
       String command = view.getInputString();
-      view.setEchoOutput(processCommand(command));
+      try {
+        view.setEchoOutput(processCommand(command));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       //clear input textfield
       view.clearInputString();
@@ -273,7 +281,11 @@ public class StockControllerImpl implements StockController {
 
     buttonClickedMap.put("GetState Echo Button", () -> {
       String command = view.getInputString();
-      view.setEchoOutput(processCommand(command));
+      try {
+        view.setEchoOutput(processCommand(command));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       //clear input textfield
       view.clearInputString();
@@ -295,7 +307,11 @@ public class StockControllerImpl implements StockController {
       this.setView(this.getAllStateView);
       ((JFrameView) this.mainView).setVisible(false);
       ((GetAllStateView) this.getAllStateView).setVisible(true);
-      view.setEchoOutput(processCommand("getallstate"));
+      try {
+        view.setEchoOutput(processCommand("getallstate"));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     });
 
 //    buttonClickedMap.put("GetAllState Echo Button", () -> {
@@ -327,7 +343,11 @@ public class StockControllerImpl implements StockController {
 
     buttonClickedMap.put("DetermineCost Echo Button", () -> {
       String command = view.getInputString();
-      view.setEchoOutput(processCommand(command));
+      try {
+        view.setEchoOutput(processCommand(command));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       //clear input textfield
       view.clearInputString();
@@ -354,7 +374,11 @@ public class StockControllerImpl implements StockController {
 
     buttonClickedMap.put("DetermineFee Echo Button", () -> {
       String command = view.getInputString();
-      view.setEchoOutput(processCommand(command));
+      try {
+        view.setEchoOutput(processCommand(command));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       //clear input textfield
       view.clearInputString();
@@ -381,7 +405,11 @@ public class StockControllerImpl implements StockController {
 
     buttonClickedMap.put("DetermineValue Echo Button", () -> {
       String command = view.getInputString();
-      view.setEchoOutput(processCommand(command));
+      try {
+        view.setEchoOutput(processCommand(command));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       //clear input textfield
       view.clearInputString();
@@ -425,7 +453,11 @@ public class StockControllerImpl implements StockController {
 
     buttonClickedMap.put("Buy Echo Button", () -> {
       String command = view.getInputString();
-      view.setEchoOutput(processCommand(command));
+      try {
+        view.setEchoOutput(processCommand(command));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       //clear input textfield
       view.clearInputString();
@@ -451,7 +483,11 @@ public class StockControllerImpl implements StockController {
 
     buttonClickedMap.put("BuyPercentage Echo Button", () -> {
       String command = view.getInputString();
-      view.setEchoOutput(processCommand(command));
+      try {
+        view.setEchoOutput(processCommand(command));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       //clear input textfield
       view.clearInputString();
@@ -477,7 +513,11 @@ public class StockControllerImpl implements StockController {
 
     buttonClickedMap.put("BuyAmount Echo Button", () -> {
       String command = view.getInputString();
-      view.setEchoOutput(processCommand(command));
+      try {
+        view.setEchoOutput(processCommand(command));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       //clear input textfield
       view.clearInputString();
@@ -504,7 +544,11 @@ public class StockControllerImpl implements StockController {
 
     buttonClickedMap.put("CreateFixed Echo Button", () -> {
       String command = view.getInputString();
-      view.setEchoOutput(processCommand(command));
+      try {
+        view.setEchoOutput(processCommand(command));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       //clear input textfield
       view.clearInputString();
@@ -531,7 +575,11 @@ public class StockControllerImpl implements StockController {
 
     buttonClickedMap.put("CreatePercentage Echo Button", () -> {
       String command = view.getInputString();
-      view.setEchoOutput(processCommand(command));
+      try {
+        view.setEchoOutput(processCommand(command));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       //clear input textfield
       view.clearInputString();
@@ -557,7 +605,11 @@ public class StockControllerImpl implements StockController {
 
     buttonClickedMap.put("SavePortfolio Echo Button", () -> {
       String command = view.getInputString();
-      view.setEchoOutput(processCommand(command));
+      try {
+        view.setEchoOutput(processCommand(command));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       //clear input textfield
       view.clearInputString();
@@ -583,7 +635,11 @@ public class StockControllerImpl implements StockController {
     buttonClickedMap.put("SavePercentage Echo Button", () -> {
       System.out.println("SavePercentage Echo Button");
       String command = view.getInputString();
-      view.setEchoOutput(processCommand(command));
+      try {
+        view.setEchoOutput(processCommand(command));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       //clear input textfield
       view.clearInputString();
@@ -609,7 +665,11 @@ public class StockControllerImpl implements StockController {
     buttonClickedMap.put("LoadPortfolio Echo Button", () -> {
       System.out.println("LoadPortfolio Echo Button");
       String command = view.getInputString();
-      view.setEchoOutput(processCommand(command));
+      try {
+        view.setEchoOutput(processCommand(command));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       //clear input textfield
       view.clearInputString();
@@ -636,7 +696,11 @@ public class StockControllerImpl implements StockController {
     buttonClickedMap.put("LoadPercentage Echo Button", () -> {
       System.out.println("LoadPercentage Echo Button");
       String command = view.getInputString();
-      view.setEchoOutput(processCommand(command));
+      try {
+        view.setEchoOutput(processCommand(command));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       //clear input textfield
       view.clearInputString();
@@ -687,7 +751,7 @@ public class StockControllerImpl implements StockController {
    * its methods.
    */
   public String processCommand(String command)
-          throws IllegalArgumentException, IllegalStateException {
+          throws IllegalArgumentException, IllegalStateException, IOException {
     System.out.println(command);
     if (model == null) {
       throw new IllegalArgumentException("Model should not be null.");
@@ -699,68 +763,68 @@ public class StockControllerImpl implements StockController {
 
 //    output("Welcome to the stock trading system.\n");
     while (scan.hasNext()) {
-      String in = Input.input(scan, "Please input a command.").toLowerCase();
+      String in = Input.input(scan, "Please input a command.", output, false).toLowerCase();
 
       if (Input.isQuit(in)) {
         output.append("Quit.\n");
         return output.toString();
       } else if (in.equals("createfixed")) {
         try {
-          CreateFixed.createFixed(model, scan, output);
+          CreateFixed.createFixed(model, scan, output, false);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
       } else if (in.equals("create")) { //done
         try {
-          Create.create(model, scan, output);
+          Create.create(model, scan, output, false);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
       } else if (in.equals("createp")) { //done
         try {
-          CreatePercentage.createPercentage(model, scan, output);
+          CreatePercentage.createPercentage(model, scan, output, false);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
       } else if (in.equals("buy")) { //done
         try {
-          Buy.buy(model, scan, output);
+          Buy.buy(model, scan, output, false);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
       } else if (in.equals("buya")) { //done
         try {
-          BuyByAmount.buyByAmount(model, scan, output);
+          BuyByAmount.buyByAmount(model, scan, output, false);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
       } else if (in.equals("determinecost")) { //done
         try {
-          DetermineCost.determineCost(model, scan, output);
+          DetermineCost.determineCost(model, scan, output, false);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
       } else if (in.equals("determinevalue")) { //done
         try {
-          DetermineValue.determineValue(model, scan, output);
+          DetermineValue.determineValue(model, scan, output, false);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
       } else if (in.equals("determinefee")) { //done
         try {
-          DetermineCommissionFee.determineCommissionFee(model, scan, output);
+          DetermineCommissionFee.determineCommissionFee(model, scan, output, false);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
       } else if (in.equals("buyp")) { //done
         try {
-          BuyByPercentage.buyByPercentage(model, scan, output);
+          BuyByPercentage.buyByPercentage(model, scan, output, false);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
       } else if (in.equals("getstate")) { //done
         try {
-          GetState.getState(model, scan, output);
+          GetState.getState(model, scan, output, false);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
@@ -772,25 +836,25 @@ public class StockControllerImpl implements StockController {
         }
       } else if (in.equals("saveportfolio")) { //done
         try {
-          SavePortfolio.savePortfolio(model, scan, output);
+          SavePortfolio.savePortfolio(model, scan, output, false);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
       } else if (in.equals("loadportfolio")) { //done
         try {
-          LoadPortfolio.loadPortfolio(model, scan, output);
+          LoadPortfolio.loadPortfolio(model, scan, output, false);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
       } else if (in.equals("savepercentage")) { //done
         try {
-          SavePercentage.savePercentage(model, scan, output);
+          SavePercentage.savePercentage(model, scan, output, false);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
       } else if (in.equals("loadpercentage")) { //done
         try {
-          LoadPercentage.loadPercentage(model, scan, output);
+          LoadPercentage.loadPercentage(model, scan, output, false);
         } catch (Exception e) {
           output.append(e.getMessage());
         }
@@ -1622,7 +1686,7 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
-    public StockController build() {
+    public StockController build() throws Exception {
       return new StockControllerImpl(this.model, this.mainView, this.createView, this.getAllStateView,
               this.getStateView, this.determineCostView, this.determineFeeView,
               this.determineValueView, this.buyView, this.buyPercentageView,

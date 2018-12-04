@@ -1,5 +1,6 @@
 package controller.commands;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import controller.utility.Input;
@@ -12,9 +13,9 @@ public class GetState {
    * @param model a stock system model
    * @param scan  a Scanner object
    */
-  public static void getState(StockModel model, Scanner scan, StringBuilder output) {
+  public static void getState(StockModel model, Scanner scan, Appendable output, boolean console) throws IOException {
 
-    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n");
+    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n", output, console);
     if (Input.isQuit(portfolioName)) {
       output.append("Quit.\n");
       return;

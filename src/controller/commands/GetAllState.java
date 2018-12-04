@@ -1,5 +1,7 @@
 package controller.commands;
 
+import java.io.IOException;
+
 import model.StockModel;
 
 public class GetAllState {
@@ -8,7 +10,7 @@ public class GetAllState {
    *
    * @param model a stock system model
    */
-  public static void getAllState(StockModel model, StringBuilder output) {
+  public static void getAllState(StockModel model, Appendable output) throws IOException {
 
     String res = "";
     try {

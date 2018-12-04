@@ -1,20 +1,21 @@
 package controller.commands;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import controller.utility.Input;
 import model.StockModel;
 
 public class SavePortfolio {
-  public static void savePortfolio(StockModel model, Scanner scan, StringBuilder output) {
+  public static void savePortfolio(StockModel model, Scanner scan, Appendable output, boolean console) throws IOException {
 
-    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n");
+    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n", output, console);
     if (Input.isQuit(portfolioName)) {
       output.append("Quit.\n");
       return;
     }
 
-    String fileName = Input.input(scan, "Please input the file's name.\n");
+    String fileName = Input.input(scan, "Please input the file's name.\n", output, console);
     if (Input.isQuit(fileName)) {
       output.append("Quit.\n");
       return;

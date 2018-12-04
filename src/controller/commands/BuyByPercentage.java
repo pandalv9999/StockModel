@@ -1,5 +1,6 @@
 package controller.commands;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import controller.utility.Input;
@@ -13,14 +14,14 @@ public class BuyByPercentage {
    * @param model a stock system model
    * @param scan  a Scanner object
    */
-  public static void buyByPercentage(StockModel model, Scanner scan, StringBuilder output) {
-    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n");
+  public static void buyByPercentage(StockModel model, Scanner scan, Appendable output, boolean console) throws IOException {
+    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n", output, console);
     if (Input.isQuit(portfolioName)) {
       output.append("Quit.\n");
       return;
     }
 
-    String percentagesName = Input.input(scan, "Please input the investment plan's name.\n");
+    String percentagesName = Input.input(scan, "Please input the investment plan's name.\n", output, console);
     if (Input.isQuit(percentagesName)) {
       output.append("Quit.\n");
       return;
@@ -28,7 +29,7 @@ public class BuyByPercentage {
 
     double amount = 0.0;
     try {
-      String st = Input.input(scan, "Amount of investment?\n");
+      String st = Input.input(scan, "Amount of investment?\n", output, console);
       if (Input.isQuit(st)) {
         output.append("Quit.\n");
         return;
@@ -40,7 +41,7 @@ public class BuyByPercentage {
 
     // String date = input(scan);
     String date = Input.inputDate(scan,
-            "Please input the date you want to buy in format yyyy-mm-dd/N/n.\n");
+            "Please input the date you want to buy in format yyyy-mm-dd/N/n.\n", output, console);
     if (Input.isQuit(date)) {
       output.append("Quit.\n");
       return;

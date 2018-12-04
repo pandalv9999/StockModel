@@ -1,5 +1,6 @@
 package controller.commands;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -15,14 +16,14 @@ public class CreateFixed {
    * @param model a stock system model
    * @param scan  a scanner object
    */
-  public static void createFixed(StockModel model, Scanner scan, StringBuilder output) {
-    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n");
+  public static void createFixed(StockModel model, Scanner scan, Appendable output, boolean console) throws IOException {
+    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n", output, console);
     if (Input.isQuit(portfolioName)) {
       output.append("Quit.\n");
       return;
     }
 
-    String equal = Input.input(scan, "Equal proportion or separate?(E/S)\n");
+    String equal = Input.input(scan, "Equal proportion or separate?(E/S)\n", output, console);
     if (Input.isQuit(equal)) {
       output.append("Quit.\n");
       return;
@@ -30,12 +31,12 @@ public class CreateFixed {
     Map<String, Double> company = new HashMap<>();
     int n;
     try {
-      n = Integer.parseInt(Input.input(scan, "Number of companies?\n"));
+      n = Integer.parseInt(Input.input(scan, "Number of companies?\n", output, console));
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Illegal number.");
     }
     for (int i = 0; i < n; i++) {
-      String companyName = Input.input(scan, "Name of company?\n");
+      String companyName = Input.input(scan, "Name of company?\n", output, console);
 
       if (Input.isQuit(companyName)) {
         output.append("Quit.\n");
@@ -45,7 +46,7 @@ public class CreateFixed {
       if (equal.equals("S") || equal.equals("s")) {
         try {
           proportion = Double.parseDouble(Input.input(scan,
-                  "Proportion in percentage? E.g. input 30 to represent 30%.\n")) / 100.0;
+                  "Proportion in percentage? E.g. input 30 to represent 30%.\n", output, console)) / 100.0;
           if (proportion < 0) {
             throw new IllegalArgumentException("Proportion should be larger than 0.");
 
@@ -59,7 +60,7 @@ public class CreateFixed {
 
     double amount = 0.0;
     try {
-      amount = Double.parseDouble(Input.input(scan, "Amount of investment?\n"));
+      amount = Double.parseDouble(Input.input(scan, "Amount of investment?\n", output, console));
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Illegal number.");
     }
@@ -68,7 +69,7 @@ public class CreateFixed {
       return;
     }
 
-    String onGoing = Input.input(scan, "Ongoing? Y/N\n");
+    String onGoing = Input.input(scan, "Ongoing? Y/N\n", output, console);
     if (Input.isQuit(onGoing)) {
       output.append("Quit.\n");
       return;
@@ -79,7 +80,7 @@ public class CreateFixed {
     if (onGoing.equals("Y") || onGoing.equals("y")) {
 
       // startDate = input(scan);
-      startDate = Input.inputDate(scan, "Provide a start date?(yyyy-mm-dd / N/n)\n");
+      startDate = Input.inputDate(scan, "Provide a start date?(yyyy-mm-dd / N/n)\n", output, console);
       if (Input.isQuit(startDate)) {
         output.append("Quit.\n");
         return;
@@ -87,7 +88,7 @@ public class CreateFixed {
 
       if (!startDate.equals("N") && !startDate.equals("n")) {
         // endDate = input(scan);
-        endDate = Input.inputDate(scan, "Provide a end date?(yyyy-mm-dd / N/n)\n");
+        endDate = Input.inputDate(scan, "Provide a end date?(yyyy-mm-dd / N/n)\n", output, console);
         if (Input.isQuit(endDate)) {
           output.append("Quit.\n");
           return;
@@ -96,7 +97,7 @@ public class CreateFixed {
 
       int interval = 30;
       if (!startDate.equals("N") && !startDate.equals("n")) {
-        String st = Input.input(scan, "Provide a interval in days?(e.g 15, 30, 60 / N/n)\n");
+        String st = Input.input(scan, "Provide a interval in days?(e.g 15, 30, 60 / N/n)\n", output, console);
         if (Input.isQuit(st)) {
           output.append("Quit.\n");
           return;
@@ -119,7 +120,7 @@ public class CreateFixed {
       }
     } else {
       // String date = input(scan);
-      String date = Input.inputDate(scan, "Provide a buying date?(yyyy-mm-dd / N/n)\n");
+      String date = Input.inputDate(scan, "Provide a buying date?(yyyy-mm-dd / N/n)\n", output, console);
       if (Input.isQuit(date)) {
         output.append("Quit.\n");
         return;

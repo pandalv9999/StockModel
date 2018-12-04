@@ -1,5 +1,6 @@
 package controller.commands;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -8,15 +9,15 @@ import controller.utility.Input;
 import model.StockModel;
 
 public class CreatePercentage {
-  public static void createPercentage(StockModel model, Scanner scan, StringBuilder output) {
+  public static void createPercentage(StockModel model, Scanner scan, Appendable output, boolean console) throws IOException {
 
-    String percentagesName = Input.input(scan, "Please input the investment plan's name.\n");
+    String percentagesName = Input.input(scan, "Please input the investment plan's name.\n", output, console);
     if (Input.isQuit(percentagesName)) {
       output.append("Quit.\n");
       return;
     }
 
-    String equal = Input.input(scan, "Equal proportion or separate?(E/S)\n");
+    String equal = Input.input(scan, "Equal proportion or separate?(E/S)\n", output, console);
     if (Input.isQuit(equal)) {
       output.append("Quit.\n");
       return;
@@ -25,12 +26,12 @@ public class CreatePercentage {
     Map<String, Double> company = new HashMap<>();
     int n;
     try {
-      n = Integer.parseInt(Input.input(scan, "Number of companies?\n"));
+      n = Integer.parseInt(Input.input(scan, "Number of companies?\n", output, console));
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Illegal number.");
     }
     for (int i = 0; i < n; i++) {
-      String companyName = Input.input(scan, "Name of company?\n");
+      String companyName = Input.input(scan, "Name of company?\n", output, console);
 
       if (Input.isQuit(companyName)) {
         output.append("Quit.\n");
@@ -40,7 +41,7 @@ public class CreatePercentage {
       if (equal.equals("S") || equal.equals("s")) {
         try {
           proportion = Double.parseDouble(Input.input(scan,
-                  "Proportion in percentage? E.g. input 30 to represent 30%.\n")) / 100.0;
+                  "Proportion in percentage? E.g. input 30 to represent 30%.\n", output, console)) / 100.0;
 
           if (proportion < 0) {
             throw new IllegalArgumentException("Proportion should be larger than 0.");
@@ -61,6 +62,6 @@ public class CreatePercentage {
       output.append("\n");
       return;
     }
-    output.append("Successfully created investing plan " + percentagesName + ".");
+    output.append("Successfully created investing plan " + percentagesName + ".\n");
   }
 }

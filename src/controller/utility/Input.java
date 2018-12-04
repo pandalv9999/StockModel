@@ -1,5 +1,6 @@
 package controller.utility;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,7 +8,10 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Input {
-  public static String input(Scanner scan, String cue) throws IllegalStateException {
+  public static String input(Scanner scan, String cue, Appendable output, boolean console) throws IllegalStateException, IOException {
+    if (console) {
+      output.append(cue);
+    }
     String st = "";
     try {
       st = scan.next();
@@ -31,8 +35,8 @@ public class Input {
     return res;
   }
 
-  public static String inputDate(Scanner scan, String cue) throws IllegalArgumentException {
-    String date = input(scan, cue);
+  public static String inputDate(Scanner scan, String cue, Appendable output, boolean console) throws IllegalArgumentException, IOException {
+    String date = input(scan, cue, output, console);
     if (date.equals("N") || date.equals("n") || date.equals("Q") || date.equals("q")) {
       return date;
     }

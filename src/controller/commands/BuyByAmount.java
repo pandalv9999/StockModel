@@ -1,5 +1,6 @@
 package controller.commands;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import controller.utility.Input;
@@ -12,20 +13,20 @@ public class BuyByAmount {
    * @param model a stock system model
    * @param scan  a Scanner object
    */
-  public static void buyByAmount(StockModel model, Scanner scan, StringBuilder output) {
-    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n");
+  public static void buyByAmount(StockModel model, Scanner scan, Appendable output, boolean console) throws IOException {
+    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n", output, console);
     if (Input.isQuit(portfolioName)) {
       output.append("Quit.\n");
       return;
     }
-    String companyName = Input.input(scan, "Please input the company's name.\n");
+    String companyName = Input.input(scan, "Please input the company's name.\n", output, console);
     if (Input.isQuit(companyName)) {
       output.append("Quit.\n");
       return;
     }
     double amount = 0;
     try {
-      String st = Input.input(scan, "What is the amount of money you want to invest?\n");
+      String st = Input.input(scan, "What is the amount of money you want to invest?\n", output, console);
       if (Input.isQuit(st)) {
         output.append("Quit.\n");
         return;
@@ -38,7 +39,7 @@ public class BuyByAmount {
 
     // String date = input(scan);
     String date = Input.inputDate(scan,
-            "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n");
+            "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n", output, console);
     if (Input.isQuit(date)) {
       output.append("Quit.\n");
       return;
