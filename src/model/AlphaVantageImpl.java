@@ -51,6 +51,11 @@ public class AlphaVantageImpl implements AlphaVantage {
     return uniqueInstance;
   }
 
+  /**
+   * This method will get you an API key.
+   *
+   * @return an API key
+   */
   private String getAPIKey() {
     String res = this.keys.get(this.keyCount);
     this.keyCount += 1;
@@ -60,6 +65,12 @@ public class AlphaVantageImpl implements AlphaVantage {
     return res;
   }
 
+  /**
+   * This method will call the API and try to get prices with a certain company's code. It will save
+   * the information in the local map.
+   *
+   * @param code the company's code you want to query
+   */
   private void callAPIToGetPrices(String code) {
     String apiKey = getAPIKey();
     URL url = null;
@@ -101,6 +112,12 @@ public class AlphaVantageImpl implements AlphaVantage {
     this.prices.put(code, res);
   }
 
+  /**
+   * This method will call the API and try to get code with a certain company's name. It will save
+   * the closest code in the local map.
+   *
+   * @param companyName the company's name you want to query
+   */
   private void callAPIToGetCode(String companyName) {
     String apiKey = getAPIKey();
     URL url = null;

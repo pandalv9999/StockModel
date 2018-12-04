@@ -20,7 +20,7 @@ public interface StockModel {
 
 
   /**
-   * This method create a fixed portfolio with specific buying plan.
+   * This method creates a fixed portfolio with specific buying plan.
    *
    * @param portfolioName The given Portfolio name.
    * @param information   The information of the buying plan with some companies to buy and their
@@ -36,13 +36,22 @@ public interface StockModel {
                          double amt, String date)
           throws IllegalArgumentException;
 
+  /**
+   * This method creates a buying plan.
+   *
+   * @param percentagesName The plan's name.
+   * @param information     The information of the buying plan with some companies to buy and their
+   *                        percentage.
+   * @throws IllegalArgumentException If the name is illegal. If the information goes wrong. If the
+   *                                  buying fails.
+   */
 
   void createPercentage(String percentagesName, Map<String, Double> information)
           throws IllegalArgumentException;
 
 
   /**
-   * This method create a fixed portfolio with specific buying plan. It will buy after a certain
+   * This method creates a fixed portfolio with specific buying plan. It will buy after a certain
    * period of time. If a date is not available, it will automatically search for a nearest
    * available date.
    *
@@ -63,7 +72,7 @@ public interface StockModel {
           throws IllegalArgumentException;
 
   /**
-   * The method buy some stock in the market and add them to a designated Portfolio. Modify: add a
+   * The method buys some stock in the market and add them to a designated Portfolio. Modify: add a
    * parameter name priceType.
    *
    * @param portfolioName The target Portfolio that user whats to put stocks in.
@@ -77,6 +86,18 @@ public interface StockModel {
 
   double buy(String portfolioName, String companyName,
              double shares, String date, String priceType) throws IllegalArgumentException;
+
+  /**
+   * The method buys some stock in the market by certain amount and add them to a designated
+   * Portfolio.
+   *
+   * @param portfolioName The target Portfolio that user whats to put stocks in.
+   * @param companyName   The company's name of the desire stocks.
+   * @param amount        The desired number of amount to buy.
+   * @param date          The date of the stock.
+   * @return The total cost of this buy-in.
+   */
+  double buyByAmount(String portfolioName, String companyName, double amount, String date);
 
   /**
    * The method determines the total costs of all stocks in a portfolio.
@@ -121,7 +142,6 @@ public interface StockModel {
   double buyByPercentage(String portfolioName, String percentagesName, double amt, String date)
           throws IllegalArgumentException;
 
-  double buyByAmount(String portfolioName, String companyName, double amount, String date);
 
   /**
    * The method gets the information of all Portfolios.
@@ -141,13 +161,40 @@ public interface StockModel {
 
   String getPortfolioState(String portfolioName) throws IllegalArgumentException;
 
+  /**
+   * This method will save a portfolio to a csv file.
+   *
+   * @param portfolioName the portfolio you want to save
+   * @param fileName      the csv file's name you want to name
+   */
   void savePortfolio(String portfolioName, String fileName);
 
+  /**
+   * This method will load a portfolio from a csv file.
+   *
+   * @param fileName the csv file's name you want to load
+   */
   void loadPortfolio(String fileName);
 
+  /**
+   * This method will save a buying plan to a csv file.
+   *
+   * @param portfolioName the portfolio you want to save
+   * @param fileName      the csv file's name you want to name
+   */
   void savePercentage(String portfolioName, String fileName);
 
+  /**
+   * This method will load a buying plan from a csv file.
+   *
+   * @param fileName the csv file's name you want to load
+   */
   void loadPercentage(String fileName);
 
+  /**
+   * This method will get you a portfolio's value in the last 12 months for plotting.
+   *
+   * @param portfolioName the portfolio you want to plot
+   */
   List<Double> determineValuePlot(String portfolioName) throws IllegalArgumentException;
 }

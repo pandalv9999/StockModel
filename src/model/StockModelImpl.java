@@ -529,10 +529,16 @@ public class StockModelImpl implements StockModel {
     return state.toString();
   }
 
+  /**
+   * This function will write some content to a csv file.
+   *
+   * @param fileName the file you want to write
+   * @param content  the content you want to write
+   */
   private void outputToFile(String fileName, String content) {
     try {
       File writeName = new File(fileName);
-      writeName.createNewFile(); // 创建新文件
+      writeName.createNewFile();
       BufferedWriter out = new BufferedWriter(new FileWriter(writeName));
       out.write(content);
       out.flush();
@@ -590,6 +596,12 @@ public class StockModelImpl implements StockModel {
 
   }
 
+  /**
+   * This function will read from a csv file and save it as an array of strings.
+   *
+   * @param fileName the file you want to read
+   * @return the file's content in a string array
+   */
   private String[] readFile(String fileName) throws IllegalArgumentException {
     StringBuilder state = new StringBuilder();
     String res;

@@ -22,7 +22,7 @@ import controller.utility.Input;
 import model.StockModel;
 
 /**
- * This class represents an implementation of a stock controller.
+ * This class represents an implementation of a stock command line controller.
  */
 public class StockControllerCommandImpl implements StockControllerCommand {
   private final Readable in;

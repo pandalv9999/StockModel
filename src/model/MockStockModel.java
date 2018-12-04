@@ -179,7 +179,7 @@ public class MockStockModel implements StockModel {
 
   @Override
   public void savePercentage(String percentageName, String fileName) {
-    log.append("savePortfolio ");
+    log.append("savePercentage ");
     log.append(percentageName);
     log.append("\n");
     log.append(fileName);
@@ -188,7 +188,7 @@ public class MockStockModel implements StockModel {
 
   @Override
   public void loadPercentage(String fileName) {
-    log.append("loadPortfolio ");
+    log.append("loadPercentage ");
     log.append(fileName);
     log.append("\n");
   }

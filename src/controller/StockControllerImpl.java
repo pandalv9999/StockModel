@@ -48,7 +48,7 @@ import view.SavePercentageView;
 import view.SavePortfolioView;
 
 /**
- * This class represents an implementation of a stock controller.
+ * This class represents an implementation of a stock controller with gui.
  */
 public class StockControllerImpl implements StockController {
   private StockModel model;
@@ -167,8 +167,7 @@ public class StockControllerImpl implements StockController {
 //  }
 
   /**
-   * The constructor of this method. It will take in a inStream and outStream and initialize the
-   * controller.
+   * The constructor of this method. It will take several views and model.
    */
   private StockControllerImpl(StockModel m, IView mainView, IView createView, IView getAllStateView,
                               IView getStateView, IView determineCostView, IView determineFeeView,
@@ -203,6 +202,11 @@ public class StockControllerImpl implements StockController {
 //    this.out = ap;
   }
 
+  /**
+   * This method set the current view of the controller.
+   *
+   * @param v the current view
+   */
   public void setView(IView v) {
     view = v;
     //create and set the keyboard listener
@@ -212,7 +216,9 @@ public class StockControllerImpl implements StockController {
     // This method will do nothing.
   }
 
-  // add some action here
+  /**
+   * This method will configure the button listener in view.
+   */
   private void configureButtonListener() throws Exception {
     Map<String, Runnable> buttonClickedMap = new HashMap<String, Runnable>();
     ButtonListener buttonListener = new ButtonListener();
@@ -744,8 +750,10 @@ public class StockControllerImpl implements StockController {
 //  }
 
   /**
-   * This method is the main method of the controller. It takes a model as the parameter and call
-   * its methods.
+   * This method can parse a command and call the model with certain parameters.
+   *
+   * @param command a command passed by the view
+   * @return a result string
    */
   public String processCommand(String command)
           throws IllegalArgumentException, IllegalStateException, IOException {
@@ -1499,6 +1507,11 @@ public class StockControllerImpl implements StockController {
 //  }
 
 
+  /**
+   * This method will get you the builder of this controller.
+   *
+   * @return a instance of this controller's builder
+   */
   public static StockControllerBuilderImpl getBuilder() {
     return new StockControllerBuilderImpl();
   }
