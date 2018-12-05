@@ -11,13 +11,14 @@ public class ButtonListener implements ActionListener {
   Map<String, Runnable> buttonClickedActions;
 
   /**
-   * Empty default constructor
+   * Empty default constructor.
    */
   public ButtonListener() {
+    // This does nothing in this project.
   }
 
   /**
-   * Set the map for key typed events. Key typed events in Java Swing are characters
+   * Set the map for key typed events. Key typed events in Java Swing are characters.
    */
 
   public void setButtonClickedActionMap(Map<String, Runnable> map) {

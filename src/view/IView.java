@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 
 /**
- * The interface for our view class
+ * The interface for our view class.
  */
 public interface IView {
   /**
@@ -13,7 +13,7 @@ public interface IView {
   void setEchoOutput(String s);
 
   /**
-   * Get the string from the text field and return it
+   * Get the string from the text field and return it.
    */
   String getInputString();
 
@@ -39,17 +39,15 @@ public interface IView {
 
   /**
    * this is to force the view to have a method to set up the keyboard. The name has been chosen
-   * deliberately. This is the same method signature to add a key listener in Java Swing.
-   *
-   * Thus our Swing-based implementation of this interface will already have such a method.
+   * deliberately. This is the same method signature to add a key listener in Java Swing. Thus our
+   * Swing-based implementation of this interface will already have such a method.
    */
   void addKeyListener(KeyListener listener);
 
   /**
    * this is to force the view to have a method to set up actions for buttons. All the buttons must
-   * be given this action listener
-   *
-   * Thus our Swing-based implementation of this interface will already have such a method.
+   * be given this action listener. Thus our Swing-based implementation of this interface will
+   * already have such a method.
    */
 
   void addActionListener(ActionListener listener);

@@ -1,19 +1,33 @@
 package view;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.BorderFactory;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionListener;
 
 /**
  * This class represents the view of creating a fixed portfolio with certain buying plan..
  */
 public class CreateFixedView extends JFrame implements IView {
-  private JLabel display, display2, display3, display4, display5, display6, display7, display8, display9;
-  private JButton echoButton, exitButton;
-  private JTextField portfolioName, equal, companyNumber, amount, onGoing, startDate,
-          endDate, interval;
-  private JTextArea sTextArea, companyNameSet;
+  private JLabel display;
+  private JButton echoButton;
+  private JButton exitButton;
+  private JTextField portfolioName;
+  private JTextField equal;
+  private JTextField companyNumber;
+  private JTextField amount;
+  private JTextField onGoing;
+  private JTextField startDate;
+  private JTextField endDate;
+  private JTextField interval;
+  private JTextArea sTextArea;
+  private JTextArea companyNameSet;
 
   /**
    * This is the constructor of this view. It will set up the places and id of the buttons and text
@@ -23,21 +37,25 @@ public class CreateFixedView extends JFrame implements IView {
    */
   public CreateFixedView(String caption) {
     super(caption);
+    JLabel display2;
+    JLabel display3;
+    JLabel display4;
+    JLabel display5;
+    JLabel display6;
+    JLabel display7;
+    JLabel display8;
+    JLabel display9;
     setSize(900, 900);
     setLocation(100, 100);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    //this.setResizable(false);
-//		this.setMinimumSize(new Dimension(300,300));
 
 
-    this.setLayout(new FlowLayout());
     this.setLayout(null);
 
     //output area
     sTextArea = new JTextArea("Result will be displayed here.", 10, 20);
     JScrollPane scrollPane = new JScrollPane(sTextArea);
     sTextArea.setLineWrap(true);
-    //scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     scrollPane.setBorder(BorderFactory.createTitledBorder("Result"));
     scrollPane.setBounds(500, 20, 340, 470);
     this.add(scrollPane);
@@ -156,8 +174,6 @@ public class CreateFixedView extends JFrame implements IView {
     exitButton.setBounds(700, 510, 80, 20);
     this.add(exitButton);
 
-
-    //pack();
     setVisible(false);
 
   }
@@ -176,10 +192,11 @@ public class CreateFixedView extends JFrame implements IView {
 
   @Override
   public void toggleColor() {
-    if (this.display.getForeground().equals(Color.RED))
+    if (this.display.getForeground().equals(Color.RED)) {
       this.display.setForeground(Color.BLACK);
-    else
+    } else {
       this.display.setForeground(Color.RED);
+    }
   }
 
 

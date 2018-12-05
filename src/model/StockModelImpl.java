@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -250,18 +249,6 @@ public class StockModelImpl implements StockModel {
       throw new IllegalArgumentException("The investment plan's name already exists!");
     }
 
-//    String randomCode = "";
-//    for (String name : information.keySet()) {
-//      try {
-//        randomCode = alphaVantage.searchCode(name);
-//        if (randomCode.equals("")) {
-//          throw new IllegalArgumentException("Some of the companies does not exist!");
-//        }
-//      } catch (IllegalArgumentException e) {
-//        throw new IllegalArgumentException("Some of the companies does not exist!");
-//      }
-//    }
-
     this.percentages.put(percentagesName, information);
   }
 
@@ -369,7 +356,6 @@ public class StockModelImpl implements StockModel {
     }
 
     int count = counter.get(portfolioName);
-    // counter.remove(portfolioName);
     counter.put(portfolioName, count + 1);
     return price * shares; // return the total cost
   }
@@ -422,7 +408,8 @@ public class StockModelImpl implements StockModel {
 
     return portfolio.get(portfolioName).values()
             .stream()
-            .mapToDouble(b -> alphaVantage.getPrice(b.getCode(), date2, "high") * b.getShares())
+            .mapToDouble(b -> alphaVantage.getPrice(b.getCode(), date2, "high")
+                    * b.getShares())
             .sum();
   }
 
@@ -465,7 +452,8 @@ public class StockModelImpl implements StockModel {
   }
 
   @Override
-  public double buyByPercentage(String portfolioName, String percentagesName, double amt, String date)
+  public double buyByPercentage(String portfolioName, String percentagesName, double amt,
+                                String date)
           throws IllegalArgumentException {
 
     double totalAmt = 0.0;

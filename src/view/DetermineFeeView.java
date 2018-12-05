@@ -1,8 +1,14 @@
 package view;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.BorderFactory;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionListener;
 
 /**
@@ -10,7 +16,8 @@ import java.awt.event.ActionListener;
  */
 public class DetermineFeeView extends JFrame implements IView {
   private JLabel display;
-  private JButton echoButton, exitButton;
+  private JButton echoButton;
+  private JButton exitButton;
   private JTextField input;
   private JTextArea sTextArea;
 
@@ -25,11 +32,8 @@ public class DetermineFeeView extends JFrame implements IView {
     setSize(900, 600);
     setLocation(200, 200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    //this.setResizable(false);
-//		this.setMinimumSize(new Dimension(300,300));
 
 
-    //this.setLayout(new FlowLayout());
     this.setLayout(null);
     display = new JLabel("Portfolio's name.");
     display.setBounds(20, 10, 800, 20);
@@ -46,7 +50,6 @@ public class DetermineFeeView extends JFrame implements IView {
     sTextArea = new JTextArea("Result will be displayed here.", 10, 20);
     JScrollPane scrollPane = new JScrollPane(sTextArea);
     sTextArea.setLineWrap(true);
-    //scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     scrollPane.setBorder(BorderFactory.createTitledBorder("Result"));
     scrollPane.setBounds(500, 20, 340, 470);
     this.add(scrollPane);
@@ -64,7 +67,6 @@ public class DetermineFeeView extends JFrame implements IView {
     this.add(exitButton);
 
 
-    //pack();
     setVisible(false);
 
   }
@@ -75,17 +77,6 @@ public class DetermineFeeView extends JFrame implements IView {
     exitButton.addActionListener(actionListener);
   }
 
-
-  /*
-      In order to make this frame respond to keyboard events, it must be within strong focus.
-      Since there could be multiple components on the screen that listen to keyboard events,
-      we must set one as the "currently focussed" one so that all keyboard events are
-      passed to that component. This component is said to have "strong focus".
-
-      We do this by first making the component focusable and then requesting focus to it.
-      Requesting focus makes the component have focus AND removes focus from whoever had it
-      before.
-       */
   @Override
   public void resetFocus() {
     this.setFocusable(true);
@@ -94,10 +85,11 @@ public class DetermineFeeView extends JFrame implements IView {
 
   @Override
   public void toggleColor() {
-    if (this.display.getForeground().equals(Color.RED))
+    if (this.display.getForeground().equals(Color.RED)) {
       this.display.setForeground(Color.BLACK);
-    else
+    } else {
       this.display.setForeground(Color.RED);
+    }
   }
 
 

@@ -1,18 +1,28 @@
 package view;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.BorderFactory;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionListener;
 
 /**
  * This class represents the view of creating an investing plan.
  */
 public class CreatePercentageView extends JFrame implements IView {
-  private JLabel display, display2, display3, display4;
-  private JButton echoButton, exitButton;
-  private JTextField percentageName, equal, companyNumber;
-  private JTextArea sTextArea, companyNameSet;
+  private JLabel display;
+  private JButton echoButton;
+  private JButton exitButton;
+  private JTextField percentageName;
+  private JTextField equal;
+  private JTextField companyNumber;
+  private JTextArea sTextArea;
+  private JTextArea companyNameSet;
 
   /**
    * This is the constructor of this view. It will set up the places and id of the buttons and text
@@ -22,14 +32,14 @@ public class CreatePercentageView extends JFrame implements IView {
    */
   public CreatePercentageView(String caption) {
     super(caption);
+    JLabel display2;
+    JLabel display3;
+    JLabel display4;
     setSize(900, 600);
     setLocation(200, 200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    //this.setResizable(false);
-//		this.setMinimumSize(new Dimension(300,300));
 
 
-    this.setLayout(new FlowLayout());
     this.setLayout(null);
 
 
@@ -37,7 +47,6 @@ public class CreatePercentageView extends JFrame implements IView {
     sTextArea = new JTextArea("Result will be displayed here.", 10, 20);
     JScrollPane scrollPane = new JScrollPane(sTextArea);
     sTextArea.setLineWrap(true);
-    //scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     scrollPane.setBorder(BorderFactory.createTitledBorder("Result"));
     scrollPane.setBounds(500, 20, 340, 470);
     this.add(scrollPane);
@@ -129,10 +138,11 @@ public class CreatePercentageView extends JFrame implements IView {
 
   @Override
   public void toggleColor() {
-    if (this.display.getForeground().equals(Color.RED))
+    if (this.display.getForeground().equals(Color.RED)) {
       this.display.setForeground(Color.BLACK);
-    else
+    } else {
       this.display.setForeground(Color.RED);
+    }
   }
 
 

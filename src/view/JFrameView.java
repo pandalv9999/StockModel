@@ -1,23 +1,38 @@
 package view;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.BorderFactory;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import controller.StockControllerImpl;
 
 /**
  * This class represents the main view of this stock trading system..
  */
 public class JFrameView extends JFrame implements IView {
   private JLabel display;
-  private JButton echoButton, exitButton, createButton, getAllStateButton, getStateButton,
-          determineCostButton, determineFeeButton, determineValueButton, buyButton,
-          buyPercentageButton, buyAmountButton, createFixedButton, createPercentageButton,
-          savePortfolioButton, savePercentageButton, loadPortfolioButton, loadPercentageButton;
+  private JButton echoButton;
+  private JButton exitButton;
+  private JButton createButton;
+  private JButton getAllStateButton;
+  private JButton getStateButton;
+  private JButton determineCostButton;
+  private JButton determineFeeButton;
+  private JButton determineValueButton;
+  private JButton buyButton;
+  private JButton buyPercentageButton;
+  private JButton buyAmountButton;
+  private JButton createFixedButton;
+  private JButton createPercentageButton;
+  private JButton savePortfolioButton;
+  private JButton savePercentageButton;
+  private JButton loadPortfolioButton;
+  private JButton loadPercentageButton;
   private JTextField input;
   private JTextArea sTextArea;
 
@@ -32,11 +47,8 @@ public class JFrameView extends JFrame implements IView {
     setSize(900, 600);
     setLocation(200, 200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    //this.setResizable(false);
-//		this.setMinimumSize(new Dimension(300,300));
 
 
-    //this.setLayout(new FlowLayout());
     this.setLayout(null);
     display = new JLabel("Welcome to the stock trading system.");
     display.setBounds(20, 10, 800, 20);
@@ -56,7 +68,6 @@ public class JFrameView extends JFrame implements IView {
             + "Result will be displayed here.", 10, 20);
     JScrollPane scrollPane = new JScrollPane(sTextArea);
     sTextArea.setLineWrap(true);
-    //scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     scrollPane.setBorder(BorderFactory.createTitledBorder("Result"));
     scrollPane.setBounds(20, 60, 340, 400);
     this.add(scrollPane);
@@ -166,7 +177,6 @@ public class JFrameView extends JFrame implements IView {
     this.add(exitButton);
 
 
-    //pack();
     setVisible(true);
 
   }
@@ -201,10 +211,11 @@ public class JFrameView extends JFrame implements IView {
 
   @Override
   public void toggleColor() {
-    if (this.display.getForeground().equals(Color.RED))
+    if (this.display.getForeground().equals(Color.RED)) {
       this.display.setForeground(Color.BLACK);
-    else
+    } else {
       this.display.setForeground(Color.RED);
+    }
   }
 
 

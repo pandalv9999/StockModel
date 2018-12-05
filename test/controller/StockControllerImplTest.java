@@ -20,7 +20,7 @@ import view.LoadPortfolioView;
 import view.SavePercentageView;
 import view.SavePortfolioView;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class StockControllerImplTest {
 

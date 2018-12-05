@@ -1,17 +1,24 @@
 package view;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.BorderFactory;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionListener;
 
 /**
  * This class represents the view of saving a portfolio to a csv file.
  */
 public class SavePortfolioView extends JFrame implements IView {
-  private JLabel display, display2;
-  private JButton echoButton, exitButton;
-  private JTextField portfolioName, fileName;
+  private JLabel display;
+  private JButton echoButton;
+  private JButton exitButton;
+  private JTextField portfolioName;
   private JTextArea sTextArea;
 
   /**
@@ -25,11 +32,7 @@ public class SavePortfolioView extends JFrame implements IView {
     setSize(900, 600);
     setLocation(200, 200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    //this.setResizable(false);
-//		this.setMinimumSize(new Dimension(300,300));
 
-
-    this.setLayout(new FlowLayout());
     this.setLayout(null);
 
     display = new JLabel("Portfolio's name.");
@@ -45,20 +48,10 @@ public class SavePortfolioView extends JFrame implements IView {
     sTextArea = new JTextArea("Result will be displayed here.", 10, 20);
     JScrollPane scrollPane = new JScrollPane(sTextArea);
     sTextArea.setLineWrap(true);
-    //scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     scrollPane.setBorder(BorderFactory.createTitledBorder("Result"));
     scrollPane.setBounds(500, 20, 340, 470);
     this.add(scrollPane);
 
-//    display2 = new JLabel("File name");
-//    display2.setBounds(20, 80, 800, 20);
-//    this.add(display2);
-//
-//
-//    //the textfield
-//    fileName = new JTextField(10);
-//    fileName.setBounds(20, 110, 200, 20);
-//    this.add(fileName);
 
     //echobutton
     echoButton = new JButton("Save Portfolio");
@@ -73,7 +66,6 @@ public class SavePortfolioView extends JFrame implements IView {
     this.add(exitButton);
 
 
-    //pack();
     setVisible(false);
 
   }
@@ -93,10 +85,11 @@ public class SavePortfolioView extends JFrame implements IView {
 
   @Override
   public void toggleColor() {
-    if (this.display.getForeground().equals(Color.RED))
+    if (this.display.getForeground().equals(Color.RED)) {
       this.display.setForeground(Color.BLACK);
-    else
+    } else {
       this.display.setForeground(Color.RED);
+    }
   }
 
 
@@ -113,7 +106,6 @@ public class SavePortfolioView extends JFrame implements IView {
   @Override
   public void clearInputString() {
     portfolioName.setText("");
-//    fileName.setText("");
   }
 
 

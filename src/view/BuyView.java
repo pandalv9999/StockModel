@@ -1,17 +1,27 @@
 package view;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.BorderFactory;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionListener;
 
 /**
  * This class represents the view of buying a stock by shares.
  */
 public class BuyView extends JFrame implements IView {
-  private JLabel display, display2, display3, display4;
-  private JButton echoButton, exitButton;
-  private JTextField portfolioName, date, companyName, shares;
+  private JLabel display;
+  private JButton echoButton;
+  private JButton exitButton;
+  private JTextField portfolioName;
+  private JTextField date;
+  private JTextField companyName;
+  private JTextField shares;
   private JTextArea sTextArea;
 
   /**
@@ -22,14 +32,14 @@ public class BuyView extends JFrame implements IView {
    */
   public BuyView(String caption) {
     super(caption);
+    JLabel display2;
+    JLabel display3;
+    JLabel display4;
     setSize(900, 600);
     setLocation(200, 200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    //this.setResizable(false);
-//		this.setMinimumSize(new Dimension(300,300));
 
 
-    this.setLayout(new FlowLayout());
     this.setLayout(null);
 
     //output area
@@ -94,7 +104,6 @@ public class BuyView extends JFrame implements IView {
     this.add(exitButton);
 
 
-    //pack();
     setVisible(false);
 
   }
@@ -113,10 +122,11 @@ public class BuyView extends JFrame implements IView {
 
   @Override
   public void toggleColor() {
-    if (this.display.getForeground().equals(Color.RED))
+    if (this.display.getForeground().equals(Color.RED)) {
       this.display.setForeground(Color.BLACK);
-    else
+    } else {
       this.display.setForeground(Color.RED);
+    }
   }
 
 

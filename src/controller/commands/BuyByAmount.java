@@ -21,20 +21,24 @@ public class BuyByAmount {
    * @param output  an appendable object for output
    * @param console whether this method is called by console controller or not
    */
-  public static void buyByAmount(StockModel model, Scanner scan, Appendable output, boolean console) throws IOException {
-    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n", output, console);
+  public static void buyByAmount(StockModel model, Scanner scan, Appendable output,
+                                 boolean console) throws IOException {
+    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n", output,
+            console);
     if (Input.isQuit(portfolioName)) {
       output.append("Quit.\n");
       return;
     }
-    String companyName = Input.input(scan, "Please input the company's name.\n", output, console);
+    String companyName = Input.input(scan, "Please input the company's name.\n", output,
+            console);
     if (Input.isQuit(companyName)) {
       output.append("Quit.\n");
       return;
     }
     double amount = 0;
     try {
-      String st = Input.input(scan, "What is the amount of money you want to invest?\n", output, console);
+      String st = Input.input(scan, "What is the amount of money you want to invest?\n",
+              output, console);
       if (Input.isQuit(st)) {
         output.append("Quit.\n");
         return;
@@ -47,7 +51,8 @@ public class BuyByAmount {
 
     // String date = input(scan);
     String date = Input.inputDate(scan,
-            "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n", output, console);
+            "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n",
+            output, console);
     if (Input.isQuit(date)) {
       output.append("Quit.\n");
       return;

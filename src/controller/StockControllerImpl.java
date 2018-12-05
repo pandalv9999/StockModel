@@ -1,18 +1,9 @@
 package controller;
 
-import java.awt.event.KeyEvent;
-import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.commands.Buy;
 import controller.commands.BuyByAmount;
@@ -42,7 +33,6 @@ import view.CreateView;
 import view.DetermineCostView;
 import view.DetermineFeeView;
 import view.DetermineValueView;
-import view.FileChooser;
 import view.GetAllStateView;
 import view.GetStateView;
 import view.IView;
@@ -57,119 +47,24 @@ import view.SavePortfolioView;
  */
 public class StockControllerImpl implements StockController {
   private StockModel model;
-  private IView view, mainView, createView, getAllStateView, getStateView, determineCostView,
-          determineFeeView, determineValueView, buyView, buyPercentageView, buyAmountView,
-          createFixedView, createPercentageView, savePortfolioView, savePercentageView,
-          loadPortfolioView, loadPercentageView;
+  private IView view;
+  private IView mainView;
+  private IView createView;
+  private IView getAllStateView;
+  private IView getStateView;
+  private IView determineCostView;
+  private IView determineFeeView;
+  private IView determineValueView;
+  private IView buyView;
+  private IView buyPercentageView;
+  private IView buyAmountView;
+  private IView createFixedView;
+  private IView createPercentageView;
+  private IView savePortfolioView;
+  private IView savePercentageView;
+  private IView loadPortfolioView;
+  private IView loadPercentageView;
 
-//  /**
-//   * This method will take a scanner object as an input and get the string separated by blank space
-//   * or \n.
-//   *
-//   * @param scan a scanner object
-//   * @return a string input
-//   */
-//  private String input(Scanner scan, String cue) throws IllegalStateException {
-//    String st = "";
-//    try {
-//      st = scan.next();
-//    } catch (NoSuchElementException e) {
-//      throw new IllegalStateException("Not enough parameters. " + cue);
-//    }
-//    return st;
-//  }
-
-//  /**
-//   * This method will take a String object as an input and output the string to the output stream.
-//   *
-//   * @param st a string needed to output
-//   */
-//  private void output(String st) throws IllegalStateException {
-//    try {
-//      this.out.append(st);
-//    } catch (IOException e) {
-//      throw new IllegalStateException("Output fails.");
-//    }
-//  }
-
-//  /**
-//   * This method is a helper function. It can convert a date string from certain format to the
-//   * paradigm format. If it fails to convert, it will return an empty string.
-//   *
-//   * @param paradigm the format of date string we need
-//   * @param format   the format of the inputting string
-//   * @param date     the date string
-//   * @return the result of converting
-//   */
-//  private String convertDate(SimpleDateFormat paradigm, SimpleDateFormat format, String date) {
-//    String res = "";
-//    try {
-//      format.setLenient(false);
-//      Date curDate = format.parse(date);
-//      date = paradigm.format(curDate);
-//      res = date;
-//    } catch (ParseException e) {
-//      return res;
-//      // This does nothing.
-//    }
-//    return res;
-//  }
-
-//  /**
-//   * This method is used to input a date string and it will convert it to the paradigm format.
-//   *
-//   * @param scan a scanner object
-//   * @return a paradigm date string or N/n/Q/q
-//   */
-//  private String inputDate(Scanner scan, String cue) throws IllegalArgumentException {
-//    String date = input(scan, cue);
-//    if (date.equals("N") || date.equals("n") || date.equals("Q") || date.equals("q")) {
-//      return date;
-//    }
-//    SimpleDateFormat paradigm = new SimpleDateFormat("yyyy-MM-dd");
-//    SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd");
-//    SimpleDateFormat format2 = new SimpleDateFormat("yyyy:MM:dd");
-//    SimpleDateFormat format3 = new SimpleDateFormat("yyyy.MM.dd");
-//    SimpleDateFormat format4 = new SimpleDateFormat("yyyyMMdd");
-//    SimpleDateFormat format5 = new SimpleDateFormat("yyyy,MM,dd");
-//
-//    try {
-//      paradigm.setLenient(false);
-//      paradigm.parse(date);
-//      return date;
-//    } catch (ParseException e) {
-//      // This does nothing.
-//    }
-//
-//    String res = "";
-//
-//    res = convertDate(paradigm, format1, date);
-//    if (!res.equals("")) {
-//      return res;
-//    }
-//
-//    res = convertDate(paradigm, format2, date);
-//    if (!res.equals("")) {
-//      return res;
-//    }
-//
-//    res = convertDate(paradigm, format3, date);
-//    if (!res.equals("")) {
-//      return res;
-//    }
-//
-//    res = convertDate(paradigm, format4, date);
-//    if (!res.equals("")) {
-//      return res;
-//    }
-//
-//    res = convertDate(paradigm, format5, date);
-//    if (!res.equals("")) {
-//      return res;
-//    }
-//
-//    throw new IllegalArgumentException("Invalid date.");
-//  }
 
   /**
    * The constructor of this method. It will take several views and model.
@@ -177,7 +72,8 @@ public class StockControllerImpl implements StockController {
   private StockControllerImpl(StockModel m, IView mainView, IView createView, IView getAllStateView,
                               IView getStateView, IView determineCostView, IView determineFeeView,
                               IView determineValueView, IView buyView, IView buyPercentageView,
-                              IView buyAmountView, IView createFixedView, IView createPercentageView,
+                              IView buyAmountView, IView createFixedView,
+                              IView createPercentageView,
                               IView savePortfolioView, IView savePercentageView,
                               IView loadPortfolioView, IView loadPercentageView) throws Exception {
     this.view = mainView;
@@ -200,11 +96,6 @@ public class StockControllerImpl implements StockController {
     this.loadPercentageView = loadPercentageView;
     configureKeyBoardListener();
     configureButtonListener();
-//    if (rd == null || ap == null) {
-//      throw new IllegalArgumentException("Input and output should not be null.");
-//    }
-//    this.in = rd;
-//    this.out = ap;
   }
 
   /**
@@ -214,7 +105,6 @@ public class StockControllerImpl implements StockController {
    */
   public void setView(IView v) {
     view = v;
-    //create and set the keyboard listener
   }
 
   private void configureKeyBoardListener() {
@@ -322,17 +212,6 @@ public class StockControllerImpl implements StockController {
       }
     });
 
-//    buttonClickedMap.put("GetAllState Echo Button", () -> {
-//      String command = view.getInputString();
-//      view.setEchoOutput(processCommand("getallstate"));
-//
-//      //clear input textfield
-//      view.clearInputString();
-//
-//      //set focus back to main frame so that keyboard events work
-//      view.resetFocus();
-//
-//    });
 
     buttonClickedMap.put("GetAllState Exit Button", () -> {
       this.setView(this.mainView);
@@ -432,7 +311,8 @@ public class StockControllerImpl implements StockController {
       String portfolioName = ((DetermineValueView) view).getPlotInputString();
       try {
         ((DetermineValueView) view).plot(PlotValue.plotValue(model, portfolioName));
-        view.setEchoOutput("Plot the value of all stocks in this portfolio in the last 12 months.\n");
+        view.setEchoOutput("Plot the value of all stocks in this portfolio "
+                + "in the last 12 months.\n");
       } catch (Exception e) {
         view.setEchoOutput("This portfolio does not exist!\n");
 
@@ -745,16 +625,6 @@ public class StockControllerImpl implements StockController {
     this.loadPercentageView.addActionListener(buttonListener);
   }
 
-//  /**
-//   * This method will determine whether to quit or not.
-//   *
-//   * @param st the string to be predicated
-//   * @return whether the string is a quitting message
-//   */
-//  private boolean isQuit(String st) {
-//    return st.equals("q") || st.equals("Q");
-//  }
-
   /**
    * This method can parse a command and call the model with certain parameters.
    *
@@ -772,7 +642,6 @@ public class StockControllerImpl implements StockController {
     StringBuilder output = new StringBuilder();
     String cmd = null;
 
-//    output("Welcome to the stock trading system.\n");
     while (scan.hasNext()) {
       String in = Input.input(scan, "Please input a command.", output, false).toLowerCase();
 
@@ -877,641 +746,6 @@ public class StockControllerImpl implements StockController {
     return output.toString();
   }
 
-  //
-
-//  /**
-//   * This method will create a fixed portfolio according to the inputting message.
-//   *
-//   * @param model a stock system model
-//   * @param scan  a scanner object
-//   */
-//  private void createFixed(StockModel model, Scanner scan, StringBuilder output) {
-//    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n");
-//    if (Input.isQuit(portfolioName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//
-//    String equal = Input.input(scan, "Equal proportion or separate?(E/S)\n");
-//    if (Input.isQuit(equal)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//    Map<String, Double> company = new HashMap<>();
-//    int n;
-//    try {
-//      n = Integer.parseInt(Input.input(scan, "Number of companies?\n"));
-//    } catch (IllegalArgumentException e) {
-//      throw new IllegalArgumentException("Illegal number.");
-//    }
-//    for (int i = 0; i < n; i++) {
-//      String companyName = Input.input(scan, "Name of company?\n");
-//
-//      if (Input.isQuit(companyName)) {
-//        output.append("Quit.\n");
-//        return;
-//      }
-//      double proportion = 1.0 / n;
-//      if (equal.equals("S") || equal.equals("s")) {
-//        try {
-//          proportion = Double.parseDouble(Input.input(scan,
-//                  "Proportion in percentage? E.g. input 30 to represent 30%.\n")) / 100.0;
-//          if (proportion < 0) {
-//            throw new IllegalArgumentException("Proportion should be larger than 0.");
-//
-//          }
-//        } catch (IllegalArgumentException e) {
-//          throw new IllegalArgumentException("Illegal number.");
-//        }
-//      }
-//      company.put(companyName, proportion);
-//    }
-//
-//    double amount = 0.0;
-//    try {
-//      amount = Double.parseDouble(Input.input(scan, "Amount of investment?\n"));
-//    } catch (IllegalArgumentException e) {
-//      throw new IllegalArgumentException("Illegal number.");
-//    }
-//    if (Input.isQuit(portfolioName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//
-//    String onGoing = Input.input(scan, "Ongoing? Y/N\n");
-//    if (Input.isQuit(onGoing)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//
-//    String startDate;
-//    String endDate = "N";
-//    if (onGoing.equals("Y") || onGoing.equals("y")) {
-//
-//      // startDate = input(scan);
-//      startDate = Input.inputDate(scan, "Provide a start date?(yyyy-mm-dd / N/n)\n");
-//      if (Input.isQuit(startDate)) {
-//        output.append("Quit.\n");
-//        return;
-//      }
-//
-//      if (!startDate.equals("N") && !startDate.equals("n")) {
-//        // endDate = input(scan);
-//        endDate = Input.inputDate(scan, "Provide a end date?(yyyy-mm-dd / N/n)\n");
-//        if (Input.isQuit(endDate)) {
-//          output.append("Quit.\n");
-//          return;
-//        }
-//      }
-//
-//      int interval = 30;
-//      if (!startDate.equals("N") && !startDate.equals("n")) {
-//        String st = Input.input(scan, "Provide a interval in days?(e.g 15, 30, 60 / N/n)\n");
-//        if (Input.isQuit(st)) {
-//          output.append("Quit.\n");
-//          return;
-//        }
-//        if (!st.equals("n") && !st.equals("N")) {
-//          try {
-//            interval = Integer.parseInt(st);
-//          } catch (IllegalArgumentException e) {
-//            throw new IllegalArgumentException("Illegal number.");
-//          }
-//        }
-//      }
-//
-//      try {   // better to add a things to ask what should be the interval. 30 days, 60 days. Done.
-//        model.dollarCostAverage(portfolioName, company, amount, startDate, endDate, interval);
-//      } catch (IllegalArgumentException e) {
-//        output.append(e.getMessage());
-//        output.append("\n");
-//        return;
-//      }
-//    } else {
-//      // String date = input(scan);
-//      String date = Input.inputDate(scan, "Provide a buying date?(yyyy-mm-dd / N/n)\n");
-//      if (Input.isQuit(date)) {
-//        output.append("Quit.\n");
-//        return;
-//      }
-//
-//      try {
-//        model.createPortfolio(portfolioName, company, amount, date);
-//      } catch (IllegalArgumentException e) {
-//        output.append(e.getMessage());
-//        output.append("\n");
-//        return;
-//      }
-//    }
-//    Double cost = model.determineCost(portfolioName);
-//    Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
-//    output.append("Created a Fixed portfolio successfully " + "with commission fee $"
-//            + Double.toString(commissionFeeAfter) + "\n");
-//    output.append("The total cost is $"
-//            + Double.toString(cost
-//            + commissionFeeAfter) + "\n");
-//    output.append("Commission fee is of "
-//            + Double.toString(commissionFeeAfter
-//            / (cost + commissionFeeAfter)
-//            * 100.0)
-//            + "%\n");
-//  }
-
-  //
-
-//  /**
-//   * This method will create an empty portfolio.
-//   *
-//   * @param model a stock system model
-//   * @param scan  a Scanner object
-//   */
-//  private void create(StockModel model, Scanner scan, StringBuilder output) {
-//    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n");
-//    if (Input.isQuit(portfolioName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//    try {
-//      model.createPortfolio(portfolioName);
-//    } catch (IllegalArgumentException e) {
-//      output.append(e.getMessage());
-//      return;
-//    }
-//    output.append("Created an empty portfolio successfully.\n");
-//  }
-
-//  private String create(String portfolioName) {
-//    try {
-//      model.createPortfolio(portfolioName);
-//    } catch (IllegalArgumentException e) {
-//      return e.getMessage();
-//    }
-//    return "Created an empty portfolio successfully.\n";
-//  }
-//
-
-//  /**
-//   * This method will buy a certain stock into a portfolio.
-//   *
-//   * @param model a stock system model
-//   * @param scan  a Scanner object
-//   */
-//  private void buy(StockModel model, Scanner scan, StringBuilder output) {
-//    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n");
-//    if (Input.isQuit(portfolioName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//    String companyName = Input.input(scan, "Please input the company's name.\n");
-//    if (Input.isQuit(companyName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//    int shares = 0;
-//    try {
-//      String st = Input.input(scan, "How many shares you want to buy?\n");
-//      if (Input.isQuit(st)) {
-//        output.append("Quit.\n");
-//        return;
-//      }
-//      shares = Integer.parseInt(st);
-//    } catch (Exception e) {
-//      output.append("Invalid shares, input again.\n");
-//      return;
-//    }
-//
-//    // String date = input(scan);
-//    String date = Input.inputDate(scan,
-//            "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n");
-//    if (Input.isQuit(date)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//    Double res = 0.0;
-//
-//    Double commissionFeeBefore = model.determineCommissionFee(portfolioName);
-//    try {
-//      res = model.buy(portfolioName, companyName, shares, date, "low");
-//    } catch (IllegalArgumentException e) {
-//      output.append(e.getMessage());
-//      output.append("\n");
-//      return;
-//    }
-//    if (date.equals("n") || date.equals("N")) {
-//      date = "the closest transaction date";
-//    }
-//    Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
-//    output.append("Successfully bought " + companyName + " with " + shares + " shares on " + date
-//            + " and total cost is $"
-//            + Double.toString(res + commissionFeeAfter - commissionFeeBefore)
-//            + " with commission fee $"
-//            + Double.toString(commissionFeeAfter - commissionFeeBefore) + "\n");
-//    output.append("Commission fee is of "
-//            + Double.toString((commissionFeeAfter - commissionFeeBefore)
-//            / (res + commissionFeeAfter - commissionFeeBefore)
-//            * 100.0)
-//            + "%\n");
-//  }
-
-
-//  /**
-//   * This method will buy a certain stock into a portfolio.
-//   *
-//   * @param model a stock system model
-//   * @param scan  a Scanner object
-//   */
-//  private void buyByAmount(StockModel model, Scanner scan, StringBuilder output) {
-//    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n");
-//    if (Input.isQuit(portfolioName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//    String companyName = Input.input(scan, "Please input the company's name.\n");
-//    if (Input.isQuit(companyName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//    double amount = 0;
-//    try {
-//      String st = Input.input(scan, "What is the amount of money you want to invest?\n");
-//      if (Input.isQuit(st)) {
-//        output.append("Quit.\n");
-//        return;
-//      }
-//      amount = Double.parseDouble(st);
-//    } catch (Exception e) {
-//      output.append("Invalid shares, input again.\n");
-//      return;
-//    }
-//
-//    // String date = input(scan);
-//    String date = Input.inputDate(scan,
-//            "Please input the date you want to buy in format (yyyy-mm-dd/ N/n).\n");
-//    if (Input.isQuit(date)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//    Double res = 0.0;
-//
-//    Double commissionFeeBefore = model.determineCommissionFee(portfolioName);
-//    try {
-//      res = model.buyByAmount(portfolioName, companyName, amount, date);
-//    } catch (IllegalArgumentException e) {
-//      output.append(e.getMessage());
-//      output.append("\n");
-//      return;
-//    }
-//    Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
-//
-//    if (date.equals("n") || date.equals("N")) {
-//      date = "the closest transaction date";
-//    }
-//    output.append("Successfully bought " + companyName + " with $" + amount + " on " + date
-//            + " and total cost is $"
-//            + Double.toString(res + commissionFeeAfter - commissionFeeBefore)
-//            + " with commission fee $"
-//            + Double.toString(commissionFeeAfter - commissionFeeBefore) + "\n");
-//    output.append("Commission fee is of "
-//            + Double.toString((commissionFeeAfter - commissionFeeBefore)
-//            / (res + commissionFeeAfter - commissionFeeBefore)
-//            * 100.0)
-//            + "%\n");
-//  }
-
-
-//  /**
-//   * This method will try to determine a portfolio's cost basis and its commission fee.
-//   *
-//   * @param model a stock system model
-//   * @param scan  a Scanner object
-//   */
-//  private void determineCost(StockModel model, Scanner scan, StringBuilder output) {
-//    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n");
-//    if (Input.isQuit(portfolioName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//    Double res = 0.0;
-//    try {
-//      res = model.determineCost(portfolioName);
-//    } catch (IllegalArgumentException e) {
-//      output.append(e.getMessage());
-//      output.append("\n");
-//      return;
-//    }
-//    Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
-//    output.append("The cost basis of buying in " + portfolioName + " is $" + Double.toString(res)
-//            + " with commission fee $"
-//            + Double.toString(commissionFeeAfter)
-//            + "\n");
-//  }
-
-//  /**
-//   * This method will determine a portfolio in a certain date.
-//   *
-//   * @param model a stock system model
-//   * @param scan  a Scanner object
-//   */
-//  private void determineValue(StockModel model, Scanner scan, StringBuilder output) {
-//    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n");
-//    if (Input.isQuit(portfolioName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//    String date = Input.inputDate(scan, "Please input the date you want to check in format yyyy-mm-dd.\n");
-//    if (Input.isQuit(date)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//    Double res = 0.0;
-//    try {
-//      res = model.determineValue(portfolioName, date);
-//    } catch (IllegalArgumentException e) {
-//      output.append(e.getMessage());
-//      output.append("\n");
-//      return;
-//    }
-//    if (date.equals("n") || date.equals("N")) {
-//      date = "the closest transaction date";
-//    }
-//    output.append("The value of all stocks in this portfolio on " + date + " is $"
-//            + Double.toString(res) + "\n");
-//  }
-
-//  /**
-//   * This method will determine the commission fee of a portfolio.
-//   *
-//   * @param model a stock system model
-//   * @param scan  a Scanner object
-//   */
-//  private void determineCommissionFee(StockModel model, Scanner scan, StringBuilder output) {
-//    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n");
-//    if (Input.isQuit(portfolioName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//    Double res = 0.0;
-//    try {
-//      res = model.determineCommissionFee(portfolioName);
-//    } catch (IllegalArgumentException e) {
-//      output.append(e.getMessage());
-//      output.append("\n");
-//      return;
-//    }
-//    output.append("The fee of all transactions in this portfolio is $"
-//            + Double.toString(res) + "\n");
-//  }
-
-//  /**
-//   * This method will buy a fixed portfolio in a certain date according to its percentage of each
-//   * stock.
-//   *
-//   * @param model a stock system model
-//   * @param scan  a Scanner object
-//   */
-//  private void buyByPercentage(StockModel model, Scanner scan, StringBuilder output) {
-//    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n");
-//    if (Input.isQuit(portfolioName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//
-//    String percentagesName = Input.input(scan, "Please input the investment plan's name.\n");
-//    if (Input.isQuit(percentagesName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//
-//    double amount = 0.0;
-//    try {
-//      String st = Input.input(scan, "Amount of investment?\n");
-//      if (Input.isQuit(st)) {
-//        output.append("Quit.\n");
-//        return;
-//      }
-//      amount = Double.parseDouble(st);
-//    } catch (IllegalArgumentException e) {
-//      throw new IllegalArgumentException("Illegal number");
-//    }
-//
-//    // String date = input(scan);
-//    String date = Input.inputDate(scan,
-//            "Please input the date you want to buy in format yyyy-mm-dd/N/n.\n");
-//    if (Input.isQuit(date)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//
-//    Double res = 0.0;
-//    Double commissionFeeBefore;
-//    try {
-//      commissionFeeBefore = model.determineCommissionFee(portfolioName);
-//      res = model.buyByPercentage(portfolioName, percentagesName, amount, date);
-//    } catch (IllegalArgumentException e) {
-//      output.append(e.getMessage());
-//      output.append("\n");
-//      return;
-//    }
-//    Double commissionFeeAfter = model.determineCommissionFee(portfolioName);
-//    output.append("The cost of buying this portfolio is $"
-//            + Double.toString(res + commissionFeeAfter - commissionFeeBefore)
-//            + " with commission fee $"
-//            + Double.toString(commissionFeeAfter - commissionFeeBefore) + "\n");
-//    output.append("Commission fee is of "
-//            + Double.toString((commissionFeeAfter - commissionFeeBefore)
-//            / (res + commissionFeeAfter - commissionFeeBefore)
-//            * 100.0)
-//            + "% in this transaction.\n");
-//  }
-
-
-//  private void createPercentage(StockModel model, Scanner scan, StringBuilder output) {
-//
-//    String percentagesName = Input.input(scan, "Please input the investment plan's name.\n");
-//    if (Input.isQuit(percentagesName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//
-//    String equal = Input.input(scan, "Equal proportion or separate?(E/S)\n");
-//    if (Input.isQuit(equal)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//
-//    Map<String, Double> company = new HashMap<>();
-//    int n;
-//    try {
-//      n = Integer.parseInt(Input.input(scan, "Number of companies?\n"));
-//    } catch (IllegalArgumentException e) {
-//      throw new IllegalArgumentException("Illegal number.");
-//    }
-//    for (int i = 0; i < n; i++) {
-//      String companyName = Input.input(scan, "Name of company?\n");
-//
-//      if (Input.isQuit(companyName)) {
-//        output.append("Quit.\n");
-//        return;
-//      }
-//      double proportion = 1.0 / n;
-//      if (equal.equals("S") || equal.equals("s")) {
-//        try {
-//          proportion = Double.parseDouble(Input.input(scan,
-//                  "Proportion in percentage? E.g. input 30 to represent 30%.\n")) / 100.0;
-//
-//          if (proportion < 0) {
-//            throw new IllegalArgumentException("Proportion should be larger than 0.");
-//
-//          }
-//        } catch (IllegalArgumentException e) {
-//          throw new IllegalArgumentException("Illegal number.");
-//        }
-//      }
-//      company.put(companyName, proportion);
-//    }
-//
-//    Double res = 0.0;
-//    try {
-//      model.createPercentage(percentagesName, company);
-//    } catch (IllegalArgumentException e) {
-//      output.append(e.getMessage());
-//      output.append("\n");
-//      return;
-//    }
-//    output.append("Successfully created investing plan " + percentagesName + ".");
-//  }
-
-//  /**
-//   * This method will get the state of a portfolio.
-//   *
-//   * @param model a stock system model
-//   * @param scan  a Scanner object
-//   */
-//  private void getState(StockModel model, Scanner scan, StringBuilder output) {
-//
-//    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n");
-//    if (Input.isQuit(portfolioName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//    String res = "";
-//    try {
-//      res = model.getPortfolioState(portfolioName);
-//    } catch (Exception e) {
-//      output.append(e.getMessage());
-//      output.append("\n");
-//      return;
-//    }
-//    output.append("The state of " + portfolioName + "\n");
-//    output.append(res);
-//  }
-
-
-//  /**
-//   * This method will get the state of every portfolio.
-//   *
-//   * @param model a stock system model
-//   */
-//  private void getAllState(StockModel model, StringBuilder output) {
-//
-//    String res = "";
-//    try {
-//      res = model.getPortfolioState();
-//    } catch (IllegalArgumentException e) {
-//      output.append(e.getMessage());
-//      output.append("\n");
-//      return;
-//    }
-//    output.append("The state of all portfolios:\n");
-//    output.append(res + "\n");
-//  }
-
-
-//  private void savePortfolio(StockModel model, Scanner scan, StringBuilder output) {
-//
-//    String portfolioName = Input.input(scan, "Please input the portfolio's name.\n");
-//    if (Input.isQuit(portfolioName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//
-//    String fileName = Input.input(scan, "Please input the file's name.\n");
-//    if (Input.isQuit(fileName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//
-//    try {
-//      model.savePortfolio(portfolioName, fileName);
-//    } catch (IllegalArgumentException e) {
-//      output.append(e.getMessage());
-//      output.append("\n");
-//      return;
-//    }
-//    output.append("Save portfolio ").append(portfolioName).append(" in file ").append(fileName).append(".csv.\n");
-//  }
-
-//  private void savePercentage(StockModel model, Scanner scan, StringBuilder output) {
-//
-//    String percentageName = Input.input(scan, "Please input the portfolio's name.\n");
-//    if (Input.isQuit(percentageName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//
-//    String fileName = Input.input(scan, "Please input the file's name.\n");
-//    if (Input.isQuit(fileName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//
-//    try {
-//      model.savePercentage(percentageName, fileName);
-//    } catch (IllegalArgumentException e) {
-//      output.append(e.getMessage());
-//      output.append("\n");
-//      return;
-//    }
-//    output.append("Save percentage ").append(percentageName).append(" in file ").append(fileName).append(".csv.\n");
-//  }
-
-
-//  private void loadPortfolio(StockModel model, Scanner scan, StringBuilder output) {
-//
-//    String fileName = Input.input(scan, "Please input the file's name.\n");
-//    if (Input.isQuit(fileName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//
-//    try {
-//      model.loadPortfolio(fileName);
-//    } catch (IllegalArgumentException e) {
-//      output.append(e.getMessage());
-//      output.append("\n");
-//      return;
-//    }
-//    output.append("Load portfolio from ").append(fileName).append(".csv.\n");
-//  }
-
-//  private void loadPercentage(StockModel model, Scanner scan, StringBuilder output) {
-//
-//    String fileName = input(scan, "Please input the file's name.\n");
-//    if (isQuit(fileName)) {
-//      output.append("Quit.\n");
-//      return;
-//    }
-//
-//    try {
-//      model.loadPercentage(fileName);
-//    } catch (IllegalArgumentException e) {
-//      output.append(e.getMessage());
-//      output.append("\n");
-//      return;
-//    }
-//    output.append("Load percentage from ").append(fileName).append(".csv.\n");
-//  }
-
 
   /**
    * This method will get you the builder of this controller.
@@ -1524,12 +758,29 @@ public class StockControllerImpl implements StockController {
 
   public static class StockControllerBuilderImpl {
 
-    private IView mainView, createView, getAllStateView, getStateView, determineCostView,
-            determineFeeView, determineValueView, buyView, buyPercentageView, buyAmountView,
-            createFixedView, createPercentageView, savePortfolioView, savePercentageView,
-            loadPortfolioView, loadPercentageView;
     private StockModel model;
+    private IView mainView;
+    private IView createView;
+    private IView getAllStateView;
+    private IView getStateView;
+    private IView determineCostView;
+    private IView determineFeeView;
+    private IView determineValueView;
+    private IView buyView;
+    private IView buyPercentageView;
+    private IView buyAmountView;
+    private IView createFixedView;
+    private IView createPercentageView;
+    private IView savePortfolioView;
+    private IView savePercentageView;
+    private IView loadPortfolioView;
+    private IView loadPercentageView;
 
+    /**
+     * This method will initialize the builder.
+     *
+     * @return a instance of this controller's builder
+     */
     private StockControllerBuilderImpl() {
       this.mainView = null;
       this.createView = null;
@@ -1549,6 +800,12 @@ public class StockControllerImpl implements StockController {
       this.loadPercentageView = null;
     }
 
+    /**
+     * This method will set up the model in the controller.
+     *
+     * @param model the model you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl model(StockModel model) {
       if (model == null) {
         throw new IllegalArgumentException("model should not be null.");
@@ -1558,6 +815,13 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+
+    /**
+     * This method will set up the main view in the controller.
+     *
+     * @param mainView the mainView you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl mainView(IView mainView) {
       if (mainView == null) {
         throw new IllegalArgumentException("mainView should not be null.");
@@ -1567,6 +831,12 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    /**
+     * This method will set up the createView in the controller.
+     *
+     * @param createView the createView you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl createView(IView createView) {
       if (createView == null) {
         throw new IllegalArgumentException("createView should not be null.");
@@ -1576,6 +846,12 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    /**
+     * This method will set up the getAllStateView in the controller.
+     *
+     * @param getAllStateView the getAllStateView you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl getAllStateView(IView getAllStateView) {
       if (getAllStateView == null) {
         throw new IllegalArgumentException("getAllStateView should not be null.");
@@ -1585,6 +861,12 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    /**
+     * This method will set up the getStateView in the controller.
+     *
+     * @param getStateView the getStateView you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl getStateView(IView getStateView) {
       if (getStateView == null) {
         throw new IllegalArgumentException("getStateView should not be null.");
@@ -1594,6 +876,12 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    /**
+     * This method will set up the determineCostView in the controller.
+     *
+     * @param determineCostView the determineCostView you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl determineCostView(IView determineCostView) {
       if (determineCostView == null) {
         throw new IllegalArgumentException("determineCostView should not be null.");
@@ -1603,6 +891,12 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    /**
+     * This method will set up the determineFeeView in the controller.
+     *
+     * @param determineFeeView the determineFeeView you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl determineFeeView(IView determineFeeView) {
       if (determineFeeView == null) {
         throw new IllegalArgumentException("determineFeeView should not be null.");
@@ -1612,6 +906,12 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    /**
+     * This method will set up the determineValueView in the controller.
+     *
+     * @param determineValueView the determineValueView you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl determineValueView(IView determineValueView) {
       if (determineValueView == null) {
         throw new IllegalArgumentException("determineValueView should not be null.");
@@ -1621,6 +921,12 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    /**
+     * This method will set up the buyView in the controller.
+     *
+     * @param buyView the buyView you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl buyView(IView buyView) {
       if (buyView == null) {
         throw new IllegalArgumentException("buyView should not be null.");
@@ -1630,6 +936,12 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    /**
+     * This method will set up the buyPercentageView in the controller.
+     *
+     * @param buyPercentageView the buyPercentageView you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl buyPercentageView(IView buyPercentageView) {
       if (buyPercentageView == null) {
         throw new IllegalArgumentException("buyPercentageView should not be null.");
@@ -1639,6 +951,12 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    /**
+     * This method will set up the buyAmountView in the controller.
+     *
+     * @param buyAmountView the buyAmountView you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl buyAmountView(IView buyAmountView) {
       if (buyAmountView == null) {
         throw new IllegalArgumentException("buyAmountView should not be null.");
@@ -1648,6 +966,12 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    /**
+     * This method will set up the createFixedView in the controller.
+     *
+     * @param createFixedView the createFixedView you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl createFixedView(IView createFixedView) {
       if (createFixedView == null) {
         throw new IllegalArgumentException("createFixedView should not be null.");
@@ -1657,6 +981,12 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    /**
+     * This method will set up the createPercentageView in the controller.
+     *
+     * @param createPercentageView the createPercentageView you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl createPercentageView(IView createPercentageView) {
       if (createPercentageView == null) {
         throw new IllegalArgumentException("createPercentageView should not be null.");
@@ -1666,6 +996,12 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    /**
+     * This method will set up the savePortfolioView in the controller.
+     *
+     * @param savePortfolioView the savePortfolioView you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl savePortfolioView(IView savePortfolioView) {
       if (savePortfolioView == null) {
         throw new IllegalArgumentException("savePortfolioView should not be null.");
@@ -1675,6 +1011,12 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    /**
+     * This method will set up the savePercentageView in the controller.
+     *
+     * @param savePercentageView the savePercentageView you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl savePercentageView(IView savePercentageView) {
       if (savePercentageView == null) {
         throw new IllegalArgumentException("savePercentageView should not be null.");
@@ -1684,6 +1026,12 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    /**
+     * This method will set up the loadPortfolioView in the controller.
+     *
+     * @param loadPortfolioView the loadPortfolioView you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl loadPortfolioView(IView loadPortfolioView) {
       if (loadPortfolioView == null) {
         throw new IllegalArgumentException("loadPortfolioView should not be null.");
@@ -1693,6 +1041,12 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    /**
+     * This method will set up the loadPercentageView in the controller.
+     *
+     * @param loadPercentageView the loadPercentageView you want to use.
+     * @return a builder implementation
+     */
     public StockControllerBuilderImpl loadPercentageView(IView loadPercentageView) {
       if (loadPercentageView == null) {
         throw new IllegalArgumentException("loadPercentageView should not be null.");
@@ -1702,10 +1056,15 @@ public class StockControllerImpl implements StockController {
       return this;
     }
 
+    /**
+     * This method will build the controller for you. This is the builder pattern.
+     *
+     * @return a StockController build by the builder.
+     */
     public StockController build() throws Exception {
-      return new StockControllerImpl(this.model, this.mainView, this.createView, this.getAllStateView,
-              this.getStateView, this.determineCostView, this.determineFeeView,
-              this.determineValueView, this.buyView, this.buyPercentageView,
+      return new StockControllerImpl(this.model, this.mainView, this.createView,
+              this.getAllStateView, this.getStateView, this.determineCostView,
+              this.determineFeeView, this.determineValueView, this.buyView, this.buyPercentageView,
               this.buyAmountView, this.createFixedView, this.createPercentageView,
               this.savePortfolioView, this.savePercentageView, this.loadPortfolioView,
               this.loadPercentageView);

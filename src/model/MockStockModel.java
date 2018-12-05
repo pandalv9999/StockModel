@@ -133,7 +133,8 @@ public class MockStockModel implements StockModel {
   }
 
   @Override
-  public double buyByPercentage(String portfolioName, String percentagesName, double amt, String date) {
+  public double buyByPercentage(String portfolioName, String percentagesName, double amt,
+                                String date) {
     log.append("buyByPercentage ");
     log.append(portfolioName);
     log.append(" ");

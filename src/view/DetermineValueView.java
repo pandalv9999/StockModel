@@ -4,19 +4,28 @@ import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.BorderFactory;
 
-import java.util.List;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 /**
  * This class represents the view of determining a portfolio's value.
  */
 public class DetermineValueView extends JFrame implements IView {
-  private JLabel display, display2;
-  private JButton echoButton, exitButton, plotButton;
-  private JTextField portfolioName, date;
+  private JLabel display;
+  private JButton echoButton;
+  private JButton exitButton;
+  private JButton plotButton;
+  private JTextField portfolioName;
+  private JTextField date;
   private JTextArea sTextArea;
 
   /**
@@ -27,14 +36,12 @@ public class DetermineValueView extends JFrame implements IView {
    */
   public DetermineValueView(String caption) {
     super(caption);
+    JLabel display2;
     setSize(900, 600);
     setLocation(200, 200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    //this.setResizable(false);
-//		this.setMinimumSize(new Dimension(300,300));
 
 
-    this.setLayout(new FlowLayout());
     this.setLayout(null);
     display = new JLabel("Portfolio's name.");
     display.setBounds(20, 10, 800, 20);
@@ -51,7 +58,6 @@ public class DetermineValueView extends JFrame implements IView {
             10, 20);
     JScrollPane scrollPane = new JScrollPane(sTextArea);
     sTextArea.setLineWrap(true);
-    //scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     scrollPane.setBorder(BorderFactory.createTitledBorder("Result"));
     scrollPane.setBounds(500, 20, 340, 470);
     this.add(scrollPane);
@@ -86,7 +92,6 @@ public class DetermineValueView extends JFrame implements IView {
     this.add(exitButton);
 
 
-    //pack();
     setVisible(false);
 
   }
@@ -99,16 +104,6 @@ public class DetermineValueView extends JFrame implements IView {
   }
 
 
-  /*
-      In order to make this frame respond to keyboard events, it must be within strong focus.
-      Since there could be multiple components on the screen that listen to keyboard events,
-      we must set one as the "currently focussed" one so that all keyboard events are
-      passed to that component. This component is said to have "strong focus".
-
-      We do this by first making the component focusable and then requesting focus to it.
-      Requesting focus makes the component have focus AND removes focus from whoever had it
-      before.
-       */
   @Override
   public void resetFocus() {
     this.setFocusable(true);
@@ -117,10 +112,11 @@ public class DetermineValueView extends JFrame implements IView {
 
   @Override
   public void toggleColor() {
-    if (this.display.getForeground().equals(Color.RED))
+    if (this.display.getForeground().equals(Color.RED)) {
       this.display.setForeground(Color.BLACK);
-    else
+    } else {
       this.display.setForeground(Color.RED);
+    }
   }
 
 
@@ -129,6 +125,11 @@ public class DetermineValueView extends JFrame implements IView {
     sTextArea.setText(s);
   }
 
+  /**
+   * This method will use the xChart package and help you plot the data in the last 12 months.
+   *
+   * @param data the value data need to be plotted
+   */
   public void plot(List<Double> data) {
     final JFrame frame = new JFrame("Portfolio's value in the last 12 months");
     frame.setSize(800, 600);
