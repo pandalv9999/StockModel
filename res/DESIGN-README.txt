@@ -2,12 +2,14 @@ Team 19657 -
 Shuomin Wu
 Rujun Yao
 
-Assignment 8: OurStockModel vol.2
+Assignment 10: OurStockModel vol.3
 
 	This READ-ME file is focused on the modification and some new features we made for this assignments. In order to accommodate the changes specified in the assignment, we have made a few modifications as well as add some new features.
 
- 	1. Stock. The class Stock is our data structure designed to store each stock's information. In the last homework, the number of shares is integers. In this assignments, in order to support the features that we can buy shares by specifying the total amount of money, says, $2000, and buy them in proportions for each company in portfolio, and we have consults the piazza that the double amount of shares is acceptable, we change the int to double. We can now buy 3.5 shares of a company. 
+	1. StockModel. We add a buyByAmount() method. You can now buy a stock by certain amount. We add a createPercentage() method and you can use it to create a buying plan without buying. We add savePortfolio(), savePercentage(), loadPortfolio(), loadPercentage() methods, which helps you save a portfolio or a buying plan in the same directory as a csv file and load a buying plan or a portfolio from a csv file in the same directory. This is a serialize and deserialize combo. If the portfolio or buying plan's name is already in the system, it will not load the csv.
+	
+	2. Controller. Now we have two controllers, StockControllerCommand is for command line view and StockController is for gui view. The common methods of them are extracted into several classes in the commands module. The StockController for gui also mainipulates the view. It set up some button action and add listeners for the view. Because it takes in different views in the constructor, I used a builder pattern here.
 
-	2. StockModel. In the buy() method, we add a new parameters named priceType. The parameters is used to specify what kind of prices we want for a stock in a day: open, close, high or low. In the previous assignment we only cares about the low price, so all the purchase is defaulted to be the low price. In this assignment, however, close prices is taken more places. So we add a variables. Besides that, we add some new features in the old function. Now if the date is not specified, we will find the closest date of that day, and do the purchase on that day. We also modify the builder, since now we can specify the commission fee for each stock model.
+	3. View. We add several views for the gui. To make it clear and easy to use, one command is done in one window. In the main window you can use the command lines too by typing commands and click "Go". Or you can click other buttons to jump to the command you want. E.g you can click "Create" and jump to the create an empty portfolio window. You can click the "Exit" button to jump back to the main window. In the main window you can click "Exit" to close the program. You can type in parameters and we will do the rest for you. The result will be displayed in the text area on the right. Save and Load need to have the csv file in the same directory as the jar file.
 
-	That is the all modification we have made. The rest are new features that we added, without any modifications. 
+	4 Plot. We also do this extra part by using xchar-3.5.2.jar to help me plot a portfolio's value in the last 12 months. You can click "Determine Value" button, and then type in an existing porfolio's name and click "Plot Value in 12 months". We will plot the portfolio's historic value for you. Please check it out.

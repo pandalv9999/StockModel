@@ -245,7 +245,7 @@ public class StockControllerImpl implements StockController {
 
     //create empty portfolio frame
     buttonClickedMap.put("Create Button", () -> {
-      System.out.println("haha");
+      // System.out.println("haha");
       this.setView(this.createView);
       ((JFrameView) this.mainView).setVisible(false);
       ((CreateView) this.createView).setVisible(true);
@@ -276,7 +276,7 @@ public class StockControllerImpl implements StockController {
 
     //GetState frame
     buttonClickedMap.put("GetState Button", () -> {
-      System.out.println("haha2");
+      // System.out.println("haha2");
       this.setView(this.getStateView);
       ((JFrameView) this.mainView).setVisible(false);
       ((GetStateView) this.getStateView).setVisible(true);
@@ -338,7 +338,7 @@ public class StockControllerImpl implements StockController {
 
     //DetermineCost frame
     buttonClickedMap.put("DetermineCost Button", () -> {
-      System.out.println("haha2");
+      // System.out.println("haha2");
       this.setView(this.determineCostView);
       ((JFrameView) this.mainView).setVisible(false);
       ((DetermineCostView) this.determineCostView).setVisible(true);
@@ -369,7 +369,7 @@ public class StockControllerImpl implements StockController {
 
     //DetermineFee frame
     buttonClickedMap.put("DetermineFee Button", () -> {
-      System.out.println("haha2");
+      // System.out.println("haha2");
       this.setView(this.determineFeeView);
       ((JFrameView) this.mainView).setVisible(false);
       ((DetermineFeeView) this.determineFeeView).setVisible(true);
@@ -400,7 +400,7 @@ public class StockControllerImpl implements StockController {
 
     //DetermineValue frame
     buttonClickedMap.put("DetermineValue Button", () -> {
-      System.out.println("haha2");
+      // System.out.println("haha2");
       this.setView(this.determineValueView);
       ((JFrameView) this.mainView).setVisible(false);
       ((DetermineValueView) this.determineValueView).setVisible(true);
@@ -448,7 +448,7 @@ public class StockControllerImpl implements StockController {
 
     //Buy frame
     buttonClickedMap.put("Buy Button", () -> {
-      System.out.println("haha2");
+      // System.out.println("haha2");
       this.setView(this.buyView);
       ((JFrameView) this.mainView).setVisible(false);
       ((BuyView) this.buyView).setVisible(true);
@@ -478,7 +478,7 @@ public class StockControllerImpl implements StockController {
 
     //BuyPercentage frame
     buttonClickedMap.put("BuyPercentage Button", () -> {
-      System.out.println("haha2");
+      // System.out.println("haha2");
       this.setView(this.buyPercentageView);
       ((JFrameView) this.mainView).setVisible(false);
       ((BuyPercentageView) this.buyPercentageView).setVisible(true);
@@ -508,7 +508,7 @@ public class StockControllerImpl implements StockController {
 
     //BuyAmount frame
     buttonClickedMap.put("BuyAmount Button", () -> {
-      System.out.println("haha2");
+      // System.out.println("haha2");
       this.setView(this.buyAmountView);
       ((JFrameView) this.mainView).setVisible(false);
       ((BuyAmountView) this.buyAmountView).setVisible(true);
@@ -539,7 +539,7 @@ public class StockControllerImpl implements StockController {
 
     //CreateFixed frame
     buttonClickedMap.put("CreateFixed Button", () -> {
-      System.out.println("haha2");
+      // System.out.println("haha2");
       this.setView(this.createFixedView);
       ((JFrameView) this.mainView).setVisible(false);
       ((CreateFixedView) this.createFixedView).setVisible(true);
@@ -570,7 +570,7 @@ public class StockControllerImpl implements StockController {
 
     //CreatePercentage frame
     buttonClickedMap.put("CreatePercentage Button", () -> {
-      System.out.println("haha2");
+      // System.out.println("haha2");
       this.setView(this.createPercentageView);
       ((JFrameView) this.mainView).setVisible(false);
       ((CreatePercentageView) this.createPercentageView).setVisible(true);
@@ -636,7 +636,7 @@ public class StockControllerImpl implements StockController {
     });
 
     buttonClickedMap.put("SavePercentage Echo Button", () -> {
-      System.out.println("SavePercentage Echo Button");
+      // System.out.println("SavePercentage Echo Button");
       String command = view.getInputString();
       try {
         view.setEchoOutput(processCommand(command));
@@ -666,7 +666,7 @@ public class StockControllerImpl implements StockController {
     });
 
     buttonClickedMap.put("LoadPortfolio Echo Button", () -> {
-      System.out.println("LoadPortfolio Echo Button");
+      // System.out.println("LoadPortfolio Echo Button");
       String command = view.getInputString();
       try {
         view.setEchoOutput(processCommand(command));
@@ -697,7 +697,7 @@ public class StockControllerImpl implements StockController {
     });
 
     buttonClickedMap.put("LoadPercentage Echo Button", () -> {
-      System.out.println("LoadPercentage Echo Button");
+      // System.out.println("LoadPercentage Echo Button");
       String command = view.getInputString();
       try {
         view.setEchoOutput(processCommand(command));
@@ -757,7 +757,7 @@ public class StockControllerImpl implements StockController {
    */
   public String processCommand(String command)
           throws IllegalArgumentException, IllegalStateException, IOException {
-    System.out.println(command);
+    // System.out.println(command);
     if (model == null) {
       throw new IllegalArgumentException("Model should not be null.");
     }
