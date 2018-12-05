@@ -44,7 +44,8 @@ public class StockControllerCommandImplTest {
             + "buy portfolio1 GOOG 100.0 2018-11-09 low\n"
             + "determineFee portfolio1\n"
             + "determineFee portfolio1\n"
-            + "buya portfolio1 GOOG 10000.0 2018-11-09 determineFee portfolio1\n"
+            + "buya portfolio1 GOOG 10000.0 2018-11-09\n"
+            + "determineFee portfolio1\n"
             + "determineFee 1\n"
             + "buyByPercentage 1 2 10000.0 2018-11-09\n"
             + "determineFee 1\n"
@@ -76,13 +77,8 @@ public class StockControllerCommandImplTest {
     StringBuffer out = new StringBuffer();
     StockControllerCommandImpl controller = new StockControllerCommandImpl(in, out);
     controller.start(mockStockModel);
-    assertEquals("create fixed\n"
-            + "portfolio1\n"
-            + "[Google, Apple, netflix, Facebook]\n"
-            + "[0.25, 0.25, 0.25, 0.25]\n"
-            + "2000.0\n"
-            + "2018-11-05\n"
-            + "determineCost portfolio1\n"
+    assertEquals("create fixed portfolio1 [Google, Apple, netflix, Facebook]"
+            + " [0.25, 0.25, 0.25, 0.25] 2000.0 2018-11-05 determineCost portfolio1\n"
             + "determineFee portfolio1\n", log.toString());
   }
 
@@ -97,13 +93,8 @@ public class StockControllerCommandImplTest {
     StringBuffer out = new StringBuffer();
     StockControllerCommandImpl controller = new StockControllerCommandImpl(in, out);
     controller.start(mockStockModel);
-    assertEquals("create fixed\n"
-            + "portfolio1\n"
-            + "[Google, Apple, netflix, Facebook]\n"
-            + "[0.1, 0.2, 0.3, 0.4]\n"
-            + "5200.0\n"
-            + "2018-11-05\n"
-            + "determineCost portfolio1\n"
+    assertEquals("create fixed portfolio1 [Google, Apple, netflix, Facebook] "
+            + "[0.1, 0.2, 0.3, 0.4] 5200.0 2018-11-05 determineCost portfolio1\n"
             + "determineFee portfolio1\n", log.toString());
   }
 
@@ -119,14 +110,8 @@ public class StockControllerCommandImplTest {
     StockControllerCommandImpl controller = new StockControllerCommandImpl(in, out);
     controller.start(mockStockModel);
     assertEquals("create fixed ongoing\n"
-            + "portfolio1\n"
-            + "[Google, Apple, netflix, Facebook]\n"
-            + "[0.1, 0.2, 0.3, 0.4]\n"
-            + "5200.0\n"
-            + "2018-01-05\n"
-            + "2018-11-12\n"
-            + "15\n"
-            + "determineCost portfolio1\n"
+            + "portfolio1 [Google, Apple, netflix, Facebook] [0.1, 0.2, 0.3, 0.4] "
+            + "5200.0 2018-01-05 2018-11-12 15 determineCost portfolio1\n"
             + "determineFee portfolio1\n", log.toString());
   }
 
@@ -142,14 +127,8 @@ public class StockControllerCommandImplTest {
     StockControllerCommandImpl controller = new StockControllerCommandImpl(in, out);
     controller.start(mockStockModel);
     assertEquals("create fixed ongoing\n"
-            + "portfolio1\n"
-            + "[Google, Apple, netflix, Facebook]\n"
-            + "[0.1, 0.2, 0.3, 0.4]\n"
-            + "5200.0\n"
-            + "2018-11-05\n"
-            + "N\n"
-            + "15\n"
-            + "determineCost portfolio1\n"
+            + "portfolio1 [Google, Apple, netflix, Facebook] [0.1, 0.2, 0.3, 0.4] 5200.0 "
+            + "2018-11-05 N 15 determineCost portfolio1\n"
             + "determineFee portfolio1\n", log.toString());
   }
 

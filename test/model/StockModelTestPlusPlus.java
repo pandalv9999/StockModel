@@ -121,18 +121,35 @@ public class StockModelTestPlusPlus {
   @Test
   public void buyByAmount() {
     myModel.createPortfolio("a");
-    myModel.buyByAmount("a", "goog", 10000, "n");
+    myModel.buyByAmount("a", "goog", 10000,
+            "2018-11-29");
     assertEquals("a:\n"
-                    + "Code: GOOG, Shares: 9.52, Average Buy-in Price: 1050.00\n"
+                    + "Code: GOOG, Shares: 9.29, Average Buy-in Price: 1076.00\n"
                     + "The commission fee of this portfolio is $5.00\n",
             myModel.getPortfolioState("a"));
+    try {
+      myModel.buyByAmount("a", "goog", -10000,
+              "2018-11-29");
+      fail("The shares to buy must be positive");
+    } catch (IllegalArgumentException e) {
+      assertEquals("The shares to buy must be positive", e.getMessage());
+    }
+    try {
+      myModel.buyByAmount("sdfasdfsdf", "goog", 10000,
+              "2018-11-29");
+      fail("The portfolio is not yet created!");
+    } catch (IllegalArgumentException e) {
+      assertEquals("The portfolio is not yet created!", e.getMessage());
+    }
+
   }
 
 
   @Test
   public void determineValuePlot() {
     myModel.createPortfolio("a");
-    myModel.buyByAmount("a", "goog", 10000, "n");
+    myModel.buyByAmount("a", "goog", 10000,
+            "2018-11-29");
     List res = myModel.determineValuePlot("a");
     assertEquals(12, res.size());
   }
