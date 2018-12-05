@@ -644,7 +644,7 @@ public class StockControllerCommandImplTest {
             + "You can input: create, createfixed, createp, buy, buya, buyp, determinecost, "
             + "determinevalue, determinefee, getstate, getallstate, saveportfolio, loadportfolio, "
             + "savepercentage, loadpercentage or Q/q\n"
-            + "Please input the portfolio's name.\n"
+            + "Please input the investing plan's name.\n"
             + "Please input the file's name.\n"
             + "Save percentage a in file a.csv.\n"
             + "You can input: create, createfixed, createp, buy, buya, buyp, determinecost, "
@@ -674,7 +674,7 @@ public class StockControllerCommandImplTest {
             + "You can input: create, createfixed, createp, buy, buya, buyp, determinecost, "
             + "determinevalue, determinefee, getstate, getallstate, saveportfolio, loadportfolio, "
             + "savepercentage, loadpercentage or Q/q\n"
-            + "Please input the portfolio's name.\n"
+            + "Please input the investing plan's name.\n"
             + "Quit.\n"
             + "You can input: create, createfixed, createp, buy, buya, buyp, determinecost, "
             + "determinevalue, determinefee, getstate, getallstate, saveportfolio, loadportfolio, "
@@ -694,7 +694,7 @@ public class StockControllerCommandImplTest {
             + "You can input: create, createfixed, createp, buy, buya, buyp, determinecost, "
             + "determinevalue, determinefee, getstate, getallstate, saveportfolio, loadportfolio, "
             + "savepercentage, loadpercentage or Q/q\n"
-            + "Please input the portfolio's name.\n"
+            + "Please input the investing plan's name.\n"
             + "Please input the file's name.\n"
             + "Quit.\n"
             + "You can input: create, createfixed, createp, buy, buya, buyp, determinecost, "
@@ -707,7 +707,7 @@ public class StockControllerCommandImplTest {
   public void loadPortfolio() throws IOException {
     StringBuilder log = new StringBuilder();
     MockStockModel mockStockModel = new MockStockModel(log);
-    Reader in = new StringReader("loadportfolio a q ");
+    Reader in = new StringReader("loadportfolio a.csv q ");
     StringBuffer out = new StringBuffer();
     StockControllerCommandImpl controller = new StockControllerCommandImpl(in, out);
     controller.start(mockStockModel);
@@ -756,7 +756,7 @@ public class StockControllerCommandImplTest {
   public void loadPercentage() throws IOException {
     StringBuilder log = new StringBuilder();
     MockStockModel mockStockModel = new MockStockModel(log);
-    Reader in = new StringReader("loadpercentage a q ");
+    Reader in = new StringReader("loadpercentage a.csv q ");
     StringBuffer out = new StringBuffer();
     StockControllerCommandImpl controller = new StockControllerCommandImpl(in, out);
     controller.start(mockStockModel);
@@ -1033,7 +1033,7 @@ public class StockControllerCommandImplTest {
             + "You can input: create, createfixed, createp, buy, buya, buyp, determinecost, "
             + "determinevalue, determinefee, getstate, getallstate, saveportfolio, loadportfolio, "
             + "savepercentage, loadpercentage or Q/q\n"
-            + "Please input the portfolio's name.\n"
+            + "Please input the investing plan's name.\n"
             + "Please input the file's name.\n"
             + "Save percentage 2 in file 2.csv.\n"
             + "You can input: create, createfixed, createp, buy, buya, buyp, determinecost, "

@@ -36,6 +36,6 @@ public class LoadPercentage {
       output.append("\n");
       return;
     }
-    output.append("Load percentage from ").append(fileName).append(".csv.\n");
+    output.append("Load percentage from ").append(fileName).append(".\n");
   }
 }

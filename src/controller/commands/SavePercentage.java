@@ -23,8 +23,8 @@ public class SavePercentage {
   public static void savePercentage(StockModel model, Scanner scan, Appendable output,
                                     boolean console) throws IOException {
 
-    String percentageName = Input.input(scan, "Please input the portfolio's name.\n", output,
-            console);
+    String percentageName = Input.input(scan, "Please input the investing plan's name.\n",
+            output, console);
     if (Input.isQuit(percentageName)) {
       output.append("Quit.\n");
       return;
@@ -44,6 +44,6 @@ public class SavePercentage {
       return;
     }
     output.append("Save percentage ").append(percentageName).append(" in file ").append(fileName)
-            .append(".\n");
+            .append(".csv.\n");
   }
 }

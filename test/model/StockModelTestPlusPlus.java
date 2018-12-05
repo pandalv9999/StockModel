@@ -20,7 +20,7 @@ public class StockModelTestPlusPlus {
 
   @Test
   public void loadPortfolio() {
-    myModel.loadPortfolio("a");
+    myModel.loadPortfolio("a.csv");
     assertEquals("a:\n"
                     + "Code: GOOG, Shares: 200.00, Average Buy-in Price: 1077.88\n"
                     + "Code: AT, Shares: 200.00, Average Buy-in Price: 2.15\n"
@@ -35,7 +35,7 @@ public class StockModelTestPlusPlus {
     }
 
     try {
-      myModel.loadPortfolio("b");
+      myModel.loadPortfolio("b.csv");
       fail("Commission fee counter should be integer.");
     } catch (IllegalArgumentException e) {
       assertEquals("Commission fee counter should be integer.", e.getMessage());
@@ -44,7 +44,7 @@ public class StockModelTestPlusPlus {
 
   @Test
   public void loadPercentage() {
-    myModel.loadPercentage("b1");
+    myModel.loadPercentage("b1.csv");
     myModel.createPortfolio("a");
     myModel.buyByPercentage("a", "b", 10000, "n");
     assertEquals("a:\n"
@@ -60,7 +60,7 @@ public class StockModelTestPlusPlus {
     }
 
     try {
-      myModel.loadPercentage("b");
+      myModel.loadPercentage("b.csv");
       fail("The sum is not one");
     } catch (IllegalArgumentException e) {
       assertEquals("The sum of all percentage is not one!", e.getMessage());
@@ -88,7 +88,7 @@ public class StockModelTestPlusPlus {
 
   @Test
   public void savePortfolio() {
-    myModel.loadPortfolio("a");
+    myModel.loadPortfolio("a.csv");
     myModel.savePortfolio("a", "a2");
     assertEquals("a,GOOG,200.0,1077.88,AT,200.0,2.15,FB,200.0,137.36,3",
             readFileTestHelper("a2.csv"));
@@ -96,7 +96,7 @@ public class StockModelTestPlusPlus {
 
   @Test
   public void savePercentage() {
-    myModel.loadPercentage("b1");
+    myModel.loadPercentage("b1.csv");
     myModel.savePercentage("b", "b2");
     assertEquals("b,goog,0.2,twitter,0.8,",
             readFileTestHelper("b2.csv"));
