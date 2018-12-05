@@ -5,12 +5,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * This class represents the view of buying a stock by shares.
+ */
 public class BuyView extends JFrame implements IView {
   private JLabel display, display2, display3, display4;
   private JButton echoButton, exitButton;
   private JTextField portfolioName, date, companyName, shares;
   private JTextArea sTextArea;
 
+  /**
+   * This is the constructor of this view. It will set up the places and id of the buttons and text
+   * areas.
+   *
+   * @param caption the view's title
+   */
   public BuyView(String caption) {
     super(caption);
     setSize(900, 600);
@@ -62,7 +71,6 @@ public class BuyView extends JFrame implements IView {
     this.add(shares);
 
 
-
     display4 = new JLabel("Date: yyyyMMdd or N/n");
     display4.setBounds(20, 220, 800, 20);
     this.add(display4);
@@ -97,17 +105,6 @@ public class BuyView extends JFrame implements IView {
     exitButton.addActionListener(actionListener);
   }
 
-
-  /*
-      In order to make this frame respond to keyboard events, it must be within strong focus.
-      Since there could be multiple components on the screen that listen to keyboard events,
-      we must set one as the "currently focussed" one so that all keyboard events are
-      passed to that component. This component is said to have "strong focus".
-
-      We do this by first making the component focusable and then requesting focus to it.
-      Requesting focus makes the component have focus AND removes focus from whoever had it
-      before.
-       */
   @Override
   public void resetFocus() {
     this.setFocusable(true);

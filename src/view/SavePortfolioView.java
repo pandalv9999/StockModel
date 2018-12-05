@@ -5,12 +5,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * This class represents the view of saving a portfolio to a csv file.
+ */
 public class SavePortfolioView extends JFrame implements IView {
   private JLabel display, display2;
   private JButton echoButton, exitButton;
   private JTextField portfolioName, fileName;
   private JTextArea sTextArea;
 
+  /**
+   * This is the constructor of this view. It will set up the places and id of the buttons and text
+   * areas.
+   *
+   * @param caption the view's title
+   */
   public SavePortfolioView(String caption) {
     super(caption);
     setSize(900, 600);
@@ -76,16 +85,6 @@ public class SavePortfolioView extends JFrame implements IView {
   }
 
 
-  /*
-      In order to make this frame respond to keyboard events, it must be within strong focus.
-      Since there could be multiple components on the screen that listen to keyboard events,
-      we must set one as the "currently focussed" one so that all keyboard events are
-      passed to that component. This component is said to have "strong focus".
-
-      We do this by first making the component focusable and then requesting focus to it.
-      Requesting focus makes the component have focus AND removes focus from whoever had it
-      before.
-       */
   @Override
   public void resetFocus() {
     this.setFocusable(true);

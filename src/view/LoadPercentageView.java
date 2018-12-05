@@ -5,12 +5,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * This class represents the view of loading an investing plan from a csv file.
+ */
 public class LoadPercentageView extends JFrame implements IView {
   private JLabel display;
   private JButton echoButton, exitButton;
   private JTextField fileName;
   private JTextArea sTextArea;
 
+  /**
+   * This is the constructor of this view. It will set up the places and id of the buttons and text
+   * areas.
+   *
+   * @param caption the view's title
+   */
   public LoadPercentageView(String caption) {
     super(caption);
     setSize(900, 600);

@@ -29,10 +29,9 @@ public class StockModelTestPlus {
             "2018-09-13");
     assertEquals(50000, cost, 0.01);
     assertEquals("1:\n"
-                    + "Code: MSFT, Shares: 177.13, Average Buy-in Price: 112.91\n"
+                    + "Code: MSFT, Shares: 309.98, Average Buy-in Price: 112.91\n"
                     + "Code: GOOG, Shares: 12.76, Average Buy-in Price: 1175.33\n"
-                    + "Code: AAPL, Shares: 66.25, Average Buy-in Price: 226.41\n"
-                    + "The commission fee of this portfolio is $15.00",
+                    + "The commission fee of this portfolio is $10.00\n",
             myModel.getPortfolioState("1"));
 
     Map<String, Double> wrong = new HashMap<>();
@@ -52,8 +51,7 @@ public class StockModelTestPlus {
     double cost = myModel.dollarCostAverage("2", information,
             30000.0, "2016-09-13", "2018-09-21", 30);
     assertEquals(30000 * 25, cost, 0.01);
-    assertEquals(25 * 3 * 5, myModel.determineCommissionFee("2"), 0.01);
-    System.out.println(myModel.getPortfolioState("2"));
+    assertEquals(250, myModel.determineCommissionFee("2"), 0.01);
   }
 
 

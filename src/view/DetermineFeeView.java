@@ -5,12 +5,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * This class represents the view of determining a portfolio's fee.
+ */
 public class DetermineFeeView extends JFrame implements IView {
   private JLabel display;
   private JButton echoButton, exitButton;
   private JTextField input;
   private JTextArea sTextArea;
 
+  /**
+   * This is the constructor of this view. It will set up the places and id of the buttons and text
+   * areas.
+   *
+   * @param caption the view's title
+   */
   public DetermineFeeView(String caption) {
     super(caption);
     setSize(900, 600);

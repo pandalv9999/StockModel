@@ -5,6 +5,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * This class represents the view of creating a fixed portfolio with certain buying plan..
+ */
 public class CreateFixedView extends JFrame implements IView {
   private JLabel display, display2, display3, display4, display5, display6, display7, display8, display9;
   private JButton echoButton, exitButton;
@@ -12,6 +15,12 @@ public class CreateFixedView extends JFrame implements IView {
           endDate, interval;
   private JTextArea sTextArea, companyNameSet;
 
+  /**
+   * This is the constructor of this view. It will set up the places and id of the buttons and text
+   * areas.
+   *
+   * @param caption the view's title
+   */
   public CreateFixedView(String caption) {
     super(caption);
     setSize(900, 900);
@@ -49,7 +58,7 @@ public class CreateFixedView extends JFrame implements IView {
 
 
     //the textfield
-    equal = new JTextField("E/S",8);
+    equal = new JTextField("E/S", 8);
     equal.setBounds(20, 110, 200, 20);
     this.add(equal);
 
@@ -100,7 +109,7 @@ public class CreateFixedView extends JFrame implements IView {
     this.add(display6);
 
     //the textfield
-    onGoing = new JTextField("Y/N",8);
+    onGoing = new JTextField("Y/N", 8);
     onGoing.setBounds(20, 570, 200, 20);
     this.add(onGoing);
 
@@ -110,7 +119,7 @@ public class CreateFixedView extends JFrame implements IView {
 
 
     //the textfield
-    startDate = new JTextField("yyyyMMdd/N/n",8);
+    startDate = new JTextField("yyyyMMdd/N/n", 8);
     startDate.setBounds(20, 640, 200, 20);
     this.add(startDate);
 
@@ -119,7 +128,7 @@ public class CreateFixedView extends JFrame implements IView {
     this.add(display8);
 
     //the textfield
-    endDate = new JTextField("yyyyMMdd/N/n",8);
+    endDate = new JTextField("yyyyMMdd/N/n", 8);
     endDate.setBounds(20, 710, 200, 20);
     this.add(endDate);
 
@@ -159,17 +168,6 @@ public class CreateFixedView extends JFrame implements IView {
     exitButton.addActionListener(actionListener);
   }
 
-
-  /*
-      In order to make this frame respond to keyboard events, it must be within strong focus.
-      Since there could be multiple components on the screen that listen to keyboard events,
-      we must set one as the "currently focussed" one so that all keyboard events are
-      passed to that component. This component is said to have "strong focus".
-
-      We do this by first making the component focusable and then requesting focus to it.
-      Requesting focus makes the component have focus AND removes focus from whoever had it
-      before.
-       */
   @Override
   public void resetFocus() {
     this.setFocusable(true);

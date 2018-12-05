@@ -702,10 +702,16 @@ public class StockModelImpl implements StockModel {
 
   }
 
+  /**
+   * This will get you the builder of this class.
+   */
   public static StockModelBuilderImpl getBuilder() {
     return new StockModelBuilderImpl();
   }
 
+  /**
+   * This class is the builder of this stock model class.
+   */
   public static class StockModelBuilderImpl implements StockModelBuilder {
 
     private double fee;

@@ -20,13 +20,13 @@ public class MockStockModel implements StockModel {
   public double buyByAmount(String portfolioName, String companyName, double amount, String date) {
     log.append("buya ");
     log.append(portfolioName);
-    log.append("\n");
+    log.append(" ");
     log.append(companyName);
-    log.append("\n");
+    log.append(" ");
     log.append(amount);
-    log.append("\n");
+    log.append(" ");
     log.append(date);
-    log.append("\n");
+    log.append(" ");
     return 0.0;
   }
 
@@ -36,7 +36,7 @@ public class MockStockModel implements StockModel {
 
     log.append("createp ");
     log.append(percentagesName);
-    log.append("\n");
+    log.append(" ");
     log.append(information.toString());
     log.append("\n");
   }
@@ -165,7 +165,7 @@ public class MockStockModel implements StockModel {
   public void savePortfolio(String portfolioName, String fileName) {
     log.append("savePortfolio ");
     log.append(portfolioName);
-    log.append("\n");
+    log.append(" ");
     log.append(fileName);
     log.append("\n");
   }
@@ -181,7 +181,7 @@ public class MockStockModel implements StockModel {
   public void savePercentage(String percentageName, String fileName) {
     log.append("savePercentage ");
     log.append(percentageName);
-    log.append("\n");
+    log.append(" ");
     log.append(fileName);
     log.append("\n");
   }

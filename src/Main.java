@@ -91,10 +91,6 @@ public class Main {
       new StockControllerCommandImpl(input, System.out)
               .start(model);
     }
-//    StockControllerImpl controller = new StockControllerImpl(model, mainView, createView,
-//            getAllStateView, getStateView, determineCostView, determineFeeView, determineValueView,
-//            buyView, buyPercentageView, buyAmountView, createFixedView);
-    //controller.setView(mainView);
   }
 }
 

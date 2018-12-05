@@ -10,12 +10,21 @@ import java.util.List;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * This class represents the view of determining a portfolio's value.
+ */
 public class DetermineValueView extends JFrame implements IView {
   private JLabel display, display2;
   private JButton echoButton, exitButton, plotButton;
   private JTextField portfolioName, date;
   private JTextArea sTextArea;
 
+  /**
+   * This is the constructor of this view. It will set up the places and id of the buttons and text
+   * areas.
+   *
+   * @param caption the view's title
+   */
   public DetermineValueView(String caption) {
     super(caption);
     setSize(900, 600);
