@@ -26,7 +26,7 @@ public class MockStockModel implements StockModel {
     log.append(amount);
     log.append(" ");
     log.append(date);
-    log.append(" ");
+    log.append("\n");
     return 0.0;
   }
 
@@ -52,17 +52,17 @@ public class MockStockModel implements StockModel {
   public double createPortfolio(String portfolioName, Map<String, Double> information,
                                 double amt, String date) throws IllegalArgumentException {
     log.append("create fixed");
-    log.append("\n");
+    log.append(" ");
     log.append(portfolioName);
-    log.append("\n");
+    log.append(" ");
     log.append(information.keySet().toString());
-    log.append("\n");
+    log.append(" ");
     log.append(information.values().toString());
-    log.append("\n");
+    log.append(" ");
     log.append(Double.toString(amt));
-    log.append("\n");
+    log.append(" ");
     log.append(date);
-    log.append("\n");
+    log.append(" ");
     return 0.0;
   }
 
@@ -72,19 +72,19 @@ public class MockStockModel implements StockModel {
                                   String endDate, int interval) throws IllegalArgumentException {
     log.append("create fixed ongoing\n");
     log.append(portfolioName);
-    log.append("\n");
+    log.append(" ");
     log.append(information.keySet().toString());
-    log.append("\n");
+    log.append(" ");
     log.append(information.values().toString());
-    log.append("\n");
+    log.append(" ");
     log.append(Double.toString(amt));
-    log.append("\n");
+    log.append(" ");
     log.append(startDate);
-    log.append("\n");
+    log.append(" ");
     log.append(endDate);
-    log.append("\n");
+    log.append(" ");
     log.append(interval);
-    log.append("\n");
+    log.append(" ");
     return 0;
 
   }
