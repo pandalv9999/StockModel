@@ -1,7 +1,8 @@
 How to build a jar(little different from the tutorial):
 
 1. Add dependencies to the library:
-Intellij: File -> Project Structure -> Libraries -> + -> java -> select assignment8/lib/xchart-3.5.2.jar -> OK. Or you can simply open the lib folder and right click the x-chart-3.5.2.jar, and click "Add as Library..."
+Please move assignment8\res\dependency\xchart-3.5.2.jar into assignment8\lib folder.
+Intellij: File -> Project Structure -> Libraries -> + -> java -> select assignment8\lib\xchart-3.5.2.jar -> OK. Or you can simply open the lib folder and right click the x-chart-3.5.2.jar, and click "Add as Library..."
 
 2. Build a jar
 Intellij: File -> Project Structure -> Artifacts -> + -> JAR -> From Modules with Dependencies -> Choose Main as the Main class, select "extract to the target Jar" -> OK
