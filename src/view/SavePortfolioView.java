@@ -50,15 +50,15 @@ public class SavePortfolioView extends JFrame implements IView {
     scrollPane.setBounds(500, 20, 340, 470);
     this.add(scrollPane);
 
-    display2 = new JLabel("File name");
-    display2.setBounds(20, 80, 800, 20);
-    this.add(display2);
-
-
-    //the textfield
-    fileName = new JTextField(10);
-    fileName.setBounds(20, 110, 200, 20);
-    this.add(fileName);
+//    display2 = new JLabel("File name");
+//    display2.setBounds(20, 80, 800, 20);
+//    this.add(display2);
+//
+//
+//    //the textfield
+//    fileName = new JTextField(10);
+//    fileName.setBounds(20, 110, 200, 20);
+//    this.add(fileName);
 
     //echobutton
     echoButton = new JButton("Save Portfolio");
@@ -107,13 +107,13 @@ public class SavePortfolioView extends JFrame implements IView {
 
   @Override
   public String getInputString() {
-    return "saveportfolio " + portfolioName.getText() + " " + fileName.getText();
+    return "saveportfolio " + portfolioName.getText() + " " + FileChooser.fileChooser();
   }
 
   @Override
   public void clearInputString() {
     portfolioName.setText("");
-    fileName.setText("");
+//    fileName.setText("");
   }
 
 

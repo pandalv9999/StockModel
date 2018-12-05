@@ -1,6 +1,7 @@
 package controller;
 
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,6 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.commands.Buy;
 import controller.commands.BuyByAmount;
@@ -38,6 +42,7 @@ import view.CreateView;
 import view.DetermineCostView;
 import view.DetermineFeeView;
 import view.DetermineValueView;
+import view.FileChooser;
 import view.GetAllStateView;
 import view.GetStateView;
 import view.IView;
@@ -672,6 +677,7 @@ public class StockControllerImpl implements StockController {
         view.setEchoOutput(processCommand(command));
       } catch (IOException e) {
         e.printStackTrace();
+
       }
 
       //clear input textfield

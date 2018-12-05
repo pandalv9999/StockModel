@@ -32,14 +32,14 @@ public class LoadPortfolioView extends JFrame implements IView {
     //this.setLayout(new FlowLayout());
     this.setLayout(null);
 
-    display = new JLabel("Portfolio file's name.");
-    display.setBounds(20, 10, 800, 20);
-    this.add(display);
-
-    //the textfield
-    fileName = new JTextField(10);
-    fileName.setBounds(20, 40, 200, 20);
-    this.add(fileName);
+//    display = new JLabel("Portfolio file's name.");
+//    display.setBounds(20, 10, 800, 20);
+//    this.add(display);
+//
+//    //the textfield
+//    fileName = new JTextField(10);
+//    fileName.setBounds(20, 40, 200, 20);
+//    this.add(fileName);
 
     //output area
     sTextArea = new JTextArea("Result will be displayed here.", 10, 20);
@@ -107,12 +107,12 @@ public class LoadPortfolioView extends JFrame implements IView {
 
   @Override
   public String getInputString() {
-    return "loadportfolio " + fileName.getText();
+    return "loadportfolio " + FileChooser.fileChooser();
   }
 
   @Override
   public void clearInputString() {
-    fileName.setText("");
+//    fileName.setText("");
   }
 
 

@@ -625,7 +625,7 @@ public class StockModelImpl implements StockModel {
   public void loadPortfolio(String fileName) {
     String[] st;
     try {
-      st = readFile(fileName + ".csv");
+      st = readFile(fileName);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException(e.getMessage());
     }
@@ -675,7 +675,7 @@ public class StockModelImpl implements StockModel {
 
     String[] st;
     try {
-      st = readFile(fileName + ".csv");
+      st = readFile(fileName);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException(e.getMessage());
     }

@@ -44,6 +44,6 @@ public class SavePercentage {
       return;
     }
     output.append("Save percentage ").append(percentageName).append(" in file ").append(fileName)
-            .append(".csv.\n");
+            .append(".\n");
   }
 }

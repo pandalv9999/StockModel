@@ -50,14 +50,14 @@ public class SavePercentageView extends JFrame implements IView {
     scrollPane.setBounds(500, 20, 340, 470);
     this.add(scrollPane);
 
-    display2 = new JLabel("File name");
-    display2.setBounds(20, 80, 800, 20);
-    this.add(display2);
-
-    //the textfield
-    fileName = new JTextField(10);
-    fileName.setBounds(20, 110, 200, 20);
-    this.add(fileName);
+//    display2 = new JLabel("File name");
+//    display2.setBounds(20, 80, 800, 20);
+//    this.add(display2);
+//
+//    //the textfield
+//    fileName = new JTextField(10);
+//    fileName.setBounds(20, 110, 200, 20);
+//    this.add(fileName);
 
     //echobutton
     echoButton = new JButton("Save an investing plan");
@@ -105,13 +105,13 @@ public class SavePercentageView extends JFrame implements IView {
 
   @Override
   public String getInputString() {
-    return "savepercentage " + percentageName.getText() + " " + fileName.getText();
+    return "savepercentage " + percentageName.getText() + " " + FileChooser.fileChooser();
   }
 
   @Override
   public void clearInputString() {
     percentageName.setText("");
-    fileName.setText("");
+//    fileName.setText("");
   }
 
 
